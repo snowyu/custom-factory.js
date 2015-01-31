@@ -1,0 +1,65 @@
+{
+  "name": "custom-factory",
+  "version": "0.0.1",
+  "description": "abstract factory class to register/unregister and alias your objects on CustomFactory",
+  "homepage": "https://github.com/snowyu/custom-factory.js",
+  "main": "./index",
+  "files": [
+    "README.md",
+    "LICENSE-MIT",
+    "index.js",
+    "test",
+    "src",
+    "lib"
+  ],
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "inherits-ex": "^1.0.2",
+    "xtend": "^4.0.0"
+  },
+  "devDependencies": {
+    "chai": "~1.10.0",
+    "connect-livereload": "*",
+    "grunt": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-coffee": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-mocha-test": "~0.12.4",
+    "grunt-newer": "*",
+    "grunt-release": "*",
+    "grunt-saucelabs": "*",
+    "mocha": "~2.0.1",
+    "sinon": "~1.12.2",
+    "sinon-chai": "~2.6.0",
+    "source-map-support": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snowyu/custom-factory.js"
+  },
+  "keywords": [
+    "abstract",
+    "factory",
+    "custom",
+    "custom-factory",
+    "register",
+    "unregister",
+    "alias",
+    "object",
+    "class"
+  ],
+  "author": {
+    "name": "Riceball LEE",
+    "email": "snowyu.lee@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/snowyu/custom-factory.js/issues"
+  }
+}

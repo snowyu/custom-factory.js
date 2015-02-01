@@ -26,7 +26,7 @@ testCodecInstance = (obj, expectedClass, bufSize)->
   if bufSize > 0
     obj.bufferSize.should.be.equal bufSize
 getClass = (aName, expectedClass, bufSize)->
-  My = Codec[aName.toLowerCase()]
+  My = Codec[aName]
   should.exist My
   My.should.be.equal expectedClass
   opt = bufSize:bufSize if bufSize?
@@ -55,21 +55,20 @@ describe "CustomFactory", ->
     describe "Class(Static) Methods", ->
       describe ".register", ->
         it "should register a new Codec Class with default.", ->
-          myCodec = Codec('myNew')
+          myCodec = Codec('MyNew')
           should.exist myCodec
           myCodec.should.be.instanceOf MyNewCodec
           myCodec.should.be.instanceOf Codec
         it "should register a new Codec Class with parent Codec Class.", ->
-
-          myCodec = Codec('myNewSub')
-          should.exist myCodec
+          myCodec = Codec('MyNewSub')
+          should.exist myCodec, "MyNewSub instance"
           myCodec.should.be.instanceOf MyNewSubCodec
           myCodec.should.be.instanceOf MyNewCodec
           myCodec.should.be.instanceOf Codec
           MyCodec = getClass 'MyNew', MyNewCodec
-          MyCodec.should.have.property 'mynewsub', MyNewSubCodec
+          MyCodec.should.have.property 'MyNewSub', MyNewSubCodec
         it "should get an instance via the child Codec class directly.", ->
-          myCodec = Codec('myNewSub1')
+          myCodec = Codec('MyNewSub1')
           should.exist myCodec, "MyNewSub1Codec instance"
           myCodec.should.be.instanceOf MyNewSub1Codec
           myCodec.should.be.instanceOf MyNewSubCodec

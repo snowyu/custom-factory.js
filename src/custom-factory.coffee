@@ -19,28 +19,28 @@ module.exports = (Factory)->
       aliases[alias]
     alias: alias = (aClass, aAliases...)->
       vName = Factory.getNameFromClass(aClass)
-      vLowerName = vName.toLowerCase()
-      if registeredObjects.hasOwnProperty(vLowerName)
+      #vLowerName = vName.toLowerCase()
+      if registeredObjects.hasOwnProperty(vName)
         for alias in aAliases
-          aliases[alias] = vLowerName
+          aliases[alias] = vName
     aliases: alias
     register: (aClass, aParentClass = Factory, aOptions)->
       inherits aClass, aParentClass
       vName = Factory.getNameFromClass(aClass)
       aClass::name = vName
-      vLowerName = vName.toLowerCase()
-      if isInheritedFrom(aClass, Factory) and not registeredObjects.hasOwnProperty(vLowerName)
-        aParentClass[vLowerName] = aClass
+      #vLowerName = vName.toLowerCase()
+      if isInheritedFrom(aClass, Factory) and not registeredObjects.hasOwnProperty(vName)
+        aParentClass[vName] = aClass
         if aParentClass isnt Factory
-          Factory[vLowerName] = aClass
+          Factory[vName] = aClass
         if aOptions
-          registeredObjects[vLowerName] = aOptions
+          registeredObjects[vName] = aOptions
         else
-          registeredObjects[vLowerName] = -1 #createObject aClass, aBufferSize
+          registeredObjects[vName] = -1 #createObject aClass, aBufferSize
       else
         false
     unregister: (aName)->
-      delete registeredObjects[aName.toLowerCase()]
+      delete registeredObjects[aName]
 
   class CustomFactory
     constructor: (aName, aOptions)->
@@ -61,7 +61,7 @@ module.exports = (Factory)->
             aName = Factory.getNameFromClass(aName) if aName
           return unless aName
 
-        aName = aName.toLowerCase()
+        #aName = aName.toLowerCase()
         result = registeredObjects[aName]
         if not result?
           # Is it a alias?
@@ -79,7 +79,8 @@ module.exports = (Factory)->
         @initialize(aOptions)
     initialize: (aOptions)->
     toString: ->
-      @name.toLowerCase()
+      #@name.toLowerCase()
+      @name
 
     inherits Factory, CustomFactory
 

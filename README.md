@@ -10,6 +10,7 @@ easily add the factory ability to your class which can singleton, name, register
   * `constructor(aName)`: get a singleton instance from the CustomFactory
   * `CustomFactory[aName]`: get the registered class from the CustomFactory.
 
+**Note**: the name is **case sensitive**.
 
 # Usage
 
@@ -23,7 +24,7 @@ factory = require 'custom-factory'
 class Codec
   factory Codec
 
-  constructor: -> return super
+  constructor: (aName, aOptions)->return super
   initialize: (aOptions)->
     @bufferSize = aOptions.bufSize if aOptions
   encode:->
@@ -49,22 +50,22 @@ class JsonCodec
 
 ```coffee
 # get the JsonCodec Class
-# lowercase name only here:
-TextCodec = Codec['text']
-JsonCodec = Codec['json']
+# note: name is case-sensitive!
+TextCodec = Codec['Text']
+JsonCodec = Codec['Json']
 # or
-JsonCodec = TextCodec['json']
+JsonCodec = TextCodec['Json']
 
 # get the global JsonCodec instance from the Codec
-json = Codec('json')
+json = Codec('Json', bufSize: 12)
 # or:
 json = JsonCodec()
-text = Codec('text') # or Codec('utf8')
+text = Codec('Text') # or Codec('utf8')
 
-JsonCodec().should.be.equal Codec('json')
+JsonCodec().should.be.equal Codec('Json')
 
 # create a new JsonCodec instance.
-json2 = new JsonCodec()
+json2 = new JsonCodec(bufSize: 123)
 
 json2.should.not.be.equal json
 

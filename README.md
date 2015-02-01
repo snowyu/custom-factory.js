@@ -17,17 +17,12 @@ the abstract factory class to register/unregister and alias your objects on Cust
 
 ```coffee
 
-CustomFactory   = require 'custom-factory'
+factory = require 'custom-factory'
 
 class Codec
-  inherits Codec, CustomFactory
-  register = CustomFactory.register
-  aliases = CustomFactory.aliases
-  constructor: CustomFactory
-  @register: (aClass, aParentClass = Codec, aOptions)->
-    register(aClass, aParentClass, aOptions)
-  @aliases: aliases
-  @classes: CustomFactory
+  factory Codec
+
+  constructor: -> return super
   initialize: (aOptions)->
     @bufferSize = aOptions.bufSize if aOptions
   encode:->
@@ -43,7 +38,7 @@ class TextCodec
 
 class JsonCodec
   register JsonCodec, TextCodec
-  constructor: Codec
+  constructor: -> return super
   encode:->
 
 

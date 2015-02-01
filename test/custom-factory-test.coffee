@@ -6,24 +6,21 @@ should          = chai.should()
 expect          = chai.expect
 chai.use(sinonChai)
 
-CustomFactory   = require '../src/custom-factory'
+factory         = require '../src/custom-factory'
 setImmediate    = setImmediate || process.nextTick
 
 
 class Codec
-  inherits Codec, CustomFactory
-  register = CustomFactory.register
-  aliases = CustomFactory.aliases
-  constructor: CustomFactory
-  @register: (aClass, aParentClass = Codec, aOptions)->
-    register(aClass, aParentClass, aOptions)
-  @aliases: aliases
-  @classes: CustomFactory
+  factory Codec
+
+  constructor: -> return super
   initialize: (aOptions)->
     @bufferSize = aOptions.bufSize if aOptions
 
+
+
 testCodecInstance = (obj, expectedClass, bufSize)->
-  should.exist obj
+  should.exist obj, "testCodecInstance:" + expectedClass.name
   obj.should.be.instanceOf expectedClass
   obj.should.be.instanceOf Codec
   if bufSize > 0
@@ -49,6 +46,12 @@ describe "CustomFactory", ->
     class MyBufferCodec
       register(MyBufferCodec).should.be.ok
       constructor: Codec
+    class MyNewSubCodec
+      register(MyNewSubCodec, MyNewCodec).should.be.ok
+      constructor: -> return super
+    class MyNewSub1Codec
+      register(MyNewSub1Codec, MyNewSubCodec).should.be.ok
+      constructor: Codec
     describe "Class(Static) Methods", ->
       describe ".register", ->
         it "should register a new Codec Class with default.", ->
@@ -57,10 +60,6 @@ describe "CustomFactory", ->
           myCodec.should.be.instanceOf MyNewCodec
           myCodec.should.be.instanceOf Codec
         it "should register a new Codec Class with parent Codec Class.", ->
-          class MyNewSubCodec
-            register(MyNewSubCodec, MyNewCodec).should.be.ok
-
-            constructor: -> return super
 
           myCodec = Codec('myNewSub')
           should.exist myCodec
@@ -70,15 +69,8 @@ describe "CustomFactory", ->
           MyCodec = getClass 'MyNew', MyNewCodec
           MyCodec.should.have.property 'mynewsub', MyNewSubCodec
         it "should get an instance via the child Codec class directly.", ->
-          MyNewSubCodec = Codec.classes['mynewsub']
-          should.exist MyNewSubCodec, 'MyNewSubCodec should be exist'
-          class MyNewSub1Codec
-            register(MyNewSub1Codec, MyNewSubCodec).should.be.ok
-
-            constructor: -> return super
-
           myCodec = Codec('myNewSub1')
-          should.exist myCodec
+          should.exist myCodec, "MyNewSub1Codec instance"
           myCodec.should.be.instanceOf MyNewSub1Codec
           myCodec.should.be.instanceOf MyNewSubCodec
           myCodec.should.be.instanceOf MyNewCodec
@@ -105,7 +97,7 @@ describe "CustomFactory", ->
           myCodec = Codec('MyNew', bufSize:123)
           testCodecInstance(myCodec, MyNewCodec, 123)
           myCodec.should.be.equal MyNewCodec()
-        it "should get a global codec object instance with specified bufferSize(encodeBuffer)", ->
+        it "should get a global codec object instance with specified bufferSize", ->
           myCodec = Codec('MyBuffer', bufSize:33)
           testCodecInstance(myCodec, MyBufferCodec, 33)
           myCodec.should.be.equal MyBufferCodec()
@@ -122,6 +114,11 @@ describe "CustomFactory", ->
           myCodec = new MyCodec(bufSize:13)
           testCodecInstance myCodec, MyBufferCodec, 13
           myCodec.should.be.not.equal Codec("MyBuffer")
+        it "should create a new codec object instance with specified bufferSize via child", ->
+          MyCodec = getClass('MyNewSub1', MyNewSub1Codec, 12)
+          myCodec = new MyCodec(bufSize:13)
+          testCodecInstance myCodec, MyNewSub1Codec, 13
+          myCodec.should.be.not.equal Codec("MyNewSub1")
         it "should bypass the codec object instance", ->
           myCodec = Codec('MyBuffer', bufSize:33)
           my = Codec(myCodec)

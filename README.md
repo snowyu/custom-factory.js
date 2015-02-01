@@ -4,11 +4,14 @@
 easily add the factory ability to your class which can singleton, name, register/unregister and aliases your object items.
 
 * CustomFactory
-  * `register(aClass)`:  *(class method)* register the aClass to the CustomFactory
+  * `register(aClass[, aParentClass=factory[, aOptions]])`:  *(class method)* register the aClass to your Factory Class.
+    * aOptions: It will use the aOptions as default options to create instance.
+      * name: use the name instead of class name to register if any.
+        or it will use the class name(remove the last factory name if exists) to register.
   * `unregister(aName)`: *(class method)* unregister the aName from the CustomFactory
   * `alias/aliases(aClass, aliases...)`: *(class method)* create aliases to the aClass.
-  * `constructor(aName)`: get a singleton instance from the CustomFactory
-  * `CustomFactory[aName]`: get the registered class from the CustomFactory.
+  * `constructor(aName)`: get a singleton instance from your Factory class.
+  * `Factory[aName]`: get the registered class from your Factory class.
 
 **Note**: the name is **case sensitive**.
 

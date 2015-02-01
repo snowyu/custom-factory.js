@@ -24,9 +24,17 @@ module.exports = (Factory)->
         for alias in aAliases
           aliases[alias] = vName
     aliases: alias
-    register: (aClass, aParentClass = Factory, aOptions)->
+    register: (aClass, aParentClass, aOptions)->
+      if aParentClass
+        if not isInheritedFrom aParentClass, Factory
+          aOptions = aParentClass
+          aParentClass = aOptions.parent
+          aParentClass = Factory unless aParentClass
+      else
+        aParentClass = Factory
       inherits aClass, aParentClass
-      vName = Factory.getNameFromClass(aClass)
+      vName = aOptions.name if aOptions
+      vName = Factory.getNameFromClass(aClass) unless vName
       aClass::name = vName
       #vLowerName = vName.toLowerCase()
       if isInheritedFrom(aClass, Factory) and not registeredObjects.hasOwnProperty(vName)

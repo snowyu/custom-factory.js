@@ -84,11 +84,25 @@ describe "CustomFactory", ->
             constructor: -> return super
 
           myCodec = Codec('MyBufferSub')
-          should.exist myCodec
-          myCodec.should.be.instanceOf MyBufferSubCodec
+          testCodecInstance myCodec, MyBufferSubCodec, 32
           myCodec.should.be.instanceOf MyBufferCodec
-          myCodec.should.be.instanceOf Codec
-          myCodec.bufferSize.should.be.equal 32
+        it "should register a new Codec Class with specified name", ->
+          class MyBufferSub1Codec
+            register(MyBufferSub1Codec, name:"bufit", bufSize:133).should.be.ok
+
+            constructor: -> return super
+
+          myCodec = Codec('bufit')
+          testCodecInstance myCodec, MyBufferSub1Codec, 133
+        it "should register a new Codec Class with specified name and parent.", ->
+          class MyBufferSub2Codec
+            register(MyBufferSub2Codec, MyBufferCodec, name:"bufit2", bufSize:132).should.be.ok
+
+            constructor: -> return super
+
+          myCodec = Codec('bufit2')
+          testCodecInstance myCodec, MyBufferSub2Codec, 132
+          myCodec.should.be.instanceOf MyBufferCodec
       describe ".constructor", ->
         it "should get a global codec object instance", ->
           MyCodec = getClass('MyNew', MyNewCodec)

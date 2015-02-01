@@ -1,6 +1,6 @@
 {
   "name": "custom-factory",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "abstract factory class to register/unregister and alias your objects on CustomFactory",
   "homepage": "https://github.com/snowyu/custom-factory.js",
   "main": "./index",
@@ -16,8 +16,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "inherits-ex": "^1.0.2",
-    "xtend": "^4.0.0"
+    "inherits-ex": "~1.0.2",
   },
   "devDependencies": {
     "chai": "~1.10.0",

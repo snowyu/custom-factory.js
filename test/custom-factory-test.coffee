@@ -39,6 +39,7 @@ describe "CustomFactory", ->
     #after (done)->
     register  = Codec.register
     aliases   = Codec.aliases
+    unregister= Codec.unregister
 
     class MyNewCodec
       register(MyNewCodec).should.be.ok
@@ -103,6 +104,29 @@ describe "CustomFactory", ->
           myCodec = Codec('bufit2')
           testCodecInstance myCodec, MyBufferSub2Codec, 132
           myCodec.should.be.instanceOf MyBufferCodec
+      describe ".unregister", ->
+        it "should unregister a Codec Class with default.", ->
+          class MoCodec
+            register(MoCodec).should.be.ok
+            constructor: Codec
+          myCodec = Codec('Mo')
+          testCodecInstance myCodec, MoCodec
+          unregister('Mo').should.be.equal true
+          myCodec = Codec('Mo')
+          should.not.exist myCodec
+        it "should unregister a Codec Class with parent.", ->
+          class MoCodec
+            register(MoCodec, MyBufferCodec).should.be.ok
+            constructor: Codec
+          myCodec = Codec('Mo')
+          testCodecInstance myCodec, MoCodec
+          myCodec.should.be.instanceOf MyBufferCodec
+          MyBufferCodec.should.have.property 'Mo', MoCodec
+          unregister('Mo').should.be.equal true
+          myCodec = Codec('Mo')
+          should.not.exist myCodec
+          MyBufferCodec.should.not.have.property 'Mo'
+          should.not.exist MyBufferCodec['Mo']
       describe ".constructor", ->
         it "should get a global codec object instance", ->
           MyCodec = getClass('MyNew', MyNewCodec)

@@ -48,7 +48,13 @@ module.exports = (Factory)->
       else
         false
     unregister: (aName)->
-      delete registeredObjects[aName]
+      if vClass = Factory[aName]
+        while vClass and vClass.super_ and vClass.super_ isnt Factory
+          vClass = vClass.super_
+          delete vClass[aName]
+        delete registeredObjects[aName]
+        delete Factory[aName]
+      !!vClass
 
   class CustomFactory
     constructor: (aName, aOptions)->

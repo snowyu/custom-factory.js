@@ -3,6 +3,9 @@ inherits              = require("inherits-ex/lib/inherits")
 isInheritedFrom       = require("inherits-ex/lib/isInheritedFrom")
 createObject          = require("inherits-ex/lib/createObject")
 extend                = require("inherits-ex/lib/_extend")
+isFunction            = (v)-> 'function' is typeof v
+isString              = (v)-> 'string' is typeof v
+isObject              = (v)-> 'object' is typeof v
 
 module.exports = (Factory)->
   extend Factory,
@@ -12,19 +15,21 @@ module.exports = (Factory)->
       result = aClass.name
       len = result.length
       vFactoryName = Factory.name
-      throw new InvalidArgumentError('can not getNameFromClass: the '+vFactoryName+'(construcor) has no name error.') unless len
+      throw new InvalidArgumentError('can not getNameFromClass: the '+vFactoryName+'(constructor) has no name error.') unless len
       result = result.substring(0, len-vFactoryName.length) if vFactoryName and vFactoryName.length and result.substring(len-vFactoryName.length) is vFactoryName
       result
     getRealNameFromAlias: (alias)->
       aliases[alias]
     alias: alias = (aClass, aAliases...)->
-      vName = Factory.getNameFromClass(aClass)
+      # aClass could be a class or class name.
+      aClass = Factory.getNameFromClass(aClass) if isFunction aClass
       #vLowerName = vName.toLowerCase()
-      if registeredObjects.hasOwnProperty(vName)
-        for alias in aAliases
-          aliases[alias] = vName
+      #if registeredObjects.hasOwnProperty(aClass)
+      for alias in aAliases
+        aliases[alias] = aClass
+      return
     aliases: alias
-    register: (aClass, aParentClass, aOptions)->
+    register: register = (aClass, aParentClass, aOptions)->
       if aParentClass
         if not isInheritedFrom aParentClass, Factory
           aOptions = aParentClass
@@ -47,13 +52,21 @@ module.exports = (Factory)->
           registeredObjects[vName] = -1 #createObject aClass, aBufferSize
       else
         false
-    unregister: (aName)->
-      if vClass = Factory[aName]
+    unregister: unregister = (aName)->
+      if isString aName
+        vClass = Factory[aName]
+      else
+        vClass = aName
+        aName = Factory.getNameFromClass(aName)
+      if vClass
+        #TODO:should I unregister all children?
         while vClass and vClass.super_ and vClass.super_ isnt Factory
           vClass = vClass.super_
           delete vClass[aName]
         delete registeredObjects[aName]
         delete Factory[aName]
+        for k, v of aliases
+          delete aliases[k] if v is aName
       !!vClass
 
   class CustomFactory
@@ -61,9 +74,9 @@ module.exports = (Factory)->
       if aName instanceof Factory
         aName.initialize aOptions if aOptions
         return aName
-      if 'object' is typeof aName
+      if isObject aName
         aOptions = aName
-        aName = undefined
+        aName = aOptions.name
       if not (this instanceof Factory)
         if not aName
           # arguments.callee is forbidden if strict mode enabled.
@@ -86,7 +99,7 @@ module.exports = (Factory)->
         if result instanceof Factory
           result.initialize aOptions
         else if result
-          result = if 'object' is typeof result then extend(result, aOptions) else aOptions
+          result = if isObject result then extend(result, aOptions) else aOptions
           result = registeredObjects[aName] = createObject Factory[aName], result
         return result
       else
@@ -95,6 +108,10 @@ module.exports = (Factory)->
     toString: ->
       #@name.toLowerCase()
       @name
+    register: (aClass, aOptions)-> register aClass, @constructor, aOptions
+    unregister: (aName)-> unregister aName
+    registered: (aName)-> Factory(aName)
+    registeredClass: (aName)-> @constructor[aName]
 
     inherits Factory, CustomFactory
 

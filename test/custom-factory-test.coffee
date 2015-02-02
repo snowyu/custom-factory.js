@@ -6,6 +6,7 @@ should          = chai.should()
 expect          = chai.expect
 chai.use(sinonChai)
 
+createCtor      = require 'inherits-ex/lib/createCtor'
 factory         = require '../src/custom-factory'
 setImmediate    = setImmediate || process.nextTick
 
@@ -27,7 +28,7 @@ testCodecInstance = (obj, expectedClass, bufSize)->
     obj.bufferSize.should.be.equal bufSize
 getClass = (aName, expectedClass, bufSize)->
   My = Codec[aName]
-  should.exist My
+  should.exist My, "My"
   My.should.be.equal expectedClass
   opt = bufSize:bufSize if bufSize?
   my = My opt
@@ -57,9 +58,7 @@ describe "CustomFactory", ->
       describe ".register", ->
         it "should register a new Codec Class with default.", ->
           myCodec = Codec('MyNew')
-          should.exist myCodec
-          myCodec.should.be.instanceOf MyNewCodec
-          myCodec.should.be.instanceOf Codec
+          testCodecInstance myCodec, MyNewCodec
         it "should register a new Codec Class with parent Codec Class.", ->
           myCodec = Codec('MyNewSub')
           should.exist myCodec, "MyNewSub instance"
@@ -105,13 +104,22 @@ describe "CustomFactory", ->
           testCodecInstance myCodec, MyBufferSub2Codec, 132
           myCodec.should.be.instanceOf MyBufferCodec
       describe ".unregister", ->
-        it "should unregister a Codec Class with default.", ->
+        it "should unregister a Codec Class via name.", ->
           class MoCodec
             register(MoCodec).should.be.ok
             constructor: Codec
           myCodec = Codec('Mo')
           testCodecInstance myCodec, MoCodec
           unregister('Mo').should.be.equal true
+          myCodec = Codec('Mo')
+          should.not.exist myCodec
+        it "should unregister a Codec Class via class.", ->
+          class MoCodec
+            register(MoCodec).should.be.ok
+            constructor: Codec
+          myCodec = Codec('Mo')
+          testCodecInstance myCodec, MoCodec
+          unregister(MoCodec).should.be.equal true
           myCodec = Codec('Mo')
           should.not.exist myCodec
         it "should unregister a Codec Class with parent.", ->
@@ -186,5 +194,59 @@ describe "CustomFactory", ->
           other = Codec('other')
           testCodecInstance myCodec, MyAliasCodec
           other.should.equal myCodec
+        it "should remove aliases after unregister too", ->
+          unregister MyAliasCodec
+          myCodec = Codec('alia1')
+          should.not.exist myCodec, "alia1"
+          other = Codec('other')
+          should.not.exist myCodec, "other"
 
+    describe "Instance Methods", ->
+      describe ".toString()", ->
+        it "should get name toString", ->
+          myCodec = Codec('MyNew')
+          testCodecInstance myCodec, MyNewCodec
+          myCodec.toString().should.be.equal "MyNew"
+      describe ".register()", ->
+        it "should register a class to itself", ->
+          class MyXCodec
+            aliases 'MyX', 'x', 'x1'
+            constructor: -> return super
+          myCodec = Codec('MyNew')
+          testCodecInstance myCodec, MyNewCodec
+          myCodec.register MyXCodec
+          myCodec = Codec("MyX")
+          testCodecInstance myCodec, MyXCodec
+          myCodec = Codec("x")
+          testCodecInstance myCodec, MyXCodec
+          myCodec = Codec("x1")
+          testCodecInstance myCodec, MyXCodec
+        it "should register a class to itself with options", ->
+          MyYCodec = createCtor "MyYCodec"
+          myCodec = Codec('MyNew')
+          testCodecInstance myCodec, MyNewCodec
+          myCodec.register MyYCodec, bufSize: 1301
+          myCodec = Codec("MyY")
+          testCodecInstance myCodec, MyYCodec, 1301
+      describe ".registered()", ->
+        it "should get registered instance from itself", ->
+          myCodec = Codec('MyNew')
+          testCodecInstance myCodec, MyNewCodec
+          myCodec = myCodec.registered 'MyY'
+          testCodecInstance myCodec, Codec['MyY']
+          myCodec.should.be.equal Codec('MyY')
+      describe ".registeredClass()", ->
+        it "should get registered class from itself", ->
+          myCodec = Codec('MyNew')
+          testCodecInstance myCodec, MyNewCodec
+          MyY = myCodec.registeredClass 'MyY'
+          should.exist MyY, "MyY"
+          getClass "MyY", MyY
+      describe ".unregister()", ->
+        it "should unregister a class from itself", ->
+          myCodec = Codec('MyY')
+          testCodecInstance myCodec, Codec['MyY']
+          myCodec.unregister("MyY").should.be.equal true
+          myCodec = Codec('MyY')
+          should.not.exist myCodec, "MyY"
 

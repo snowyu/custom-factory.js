@@ -7,7 +7,9 @@ isFunction            = (v)-> 'function' is typeof v
 isString              = (v)-> 'string' is typeof v
 isObject              = (v)-> 'object' is typeof v
 
-module.exports = (Factory)->
+module.exports = (Factory, aOptions)->
+  flatOnly = aOptions.flatOnly if isObject aOptions
+
   extend Factory,
     _objects: registeredObjects = {}
     _aliases: aliases = {}
@@ -29,45 +31,57 @@ module.exports = (Factory)->
         aliases[alias] = aClass
       return
     aliases: alias
-    register: register = (aClass, aParentClass, aOptions)->
-      if aParentClass
-        if not isInheritedFrom aParentClass, Factory
-          aOptions = aParentClass
-          aParentClass = aOptions.parent
-          aParentClass = Factory unless aParentClass
-      else
-        aParentClass = Factory
-      inherits aClass, aParentClass
-      vName = aOptions.name if aOptions
-      vName = Factory.getNameFromClass(aClass) unless vName
-      aClass::name = vName
-      #vLowerName = vName.toLowerCase()
-      if isInheritedFrom(aClass, Factory) and not registeredObjects.hasOwnProperty(vName)
-        aParentClass[vName] = aClass
-        if aParentClass isnt Factory
-          Factory[vName] = aClass
-        if aOptions
-          registeredObjects[vName] = aOptions
-        else
-          registeredObjects[vName] = -1 #createObject aClass, aBufferSize
-      else
-        false
-    unregister: unregister = (aName)->
-      if isString aName
-        vClass = Factory[aName]
-      else
-        vClass = aName
-        aName = Factory.getNameFromClass(aName)
-      if vClass
-        #TODO:should I unregister all children?
-        while vClass and vClass.super_ and vClass.super_ isnt Factory
-          vClass = vClass.super_
-          delete vClass[aName]
-        delete registeredObjects[aName]
-        delete Factory[aName]
-        for k, v of aliases
-          delete aliases[k] if v is aName
-      !!vClass
+    extendClass: extendClass = (aParentClass) ->
+      extend aParentClass,
+        register: _register = (aClass, aOptions)->
+          result = inherits aClass, aParentClass
+          if result
+            extendClass(aClass) unless flatOnly
+            vName = aOptions.name if aOptions
+            vName = Factory.getNameFromClass(aClass) unless vName
+            aClass::name = vName
+            result = not registeredObjects.hasOwnProperty(vName)
+            if result
+              aParentClass[vName] = aClass
+              Factory[vName] = aClass unless aParentClass is Factory
+              if aOptions
+                registeredObjects[vName] = aOptions
+              else
+                registeredObjects[vName] = -1 #createObject aClass, aBufferSize
+          result
+        _register: _register
+        unregister: (aName)->
+          if isString aName
+            vClass = Factory[aName]
+          else
+            vClass = aName
+            aName = Factory.getNameFromClass(aName)
+          result = vClass and isInheritedFrom vClass, aParentClass
+          if result
+            #TODO:should I unregister all children?
+            while vClass and vClass.super_ and vClass.super_ isnt Factory
+              vClass = vClass.super_
+              delete vClass[aName]
+            delete registeredObjects[aName]
+            delete Factory[aName]
+            for k, v of aliases
+              delete aliases[k] if v is aName
+          !!result
+  Factory.extendClass Factory
+  Factory.register = (aClass, aParentClass, aOptions)->
+    if aParentClass
+      if not isInheritedFrom aParentClass, Factory
+        aOptions = aParentClass
+        aParentClass = aOptions.parent
+        aParentClass = Factory if flatOnly or not aParentClass
+      else if flatOnly
+        throw new TypeError "It's a flat factory, register to the parent class is not allowed"
+    else
+      aParentClass = Factory
+    if aParentClass is Factory
+      Factory._register aClass, aOptions
+    else
+      aParentClass.register aClass, aOptions
 
   class CustomFactory
     constructor: (aName, aOptions)->
@@ -108,10 +122,12 @@ module.exports = (Factory)->
     toString: ->
       #@name.toLowerCase()
       @name
-    register: (aClass, aOptions)-> register aClass, @constructor, aOptions
-    unregister: (aName)-> unregister aName
-    registered: (aName)-> Factory(aName)
-    registeredClass: (aName)-> @constructor[aName]
+
+    if not flatOnly
+      @::register= (aClass, aOptions)-> @constructor.register aClass, aOptions
+      @::unregister= (aName)-> @constructor.unregister aName
+      @::registered= (aName)-> Factory(aName)
+      @::registeredClass= (aName)-> @constructor[aName]
 
     inherits Factory, CustomFactory
 

@@ -16,7 +16,10 @@ class Codec
 
   constructor: -> return super
   initialize: (aOptions)->
-    @bufferSize = aOptions.bufSize if aOptions
+    if 'number' is typeof aOptions
+      @bufferSize = aOptions
+    else if aOptions
+      @bufferSize = aOptions.bufSize
 
 
 
@@ -165,4 +168,21 @@ describe "FlatFactory", ->
           myCodec = Codec('MyNew')
           testCodecInstance myCodec, MyNewCodec
           myCodec.toString().should.be.equal "MyNew"
+    describe "the aOptions could be non-object", ->
+      MyNCodec = createCtor "MyNCodec"
+      initSize = Math.random()
+      register MyNCodec, initSize
+      it "should pass non-object aOptions via register", ->
+        myCodec = Codec('MyNew')
+        testCodecInstance myCodec, MyNewCodec
+        myCodec = Codec("MyN")
+        testCodecInstance myCodec, MyNCodec, initSize
+      it "should pass non-object aOptions via Codec", ->
+        v = Math.random()
+        myCodec = Codec("MyN", v)
+        testCodecInstance myCodec, MyNCodec, v
+      it "should pass non-object aOptions via self", ->
+        v = Math.random()
+        myCodec = MyNCodec(v)
+        testCodecInstance myCodec, MyNCodec, v
 

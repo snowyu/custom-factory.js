@@ -5,7 +5,7 @@ createObject          = require("inherits-ex/lib/createObject")
 extend                = require("inherits-ex/lib/_extend")
 isFunction            = (v)-> 'function' is typeof v
 isString              = (v)-> 'string' is typeof v
-isObject              = (v)-> 'object' is typeof v
+isObject              = (v)-> v? and 'object' is typeof v
 
 module.exports = (Factory, aOptions)->
   flatOnly = aOptions.flatOnly if isObject aOptions
@@ -47,7 +47,7 @@ module.exports = (Factory, aOptions)->
               if aOptions?
                 registeredObjects[vName] = aOptions
               else
-                registeredObjects[vName] = -1 #createObject aClass, aBufferSize
+                registeredObjects[vName] = null #createObject aClass, aBufferSize
           result
         _register: _register
         unregister: (aName)->
@@ -88,9 +88,13 @@ module.exports = (Factory, aOptions)->
       if aName instanceof Factory
         aName.initialize aOptions
         return aName
-      if isObject aName
-        aOptions = aName
-        aName = aOptions.name
+      if aName
+        if isObject aName
+          aOptions = aName
+          aName = aOptions.name
+        else if not isString aName
+          aOptions = aName
+          aName = undefined
       if not (this instanceof Factory)
         if not aName
           # arguments.callee is forbidden if strict mode enabled.
@@ -107,17 +111,18 @@ module.exports = (Factory, aOptions)->
 
         #aName = aName.toLowerCase()
         result = registeredObjects[aName]
-        if not result?
+        if result is undefined
           # Is it a alias?
           alias = aName
           aName = Factory.getRealNameFromAlias alias
           if aName
             result = registeredObjects[aName]
+          return if result is undefined
         if result instanceof Factory
           result.initialize aOptions
-        else if result
+        else
           result = if isObject result then extend(result, aOptions) else if aOptions? then aOptions else result
-          result = registeredObjects[aName] = createObject Factory[aName], result
+          result = registeredObjects[aName] = createObject Factory[aName], undefined, result
         return result
       else
         @initialize(aOptions)

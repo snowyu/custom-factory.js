@@ -16,8 +16,10 @@ class Codec
 
   constructor: -> return super
   initialize: (aOptions)->
-    @bufferSize = aOptions.bufSize if aOptions
-
+    if 'number' is typeof aOptions
+      @bufferSize = aOptions
+    else if aOptions
+      @bufferSize = aOptions.bufSize
 
 
 testCodecInstance = (obj, expectedClass, bufSize)->
@@ -25,7 +27,7 @@ testCodecInstance = (obj, expectedClass, bufSize)->
   obj.should.be.instanceOf expectedClass
   obj.should.be.instanceOf Codec
   if bufSize > 0
-    obj.bufferSize.should.be.equal bufSize
+    obj.should.have.property 'bufferSize', bufSize
 getClass = (aName, expectedClass, bufSize)->
   My = Codec[aName]
   should.exist My, "My"
@@ -267,4 +269,20 @@ describe "CustomFactory", ->
           myCodec.unregister("MyY").should.be.equal true
           myCodec = Codec('MyY')
           should.not.exist myCodec, "MyY"
+    describe "the aOptions could be non-object", ->
+      MyNCodec = createCtor "MyNCodec"
+      initSize = Math.random()
+      register MyNCodec, initSize
+      it "should pass non-object aOptions via register", ->
+        myCodec = Codec('MyNew')
+        testCodecInstance myCodec, MyNewCodec
+        myCodec = Codec("MyN")
+        testCodecInstance myCodec, MyNCodec, initSize
+      it "should pass non-object aOptions via Codec", ->
+        myCodec = Codec("MyN", 3512)
+        testCodecInstance myCodec, MyNCodec, 3512
+      it "should pass non-object aOptions via self", ->
+        v = Math.random()
+        myCodec = MyNCodec(v)
+        testCodecInstance myCodec, MyNCodec, v
 

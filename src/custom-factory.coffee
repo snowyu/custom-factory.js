@@ -10,7 +10,6 @@ isObject              = (v)-> v? and 'object' is typeof v
 module.exports = (Factory, aOptions)->
   if isObject aOptions
     flatOnly = aOptions.flatOnly
-    caseInsensitive = aOptions.caseInsensitive
 
   extend Factory,
     _objects: registeredObjects = {}

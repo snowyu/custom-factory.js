@@ -96,7 +96,7 @@ module.exports = (Factory, aOptions)->
   class CustomFactory
     constructor: (aName, aOptions)->
       if aName instanceof Factory
-        aName.initialize aOptions
+        aName.initialize aOptions if aOptions? # do not initialize if no aOptions
         return aName
       if aName
         if isObject aName
@@ -129,7 +129,7 @@ module.exports = (Factory, aOptions)->
             result = registeredObjects[aName]
           return if result is undefined
         if result instanceof Factory
-          result.initialize aOptions
+          result.initialize aOptions if aOptions? # do not initialize if no aOptions
         else
           result = if isObject result then extend(result, aOptions) else if aOptions? then aOptions else result
           result = registeredObjects[aName] = createObject Factory[aName], undefined, result

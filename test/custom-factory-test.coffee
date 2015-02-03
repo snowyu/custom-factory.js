@@ -20,6 +20,8 @@ class Codec
       @bufferSize = aOptions
     else if aOptions
       @bufferSize = aOptions.bufSize
+    else
+      @bufferSize = 1111
 
 
 testCodecInstance = (obj, expectedClass, bufSize)->
@@ -159,10 +161,15 @@ describe "CustomFactory", ->
         it "should get a global codec object instance", ->
           MyCodec = getClass('MyNew', MyNewCodec)
         it "should get a global codec object instance with specified bufferSize", ->
-          myCodec = Codec('MyNew', bufSize:123)
+          myCodec = Codec('MyNew', 123)
           testCodecInstance(myCodec, MyNewCodec, 123)
           myCodec.should.be.equal MyNewCodec()
-        it "should get a global codec object instance with specified bufferSize", ->
+        it "should get a global codec object instance and no initialize options", ->
+          myCodec = Codec('MyNew', 122)
+          myCodec = Codec('MyNew')
+          testCodecInstance(myCodec, MyNewCodec, 122)
+          myCodec.should.be.equal MyNewCodec()
+        it "should get a global codec object instance with specified bufferSize options", ->
           myCodec = Codec('MyBuffer', bufSize:33)
           testCodecInstance(myCodec, MyBufferCodec, 33)
           myCodec.should.be.equal MyBufferCodec()
@@ -193,6 +200,12 @@ describe "CustomFactory", ->
           my = Codec(myCodec, bufSize:900)
           my.should.be.equal myCodec
           my.bufferSize.should.at.least 900
+        it "should bypass the codec object instance and no initialize", ->
+          myCodec = Codec('MyBuffer', bufSize:33)
+          testCodecInstance myCodec, MyBufferCodec, 33
+          my = Codec(myCodec)
+          my.should.be.equal myCodec
+          my.bufferSize.should.be.equal 33
         it "should return undefined for unkown codec name", ->
           myCodec = Codec('Notfound')
           should.not.exist myCodec

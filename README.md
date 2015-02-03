@@ -3,15 +3,26 @@
 
 easily add the factory ability to your class which can singleton, name, register/unregister and aliases your object items.
 
+The factory could be hierarchical or flat. defaults to hierarchical.
+The flat factory means register only on the Root Factory.
+
 * CustomFactory(these class methods will be added to your factory class)
   * `register(aClass[, aParentClass=factory[, aOptions]])`:  *(class method)* register the aClass to your Factory Class.
     * aOptions: It will use the aOptions as default options to create instance.
       * name: use the name instead of class name to register if any.
         or it will use the class name(remove the last factory name if exists) to register.
+    * aParentClass: it is not allowed if it's a flatOnly factory.
   * `unregister(aName|aClass)`: *(class method)* unregister the class or name from the Factory
   * `alias/aliases(aClass, aliases...)`: *(class method)* create aliases to the aClass.
   * `constructor(aName)`: get a singleton instance from your Factory class.
   * `Factory[aName]`: get the registered class from your Factory class.
+
+These instance methods added if it is not flatOnly factory:
+
+* `register(aClass[, aOptions])`: register a class to itself.
+* `unregister(aName|aClass)`: same as the register class method.
+* `registered(aName)`: get a singleton instance which is registered to itself.
+* `registeredClass[aName]`: get the registered class.
 
 **Note**: the name is **case sensitive**.
 
@@ -45,7 +56,14 @@ class JsonCodec
   register JsonCodec, TextCodec
   constructor: -> return super
   encode:->
+```
 
+Enable a flat factory:
+
+```coffee
+
+class Codec
+  factory Codec, flatOnly: true
 
 ```
 

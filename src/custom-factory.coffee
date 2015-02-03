@@ -8,25 +8,32 @@ isString              = (v)-> 'string' is typeof v
 isObject              = (v)-> v? and 'object' is typeof v
 
 module.exports = (Factory, aOptions)->
-  flatOnly = aOptions.flatOnly if isObject aOptions
+  if isObject aOptions
+    flatOnly = aOptions.flatOnly
+    caseInsensitive = aOptions.caseInsensitive
 
   extend Factory,
     _objects: registeredObjects = {}
     _aliases: aliases = {}
+    formatName: (aName)->aName
+    getNameFrom: (aClass)->
+      if isFunction aClass
+        Factory.getNameFromClass(aClass)
+      else
+        Factory.formatName aClass
     getNameFromClass: (aClass)->
       result = aClass.name
       len = result.length
       vFactoryName = Factory.name
       throw new InvalidArgumentError('can not getNameFromClass: the '+vFactoryName+'(constructor) has no name error.') unless len
       result = result.substring(0, len-vFactoryName.length) if vFactoryName and vFactoryName.length and result.substring(len-vFactoryName.length) is vFactoryName
-      result
+      Factory.formatName result
     getRealNameFromAlias: (alias)->
       aliases[alias]
     alias: alias = (aClass, aAliases...)->
       # aClass could be a class or class name.
-      aClass = Factory.getNameFromClass(aClass) if isFunction aClass
-      #vLowerName = vName.toLowerCase()
-      #if registeredObjects.hasOwnProperty(aClass)
+      aClass = Factory.getNameFrom(aClass)
+      aAliases = aAliases.map Factory.formatName
       for alias in aAliases
         aliases[alias] = aClass
       return
@@ -34,11 +41,14 @@ module.exports = (Factory, aOptions)->
     extendClass: extendClass = (aParentClass) ->
       extend aParentClass,
         register: _register = (aClass, aOptions)->
+          vName = aOptions.name if aOptions
+          if not vName
+            vName = Factory.getNameFromClass(aClass)
+          else
+            vName = Factory.formatName vName
           result = inherits aClass, aParentClass
           if result
             extendClass(aClass) unless flatOnly
-            vName = aOptions.name if aOptions
-            vName = Factory.getNameFromClass(aClass) unless vName
             aClass::name = vName
             result = not registeredObjects.hasOwnProperty(vName)
             if result
@@ -52,6 +62,7 @@ module.exports = (Factory, aOptions)->
         _register: _register
         unregister: (aName)->
           if isString aName
+            aName = Factory.formatName aName
             vClass = Factory[aName]
           else
             vClass = aName
@@ -108,8 +119,8 @@ module.exports = (Factory, aOptions)->
               vCaller = vCaller.caller
             aName = Factory.getNameFromClass(aName) if aName
           return unless aName
-
-        #aName = aName.toLowerCase()
+        else
+          aName = Factory.formatName aName
         result = registeredObjects[aName]
         if result is undefined
           # Is it a alias?
@@ -135,7 +146,9 @@ module.exports = (Factory, aOptions)->
       @::register= (aClass, aOptions)-> @constructor.register aClass, aOptions
       @::unregister= (aName)-> @constructor.unregister aName
       @::registered= (aName)-> Factory(aName)
-      @::registeredClass= (aName)-> @constructor[aName]
+      @::registeredClass= (aName)->
+        aName = Factory.formatName aName
+        @constructor[aName]
 
     inherits Factory, CustomFactory
 

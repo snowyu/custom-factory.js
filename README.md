@@ -20,7 +20,7 @@ The flat factory means register only on the Root Factory.
 These instance methods added if it is not flatOnly factory:
 
 * `register(aClass[, aOptions])`: register a class to itself.
-* `unregister(aName|aClass)`: same as the register class method.
+* `unregister(aName|aClass)`: same as the unregister class method.
 * `registered(aName)`: get a singleton instance which is registered to itself.
 * `registeredClass[aName]`: get the registered class.
 

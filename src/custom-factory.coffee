@@ -44,7 +44,7 @@ module.exports = (Factory, aOptions)->
             if result
               aParentClass[vName] = aClass
               Factory[vName] = aClass unless aParentClass is Factory
-              if aOptions
+              if aOptions?
                 registeredObjects[vName] = aOptions
               else
                 registeredObjects[vName] = -1 #createObject aClass, aBufferSize
@@ -86,7 +86,7 @@ module.exports = (Factory, aOptions)->
   class CustomFactory
     constructor: (aName, aOptions)->
       if aName instanceof Factory
-        aName.initialize aOptions if aOptions
+        aName.initialize aOptions
         return aName
       if isObject aName
         aOptions = aName
@@ -95,8 +95,11 @@ module.exports = (Factory, aOptions)->
         if not aName
           # arguments.callee is forbidden if strict mode enabled.
           try vCaller = arguments.callee.caller
-          if vCaller
-            while isInheritedFrom vCaller, Factory
+          if vCaller and isInheritedFrom vCaller, Factory
+            aName = vCaller
+            vCaller = vCaller.caller
+            #get farest hierarchical registered class
+            while isInheritedFrom vCaller, aName
               aName = vCaller
               vCaller = vCaller.caller
             aName = Factory.getNameFromClass(aName) if aName
@@ -113,7 +116,7 @@ module.exports = (Factory, aOptions)->
         if result instanceof Factory
           result.initialize aOptions
         else if result
-          result = if isObject result then extend(result, aOptions) else aOptions
+          result = if isObject result then extend(result, aOptions) else if aOptions? then aOptions else result
           result = registeredObjects[aName] = createObject Factory[aName], result
         return result
       else

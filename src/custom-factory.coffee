@@ -37,6 +37,13 @@ module.exports = (Factory, aOptions)->
         aliases[alias] = aClass
       return
     aliases: alias
+    registeredClass: (aName)->
+      aName   = Factory.formatName aName
+      result  = Factory[aName]
+      return result if result
+      aName  = Factory.getRealNameFromAlias aName
+      return Factory[aName] if aName
+      return
     extendClass: extendClass = (aParentClass) ->
       extend aParentClass,
         register: _register = (aClass, aOptions)->
@@ -123,8 +130,7 @@ module.exports = (Factory, aOptions)->
         result = registeredObjects[aName]
         if result is undefined
           # Is it a alias?
-          alias = aName
-          aName = Factory.getRealNameFromAlias alias
+          aName = Factory.getRealNameFromAlias aName
           if aName
             result = registeredObjects[aName]
           return if result is undefined
@@ -147,7 +153,11 @@ module.exports = (Factory, aOptions)->
       @::registered= (aName)-> Factory(aName)
       @::registeredClass= (aName)->
         aName = Factory.formatName aName
-        @constructor[aName]
+        result = @constructor[aName]
+        return result if result
+        aName  = Factory.getRealNameFromAlias aName
+        return @constructor[aName] if aName
+        return
 
     inherits Factory, CustomFactory
 

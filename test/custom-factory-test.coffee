@@ -227,6 +227,16 @@ describe "CustomFactory", ->
           other = Codec('other')
           testCodecInstance myCodec, MyAliasCodec
           other.should.equal myCodec
+        it "should get a codec class via alias", ->
+          My = Codec.registeredClass 'alia1'
+          should.exist My
+          My.should.be.equal MyAliasCodec
+          My = Codec.registeredClass 'other'
+          should.exist My
+          My.should.be.equal MyAliasCodec
+          My = Codec.registeredClass 'MyAlias'
+          should.exist My
+          My.should.be.equal MyAliasCodec
         it "should remove aliases after unregister too", ->
           unregister MyAliasCodec
           myCodec = Codec('alia1')
@@ -275,6 +285,17 @@ describe "CustomFactory", ->
           MyY = myCodec.registeredClass 'MyY'
           should.exist MyY, "MyY"
           getClass "MyY", MyY
+        it "should get registered class via alias", ->
+          myCodec = Codec('MyNew')
+          testCodecInstance myCodec, MyNewCodec
+          MyX = myCodec.registeredClass 'x'
+          should.exist MyX, "MyX"
+          getClass "MyX", MyX
+        it "should not get non-parent registered class", ->
+          myCodec = Codec('MyNew')
+          testCodecInstance myCodec, MyNewCodec
+          MyBuffer = myCodec.registeredClass 'MyBuffer'
+          should.not.exist MyBuffer, "MyBuffer"
       describe ".unregister()", ->
         it "should unregister a class from itself", ->
           myCodec = Codec('MyY')

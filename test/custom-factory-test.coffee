@@ -76,6 +76,9 @@ describe "CustomFactory", ->
       myCodec.should.have.property 'registeredClass'
     describe "Class(Static) Methods", ->
       describe ".register", ->
+        it "should not register a new Codec Class with duplicated name.", ->
+          MyYCodec = createCtor "MyYCodec"
+          should.throw register.bind(null, MyYCodec, name: 'MyNew'), 'has already been registered'
         it "should register a new Codec Class with default.", ->
           myCodec = Codec('MyNew')
           testCodecInstance myCodec, MyNewCodec

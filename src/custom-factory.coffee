@@ -52,11 +52,12 @@ module.exports = (Factory, aOptions)->
             vName = Factory.getNameFromClass(aClass)
           else
             vName = Factory.formatName vName
+          result = not registeredObjects.hasOwnProperty(vName)
+          throw new TypeError 'the ' + vName + ' has already been registered.' unless result
           result = inherits aClass, aParentClass
           if result
             extendClass(aClass) unless flatOnly
             aClass::name = vName
-            result = not registeredObjects.hasOwnProperty(vName)
             if result
               aParentClass[vName] = aClass
               Factory[vName] = aClass unless aParentClass is Factory
@@ -87,7 +88,7 @@ module.exports = (Factory, aOptions)->
   Factory.extendClass Factory
   Factory.register = (aClass, aParentClass, aOptions)->
     if aParentClass
-      if not isInheritedFrom aParentClass, Factory
+      if not isFunction aParentClass or not isInheritedFrom aParentClass, Factory
         aOptions = aParentClass
         aParentClass = aOptions.parent
         aParentClass = Factory if flatOnly or not aParentClass

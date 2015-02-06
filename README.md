@@ -16,6 +16,7 @@ The flat factory means register only on the Root Factory.
   * `alias/aliases(aClass, aliases...)`: *(class method)* create aliases to the aClass.
   * `constructor(aName, aOptions)`: get a singleton instance from your Factory class.
   * `create(aName, aOptions)`: create a new object instance
+  * `formatName(aName)`: return format the registered name, defaults to same as aName. you can override this method.
   * `Factory[aName]`: get the registered class from your Factory class.
 
 These instance methods added if it is not flatOnly factory:

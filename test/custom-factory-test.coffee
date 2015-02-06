@@ -127,6 +127,11 @@ describe "CustomFactory", ->
           myCodec = Codec('bufit2')
           testCodecInstance myCodec, MyBufferSub2Codec, 132
           myCodec.should.be.instanceOf MyBufferCodec
+      describe ".create", ->
+        it "should create a new Codec object instance.", ->
+          myCodec = Codec.create('MyNew', 457)
+          testCodecInstance(myCodec, MyNewCodec, 457)
+          myCodec.should.not.be.equal MyNewCodec()
       describe ".unregister", ->
         it "should unregister a Codec Class via name.", ->
           class MoCodec

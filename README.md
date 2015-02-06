@@ -14,7 +14,8 @@ The flat factory means register only on the Root Factory.
     * aParentClass: it is not allowed if it's a flatOnly factory.
   * `unregister(aName|aClass)`: *(class method)* unregister the class or name from the Factory
   * `alias/aliases(aClass, aliases...)`: *(class method)* create aliases to the aClass.
-  * `constructor(aName)`: get a singleton instance from your Factory class.
+  * `constructor(aName, aOptions)`: get a singleton instance from your Factory class.
+  * `create(aName, aOptions)`: create a new object instance
   * `Factory[aName]`: get the registered class from your Factory class.
 
 These instance methods added if it is not flatOnly factory:

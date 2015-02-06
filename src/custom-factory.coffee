@@ -37,6 +37,9 @@ module.exports = (Factory, aOptions)->
         aliases[alias] = aClass
       return
     aliases: alias
+    create: (aName, aOptions)->
+      result = Factory.registeredClass aName
+      if result then createObject result, aOptions
     registeredClass: (aName)->
       aName   = Factory.formatName aName
       result  = Factory[aName]

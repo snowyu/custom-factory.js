@@ -40,13 +40,6 @@ module.exports = (Factory, aOptions)->
     create: (aName, aOptions)->
       result = Factory.registeredClass aName
       if result then createObject result, aOptions
-    registeredClass: (aName)->
-      aName   = Factory.formatName aName
-      result  = Factory[aName]
-      return result if result
-      aName  = Factory.getRealNameFromAlias aName
-      return Factory[aName] if aName
-      return
     extendClass: extendClass = (aParentClass) ->
       extend aParentClass,
         register: _register = (aClass, aOptions)->
@@ -88,6 +81,13 @@ module.exports = (Factory, aOptions)->
             for k, v of aliases
               delete aliases[k] if v is aName
           !!result
+        registeredClass: (aName)->
+          aName   = Factory.formatName aName
+          result  = aParentClass[aName]
+          return result if result
+          aName  = Factory.getRealNameFromAlias aName
+          return aParentClass[aName] if aName
+          return
   Factory.extendClass Factory
   Factory.register = (aClass, aParentClass, aOptions)->
     if aParentClass

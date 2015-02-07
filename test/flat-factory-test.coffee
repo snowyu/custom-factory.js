@@ -47,6 +47,7 @@ describe "FlatFactory", ->
 
     class MyNewCodec
       register(MyNewCodec).should.be.ok
+      aliases MyNewCodec, 'new'
       constructor: Codec
     class MyBufferCodec
       register(MyBufferCodec).should.be.ok
@@ -81,6 +82,21 @@ describe "FlatFactory", ->
           MyBufferSub1Codec.should.not.have.ownProperty 'register'
           myCodec = Codec('bufit')
           testCodecInstance myCodec, MyBufferSub1Codec, 133
+      describe ".registeredClass", ->
+        it "should get registered Codec Class.", ->
+          My = Codec.registeredClass 'MyNew'
+          should.exist My
+          MyCodec = getClass 'MyNew', MyNewCodec
+          My.should.be.equal MyCodec
+        it "should get registered Codec Class via alias.", ->
+          My = Codec.registeredClass 'new'
+          should.exist My
+          My.should.be.equal MyNewCodec
+      describe ".create", ->
+        it "should create a new Codec object instance.", ->
+          myCodec = Codec.create('MyNew', 457)
+          testCodecInstance(myCodec, MyNewCodec, 457)
+          myCodec.should.not.be.equal MyNewCodec()
       describe ".unregister", ->
         it "should unregister a Codec Class via name.", ->
           class MoCodec

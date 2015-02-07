@@ -48,12 +48,14 @@ describe "CustomFactory", ->
 
     class MyNewCodec
       register(MyNewCodec).should.be.ok
+      aliases MyNewCodec, 'new'
       constructor: Codec
     class MyBufferCodec
       register(MyBufferCodec).should.be.ok
       constructor: Codec
     class MyNewSubCodec
       register(MyNewSubCodec, MyNewCodec).should.be.ok
+      aliases MyNewSubCodec, 'newsub', 'sub'
       constructor: -> return super
     class MyNewSub1Codec
       register(MyNewSub1Codec, MyNewSubCodec).should.be.ok
@@ -127,6 +129,28 @@ describe "CustomFactory", ->
           myCodec = Codec('bufit2')
           testCodecInstance myCodec, MyBufferSub2Codec, 132
           myCodec.should.be.instanceOf MyBufferCodec
+      describe ".registeredClass", ->
+        it "should get registered Codec Class.", ->
+          My = Codec.registeredClass 'MyNew'
+          should.exist My
+          MyCodec = getClass 'MyNew', MyNewCodec
+          My.should.be.equal MyCodec
+        it "should get registered Codec Class via alias.", ->
+          My = Codec.registeredClass 'new'
+          should.exist My
+          My.should.be.equal MyNewCodec
+        it "should get registered Codec Class on parent.", ->
+          My = MyNewCodec.registeredClass 'MyNewSub'
+          should.exist My
+          My.should.be.equal MyNewSubCodec
+          My = MyNewCodec.registeredClass 'MyBuffer'
+          should.not.exist My
+        it "should get registered Codec Class on parent via alias.", ->
+          My = MyNewCodec.registeredClass 'newsub'
+          should.exist My
+          My.should.be.equal MyNewSubCodec
+          My = MyNewCodec.registeredClass 'MyBuffer'
+          should.not.exist My
       describe ".create", ->
         it "should create a new Codec object instance.", ->
           myCodec = Codec.create('MyNew', 457)

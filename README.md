@@ -1,4 +1,4 @@
-### CustomFactory [![Build Status](https://img.shields.io/travis/snowyu/custom-factory.js/master.svg)](http://travis-ci.org/snowyu/custom-factory.js) [![npm](https://img.shields.io/npm/v/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![downloads](https://img.shields.io/npm/dm/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![license](https://img.shields.io/npm/l/custom-factory.svg)](https://npmjs.org/package/custom-factory) 
+### CustomFactory [![Build Status](https://img.shields.io/travis/snowyu/custom-factory.js/master.svg)](http://travis-ci.org/snowyu/custom-factory.js) [![npm](https://img.shields.io/npm/v/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![downloads](https://img.shields.io/npm/dm/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![license](https://img.shields.io/npm/l/custom-factory.svg)](https://npmjs.org/package/custom-factory)
 
 
 easily add the factory ability to your class which can singleton, name, register/unregister and aliases your object items.
@@ -6,7 +6,7 @@ easily add the factory ability to your class which can singleton, name, register
 The factory could be hierarchical or flat. defaults to hierarchical.
 The flat factory means register only on the Root Factory.
 
-* CustomFactory(these class methods will be added to your factory class)
+* CustomFactory(these class/static methods will be added to your factory class)
   * `register(aClass[, aParentClass=factory[, aOptions]])`:  *(class method)* register the aClass to your Factory Class.
     * aOptions: It will use the aOptions as default options to create instance.
       * name: use the name instead of class name to register if any.
@@ -16,8 +16,9 @@ The flat factory means register only on the Root Factory.
   * `alias/aliases(aClass, aliases...)`: *(class method)* create aliases to the aClass.
   * `constructor(aName, aOptions)`: get a singleton instance from your Factory class.
   * `create(aName, aOptions)`: create a new object instance
-  * `formatName(aName)`: return format the registered name, defaults to same as aName. you can override this method.
+  * `formatName(aName)`: format the registered name and return, defaults to same as aName. you can override this method to implement case insensitive.
   * `Factory[aName]`: get the registered class from your Factory class.
+  * `getClassList(aClass)`: get the hierarchical class list array of this aClass.
 
 These instance methods added if it is not flatOnly factory:
 
@@ -25,6 +26,8 @@ These instance methods added if it is not flatOnly factory:
 * `unregister(aName|aClass)`: same as the unregister class method.
 * `registered(aName)`: get a singleton instance which is registered to itself.
 * `registeredClass[aName]`: get the registered class.
+* `path(aRootName = Factory.name)`: get the path string of this factory item
+* `pathArray(aRootName = Factory.name)`: get the path array of this factory item
 
 **Note**: the name is **case sensitive**.
 
@@ -94,5 +97,3 @@ json2.should.not.be.equal json
 
 
 ```
-
-

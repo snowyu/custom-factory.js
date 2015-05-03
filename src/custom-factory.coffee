@@ -11,7 +11,18 @@ module.exports = (Factory, aOptions)->
   if isObject aOptions
     flatOnly = aOptions.flatOnly
 
+  # the Static(Class) Methods for Factory:
   extend Factory,
+    getClassList: (ctor)->
+      result = while ctor and ctor isnt Factory
+        item = ctor
+        ctor = ctor.super_
+        item
+    getClassNameList: getClassNameList = (ctor)->
+      result = while ctor and ctor isnt Factory
+        item = ctor::name
+        ctor = ctor.super_
+        item
     _objects: registeredObjects = {}
     _aliases: aliases = {}
     formatName: (aName)->aName
@@ -24,8 +35,15 @@ module.exports = (Factory, aOptions)->
       result = aClass.name
       len = result.length
       vFactoryName = Factory.name
-      throw new InvalidArgumentError('can not getNameFromClass: the '+vFactoryName+'(constructor) has no name error.') unless len
-      result = result.substring(0, len-vFactoryName.length) if vFactoryName and vFactoryName.length and result.substring(len-vFactoryName.length) is vFactoryName
+
+      throw new InvalidArgumentError(
+        'can not getNameFromClass: the ' +
+         vFactoryName+'(constructor) has no name error.'
+      ) unless len
+
+      if vFactoryName and vFactoryName.length and
+         result.substring(len-vFactoryName.length) is vFactoryName
+        result = result.substring(0, len-vFactoryName.length)
       Factory.formatName result
     getRealNameFromAlias: (alias)->
       aliases[alias]
@@ -49,7 +67,11 @@ module.exports = (Factory, aOptions)->
           else
             vName = Factory.formatName vName
           result = not registeredObjects.hasOwnProperty(vName)
-          throw new TypeError 'the ' + vName + ' has already been registered.' unless result
+
+          throw new TypeError(
+            'the ' + vName + ' has already been registered.'
+          ) unless result
+
           result = inherits aClass, aParentClass
           if result
             extendClass(aClass) unless flatOnly
@@ -60,7 +82,8 @@ module.exports = (Factory, aOptions)->
               if aOptions?
                 registeredObjects[vName] = aOptions
               else
-                registeredObjects[vName] = null #createObject aClass, aBufferSize
+                #createObject aClass, aBufferSize
+                registeredObjects[vName] = null
           result
         _register: _register
         unregister: (aName)->
@@ -91,12 +114,14 @@ module.exports = (Factory, aOptions)->
   Factory.extendClass Factory
   Factory.register = (aClass, aParentClass, aOptions)->
     if aParentClass
-      if not isFunction aParentClass or not isInheritedFrom aParentClass, Factory
+      if not isFunction aParentClass or
+         not isInheritedFrom aParentClass, Factory
         aOptions = aParentClass
         aParentClass = aOptions.parent
         aParentClass = Factory if flatOnly or not aParentClass
       else if flatOnly
-        throw new TypeError "It's a flat factory, register to the parent class is not allowed"
+        throw new TypeError "
+          It's a flat factory, register to the parent class is not allowed"
     else
       aParentClass = Factory
     if aParentClass is Factory
@@ -107,7 +132,8 @@ module.exports = (Factory, aOptions)->
   class CustomFactory
     constructor: (aName, aOptions)->
       if aName instanceof Factory
-        aName.initialize aOptions if aOptions? # do not initialize if no aOptions
+        # do not initialize if no aOptions
+        aName.initialize aOptions if aOptions?
         return aName
       if aName
         if isObject aName
@@ -139,10 +165,14 @@ module.exports = (Factory, aOptions)->
             result = registeredObjects[aName]
           return if result is undefined
         if result instanceof Factory
-          result.initialize aOptions if aOptions? # do not initialize if no aOptions
+          # do not initialize if no aOptions
+          result.initialize aOptions if aOptions?
         else
-          result = if isObject result then extend(result, aOptions) else if aOptions? then aOptions else result
-          result = registeredObjects[aName] = createObject Factory[aName], undefined, result
+          result = if isObject result then extend(result, aOptions) else
+            if aOptions? then aOptions else result
+
+          result = createObject Factory[aName], undefined, result
+          registeredObjects[aName] = result
         return result
       else
         @initialize(aOptions)
@@ -162,6 +192,11 @@ module.exports = (Factory, aOptions)->
         aName  = Factory.getRealNameFromAlias aName
         return @constructor[aName] if aName
         return
+      @::path = (aRootName)->
+        '/' + @pathArray(aRootName).join '/'
+      @::pathArray = (aRootName = Factory.name) ->
+        result = getClassNameList(@Class)
+        result.push aRootName if aRootName
+        result.reverse()
 
     inherits Factory, CustomFactory
-

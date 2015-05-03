@@ -129,6 +129,15 @@ describe "CustomFactory", ->
           myCodec = Codec('bufit2')
           testCodecInstance myCodec, MyBufferSub2Codec, 132
           myCodec.should.be.instanceOf MyBufferCodec
+      describe ".getClassList", ->
+        it "should get the empty class list for root factory", ->
+          Codec.getClassList(Codec).should.have.length 0
+        it "should get the class list", ->
+          result = Codec.getClassList(MyNewSub1Codec)
+          result.should.have.length 3
+          result.should.be.deep.equal [
+            MyNewSub1Codec, MyNewSubCodec, MyNewCodec
+          ]
       describe ".registeredClass", ->
         it "should get registered Codec Class.", ->
           My = Codec.registeredClass 'MyNew'
@@ -277,6 +286,34 @@ describe "CustomFactory", ->
           should.not.exist myCodec, "other"
 
     describe "Instance Methods", ->
+      describe ".pathArray()", ->
+        it "should get path name array", ->
+          myCodec = Codec('MyNewSub1')
+          testCodecInstance myCodec, MyNewSub1Codec
+          myCodec.pathArray().should.be.deep.equal ["Codec", "MyNew", "MyNewSub", "MyNewSub1"]
+        it "should get path name array with custom root name", ->
+          myCodec = Codec('MyNewSub1')
+          testCodecInstance myCodec, MyNewSub1Codec
+          myCodec.pathArray('root').should.be.deep.equal ["root","MyNew", "MyNewSub", "MyNewSub1"]
+        it "should get path name array with no root name", ->
+          myCodec = Codec('MyNewSub1')
+          testCodecInstance myCodec, MyNewSub1Codec
+          myCodec.pathArray('').should.be.deep.equal ["MyNew", "MyNewSub", "MyNewSub1"]
+          myCodec.pathArray(false).should.be.deep.equal ["MyNew", "MyNewSub", "MyNewSub1"]
+      describe ".path()", ->
+        it "should get path name ", ->
+          myCodec = Codec('MyNewSub1')
+          testCodecInstance myCodec, MyNewSub1Codec
+          myCodec.path().should.be.equal "/Codec/MyNew/MyNewSub/MyNewSub1"
+        it "should get path name with custom root name", ->
+          myCodec = Codec('MyNewSub1')
+          testCodecInstance myCodec, MyNewSub1Codec
+          myCodec.path('root').should.be.equal "/root/MyNew/MyNewSub/MyNewSub1"
+        it "should get path name with no root name", ->
+          myCodec = Codec('MyNewSub1')
+          testCodecInstance myCodec, MyNewSub1Codec
+          myCodec.path('').should.be.deep.equal "/MyNew/MyNewSub/MyNewSub1"
+          myCodec.path(false).should.be.deep.equal "/MyNew/MyNewSub/MyNewSub1"
       describe ".toString()", ->
         it "should get name toString", ->
           myCodec = Codec('MyNew')
@@ -351,4 +388,3 @@ describe "CustomFactory", ->
         v = Math.random()
         myCodec = MyNCodec(v)
         testCodecInstance myCodec, MyNCodec, v
-

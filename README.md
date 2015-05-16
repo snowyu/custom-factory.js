@@ -18,8 +18,10 @@ The flat factory means register only on the Root Factory.
   * `constructor(aOptions)`: get a singleton instance or create a new instance item.
     * aOptions: *(object)*
       * name: the factory item name. defaults to the constructor name
+      * fnGet: *(function)* replace the default '`get`' method.
   * `constructor(aInstance, aOptions)`: apply(re-initialize) the aOptions to the aInstance .
   * `create(aName, aOptions)`: create a new object instance
+  * `get(aName, aOptions)`: get the singleton object instance
   * `formatName(aName)`: format the registered name and return, defaults to same as aName. you can override this method to implement case insensitive.
   * `Factory[aName]`: get the registered class from your Factory class.
   * `getClassList(aClass)`: get the hierarchical class list array of this aClass.

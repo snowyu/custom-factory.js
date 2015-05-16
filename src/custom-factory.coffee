@@ -57,7 +57,30 @@ exports = module.exports = (Factory, aOptions)->
     aliases: alias
     create: (aName, aOptions)->
       result = Factory.registeredClass aName
+      if result is undefined
+        # Is it a alias?
+        aName = Factory.getRealNameFromAlias aName
+        result = Factory.registeredClass aName if aName
       if result then createObject result, aOptions
+    _get: getInstance = (aName, aOptions)->
+      result = registeredObjects[aName]
+      if result is undefined
+        # Is it a alias?
+        aName = Factory.getRealNameFromAlias aName
+        if aName
+          result = registeredObjects[aName]
+        return if result is undefined
+      if result instanceof Factory
+        # do not initialize if no aOptions
+        result.initialize aOptions if aOptions?
+      else
+        result = if isObject result then extend(result, aOptions) else
+          if aOptions? then aOptions else result
+
+        result = createObject Factory[aName], undefined, result
+        registeredObjects[aName] = result
+      return result
+    get: (aName, aOptions)-> getInstance(aName, aOptions)
     extendClass: extendClass = (aParentClass) ->
       extend aParentClass,
         register: _register = (aClass, aOptions)->
@@ -129,7 +152,17 @@ exports = module.exports = (Factory, aOptions)->
     else
       aParentClass.register aClass, aOptions
 
-  exports.CustomFactory = class CustomFactory
+  if aOptions and isFunction aOptions.fnGet
+    vNewGetInstance = aOptions.fnGet
+    getInstance = ((inherited)->
+      that =
+        super: inherited
+        self: this
+      return -> vNewGetInstance.apply(that, arguments)
+    )(Factory._get)
+    Factory.get = getInstance
+
+  class CustomFactory
     constructor: (aName, aOptions)->
       if aName instanceof Factory
         # do not initialize if no aOptions
@@ -157,31 +190,15 @@ exports = module.exports = (Factory, aOptions)->
           return unless aName
         else
           aName = Factory.formatName aName
-        return createInstance aName, aOptions
+        return Factory.get aName, aOptions
       else
         @initialize(aOptions)
-    @_create: createInstance = (aName, aOptions)->
-        result = registeredObjects[aName]
-        if result is undefined
-          # Is it a alias?
-          aName = Factory.getRealNameFromAlias aName
-          if aName
-            result = registeredObjects[aName]
-          return if result is undefined
-        if result instanceof Factory
-          # do not initialize if no aOptions
-          result.initialize aOptions if aOptions?
-        else
-          result = if isObject result then extend(result, aOptions) else
-            if aOptions? then aOptions else result
-
-          result = createObject Factory[aName], undefined, result
-          registeredObjects[aName] = result
-        return result
+    #@_create: createInstance = (aName, aOptions)->
     initialize: (aOptions)->
     toString: ->
       #@name.toLowerCase()
       @name
+
 
     if not flatOnly
       @::register= (aClass, aOptions)-> @constructor.register aClass, aOptions

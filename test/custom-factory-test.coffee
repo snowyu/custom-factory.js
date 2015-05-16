@@ -388,3 +388,34 @@ describe "CustomFactory", ->
         v = Math.random()
         myCodec = MyNCodec(v)
         testCodecInstance myCodec, MyNCodec, v
+    describe "the fnGet option", ->
+      it "should replace get directly", ->
+        getInst = null
+        class Fact
+          getInst = sinon.spy (aName, aOptions)->
+          factory Fact
+          Fact.get = getInst
+          constructor: -> return super
+        MyInstCodec = createCtor "MyInstCodec"
+        Fact.register MyInstCodec
+        mycodec = Fact("MyInst", test:123)
+        getInst.should.have.been.calledOnce
+        getInst.should.have.been.calledWith("MyInst", test:123)
+        Fact.get.should.be.equal getInst
+      it "should replace get via fnGet option", ->
+        getInst = null
+        getInstThis = null
+        class Fact
+          getInst = sinon.spy (aName, aOptions)->
+            getInstThis = this
+          factory Fact, fnGet: getInst
+          constructor: -> return super
+        MyInstCodec = createCtor "MyInstCodec"
+        Fact.register MyInstCodec
+        mycodec = Fact("MyInst", test:123)
+        getInst.should.have.been.calledOnce
+        getInst.should.have.been.calledWith("MyInst", test:123)
+        getInstThis.should.have.ownProperty 'super'
+        getInstThis.super.should.not.be.equal Fact.get
+        getInstThis.super.should.be.equal Fact._get
+

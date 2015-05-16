@@ -7,7 +7,7 @@ isFunction            = (v)-> 'function' is typeof v
 isString              = (v)-> 'string' is typeof v
 isObject              = (v)-> v? and 'object' is typeof v
 
-module.exports = (Factory, aOptions)->
+exports = module.exports = (Factory, aOptions)->
   if isObject aOptions
     flatOnly = aOptions.flatOnly
 
@@ -129,7 +129,7 @@ module.exports = (Factory, aOptions)->
     else
       aParentClass.register aClass, aOptions
 
-  class CustomFactory
+  exports.CustomFactory = class CustomFactory
     constructor: (aName, aOptions)->
       if aName instanceof Factory
         # do not initialize if no aOptions
@@ -157,6 +157,10 @@ module.exports = (Factory, aOptions)->
           return unless aName
         else
           aName = Factory.formatName aName
+        return createInstance aName, aOptions
+      else
+        @initialize(aOptions)
+    @_create: createInstance = (aName, aOptions)->
         result = registeredObjects[aName]
         if result is undefined
           # Is it a alias?
@@ -174,8 +178,6 @@ module.exports = (Factory, aOptions)->
           result = createObject Factory[aName], undefined, result
           registeredObjects[aName] = result
         return result
-      else
-        @initialize(aOptions)
     initialize: (aOptions)->
     toString: ->
       #@name.toLowerCase()

@@ -284,6 +284,22 @@ describe "CustomFactory", ->
           should.not.exist myCodec, "alia1"
           other = Codec('other')
           should.not.exist myCodec, "other"
+      describe ".pathArray()", ->
+        it "should get path name array", ->
+          Codec.pathArray(MyNewSub1Codec).should.be.deep.equal ["Codec", "MyNew", "MyNewSub", "MyNewSub1"]
+        it "should get path name array with custom root name", ->
+          Codec.pathArray(MyNewSub1Codec, 'root').should.be.deep.equal ["root","MyNew", "MyNewSub", "MyNewSub1"]
+        it "should get path name array with no root name", ->
+          Codec.pathArray(MyNewSub1Codec, '').should.be.deep.equal ["MyNew", "MyNewSub", "MyNewSub1"]
+          Codec.pathArray(MyNewSub1Codec, false).should.be.deep.equal ["MyNew", "MyNewSub", "MyNewSub1"]
+      describe ".path()", ->
+        it "should get path name ", ->
+          Codec.path(MyNewSub1Codec).should.be.equal "/Codec/MyNew/MyNewSub/MyNewSub1"
+        it "should get path name with custom root name", ->
+          Codec.path(MyNewSub1Codec, 'root').should.be.equal "/root/MyNew/MyNewSub/MyNewSub1"
+        it "should get path name with no root name", ->
+          Codec.path(MyNewSub1Codec, '').should.be.deep.equal "/MyNew/MyNewSub/MyNewSub1"
+          Codec.path(MyNewSub1Codec, false).should.be.deep.equal "/MyNew/MyNewSub/MyNewSub1"
 
     describe "Instance Methods", ->
       describe ".pathArray()", ->

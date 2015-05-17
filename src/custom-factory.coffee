@@ -23,6 +23,12 @@ exports = module.exports = (Factory, aOptions)->
         item = ctor::name
         ctor = ctor.super_
         item
+    path: (aClass, aRootName)->
+      '/' + @pathArray(aClass, aRootName).join '/'
+    pathArray: (aClass, aRootName = Factory.name) ->
+      result = getClassNameList(aClass)
+      result.push aRootName if aRootName
+      result.reverse()
     _objects: registeredObjects = {}
     _aliases: aliases = {}
     formatName: (aName)->aName
@@ -77,8 +83,12 @@ exports = module.exports = (Factory, aOptions)->
         result = if isObject result then extend(result, aOptions) else
           if aOptions? then aOptions else result
 
-        result = createObject Factory[aName], undefined, result
-        registeredObjects[aName] = result
+        cls = Factory[aName]
+        if cls
+          result = createObject cls, undefined, result
+          registeredObjects[aName] = result
+        else
+          result = undefined
       return result
     get: (aName, aOptions)-> getInstance(aName, aOptions)
     extendClass: extendClass = (aParentClass) ->
@@ -213,9 +223,6 @@ exports = module.exports = (Factory, aOptions)->
         return
       @::path = (aRootName)->
         '/' + @pathArray(aRootName).join '/'
-      @::pathArray = (aRootName = Factory.name) ->
-        result = getClassNameList(@Class)
-        result.push aRootName if aRootName
-        result.reverse()
+      @::pathArray = (aRootName) ->Factory.pathArray(@Class, aRootName)
 
     inherits Factory, CustomFactory

@@ -25,6 +25,8 @@ The flat factory means register only on the Root Factory.
   * `formatName(aName)`: format the registered name and return, defaults to same as aName. you can override this method to implement case insensitive.
   * `Factory[aName]`: get the registered class from your Factory class.
   * `getClassList(aClass)`: get the hierarchical class list array of this aClass.
+  * `path(aClass, aRootName = Factory.name)`: get the path string of this aClass factory item.
+  * `pathArray(aClass, aRootName = Factory.name)`: get the path array of this aClass factory item.
 
 These instance methods added if it is not flatOnly factory:
 

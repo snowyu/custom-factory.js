@@ -28,10 +28,12 @@ exports = module.exports = (Factory, aOptions)->
     pathArray: (aClass, aRootName = Factory.name) ->
       result = getClassNameList(aClass)
       result.push aRootName if aRootName
+      if Factory.formatName isnt formatName
+        result = (Factory.formatName(i) for i in result)
       result.reverse()
     _objects: registeredObjects = {}
     _aliases: aliases = {}
-    formatName: (aName)->aName
+    formatName: formatName = (aName)->aName
     getNameFrom: (aClass)->
       if isFunction aClass
         Factory.getNameFromClass(aClass)

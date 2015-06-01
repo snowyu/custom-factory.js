@@ -223,6 +223,23 @@ describe "CaseInsensitive Factory", ->
           other = Codec('other')
           should.not.exist myCodec, "other"
 
+      describe ".pathArray()", ->
+        it "should get path name array", ->
+          Codec.pathArray(MyNewSub1Codec).should.be.deep.equal ["codec", "mynew", "mynewsub", "mynewsub1"]
+        it "should get path name array with custom root name", ->
+          Codec.pathArray(MyNewSub1Codec, 'root').should.be.deep.equal ["root","mynew", "mynewsub", "mynewsub1"]
+        it "should get path name array with no root name", ->
+          Codec.pathArray(MyNewSub1Codec, '').should.be.deep.equal ["mynew", "mynewsub", "mynewsub1"]
+          Codec.pathArray(MyNewSub1Codec, false).should.be.deep.equal ["mynew", "mynewsub", "mynewsub1"]
+      describe ".path()", ->
+        it "should get path name ", ->
+          Codec.path(MyNewSub1Codec).should.be.equal "/codec/mynew/mynewsub/mynewsub1"
+        it "should get path name with custom root name", ->
+          Codec.path(MyNewSub1Codec, 'root').should.be.equal "/root/mynew/mynewsub/mynewsub1"
+        it "should get path name with no root name", ->
+          Codec.path(MyNewSub1Codec, '').should.be.deep.equal "/mynew/mynewsub/mynewsub1"
+          Codec.path(MyNewSub1Codec, false).should.be.deep.equal "/mynew/mynewsub/mynewsub1"
+
     describe "Instance Methods", ->
       describe ".toString()", ->
         it "should get name toString", ->

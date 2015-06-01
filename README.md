@@ -27,6 +27,7 @@ The flat factory means register only on the Root Factory.
   * `getClassList(aClass)`: get the hierarchical class list array of this aClass.
   * `path(aClass, aRootName = Factory.name)`: get the path string of this aClass factory item.
   * `pathArray(aClass, aRootName = Factory.name)`: get the path array of this aClass factory item.
+  * `registeredClass(aName)`: get the registered class via name.
 
 These instance methods added if it is not flatOnly factory:
 

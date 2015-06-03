@@ -98,7 +98,10 @@ exports = module.exports = (Factory, aOptions)->
     extendClass: extendClass = (aParentClass) ->
       extend aParentClass,
         register: _register = (aClass, aOptions)->
-          vName = aOptions.name if aOptions
+          if isString aOptions
+            vName = aOptions
+          else
+            vName = aOptions.name if aOptions
           if not vName
             vName = Factory.getNameFromClass(aClass)
           else

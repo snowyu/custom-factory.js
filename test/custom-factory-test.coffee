@@ -129,6 +129,24 @@ describe "CustomFactory", ->
           myCodec = Codec('bufit2')
           testCodecInstance myCodec, MyBufferSub2Codec, 132
           myCodec.should.be.instanceOf MyBufferCodec
+        it "should register a new Codec Class with specified name via string", ->
+          class MyBufferSub3Codec
+            register(MyBufferSub3Codec, "bufit3").should.be.ok
+
+            constructor: -> return super
+
+          MyBufferSub3Codec.should.have.ownProperty 'register'
+          myCodec = Codec('bufit3')
+          testCodecInstance myCodec, MyBufferSub3Codec
+        it "should register a new Codec Class with specified name(via string) and parent.", ->
+          class MyBufferSub4Codec
+            register(MyBufferSub4Codec, MyBufferCodec, "bufit4").should.be.ok
+
+            constructor: -> return super
+
+          myCodec = Codec('bufit4')
+          testCodecInstance myCodec, MyBufferSub4Codec
+          myCodec.should.be.instanceOf MyBufferCodec
       describe ".getClassList", ->
         it "should get the empty class list for root factory", ->
           Codec.getClassList(Codec).should.have.length 0

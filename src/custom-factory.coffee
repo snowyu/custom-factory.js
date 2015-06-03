@@ -25,7 +25,8 @@ exports = module.exports = (Factory, aOptions)->
         item
     path: (aClass, aRootName)->
       '/' + @pathArray(aClass, aRootName).join '/'
-    pathArray: (aClass, aRootName = Factory.name) ->
+    pathArray: (aClass, aRootName) ->
+      aRootName = Factory.ROOT_NAME || Factory.name unless aRootName?
       result = getClassNameList(aClass)
       result.push aRootName if aRootName
       if Factory.formatName isnt formatName

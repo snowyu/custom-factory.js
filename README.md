@@ -8,7 +8,8 @@ The flat factory means register only on the Root Factory.
 
 * CustomFactory(these class/static methods will be added to your factory class)
   * `register(aClass[, aParentClass=factory[, aOptions]])`:  *(class method)* register the aClass to your Factory Class.
-    * aOptions: It will use the aOptions as default options to create instance.
+    * aOptions *(object|string)*: It will use the aOptions as default options to create instance.
+      * it is the registered name if aOptions is string.
       * name: use the name instead of class name to register if any.
         or it will use the class name(remove the last factory name if exists) to register.
     * aParentClass: it is not allowed if it's a flatOnly factory.
@@ -70,6 +71,14 @@ class JsonCodec
   register JsonCodec, TextCodec
   constructor: -> return super
   encode:->
+
+# register with specifed name:
+class TestCodec
+  register TestCodec, 'MyTest'
+  # or like this:
+  #register TestCodec, name: 'MyTest'
+
+
 ```
 
 Enable a flat factory:

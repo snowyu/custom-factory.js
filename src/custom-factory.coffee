@@ -13,6 +13,7 @@ exports = module.exports = (Factory, aOptions)->
 
   # the Static(Class) Methods for Factory:
   extend Factory,
+    ROOT_NAME: Factory.name
     getClassList: (ctor)->
       result = while ctor and ctor isnt Factory
         item = ctor
@@ -26,7 +27,7 @@ exports = module.exports = (Factory, aOptions)->
     path: (aClass, aRootName)->
       '/' + @pathArray(aClass, aRootName).join '/'
     pathArray: (aClass, aRootName) ->
-      aRootName = Factory.ROOT_NAME || Factory.name unless aRootName?
+      aRootName = Factory.ROOT_NAME unless aRootName?
       result = getClassNameList(aClass)
       result.push aRootName if aRootName
       if Factory.formatName isnt formatName

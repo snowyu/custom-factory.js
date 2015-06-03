@@ -305,7 +305,7 @@ describe "CustomFactory", ->
       before ->
         Codec.ROOT_NAME = 'haha'
       after ->
-        delete Codec.ROOT_NAME
+        Codec.ROOT_NAME = Codec.name
       describe ".pathArray()", ->
         it "should get path name array", ->
           Codec.pathArray(MyNewSub1Codec).should.be.deep.equal ["haha", "MyNew", "MyNewSub", "MyNewSub1"]
@@ -314,6 +314,10 @@ describe "CustomFactory", ->
         it "should get path name array with no root name", ->
           Codec.pathArray(MyNewSub1Codec, '').should.be.deep.equal ["MyNew", "MyNewSub", "MyNewSub1"]
           Codec.pathArray(MyNewSub1Codec, false).should.be.deep.equal ["MyNew", "MyNewSub", "MyNewSub1"]
+        it "should empty ROOT_NAME to disable root path name", ->
+          Codec.ROOT_NAME = ''
+          Codec.pathArray(MyNewSub1Codec).should.be.deep.equal ["MyNew", "MyNewSub", "MyNewSub1"]
+          Codec.ROOT_NAME = 'haha'
       describe ".path()", ->
         it "should get path name ", ->
           Codec.path(MyNewSub1Codec).should.be.equal "/haha/MyNew/MyNewSub/MyNewSub1"
@@ -322,6 +326,10 @@ describe "CustomFactory", ->
         it "should get path name with no root name", ->
           Codec.path(MyNewSub1Codec, '').should.be.deep.equal "/MyNew/MyNewSub/MyNewSub1"
           Codec.path(MyNewSub1Codec, false).should.be.deep.equal "/MyNew/MyNewSub/MyNewSub1"
+        it "should empty ROOT_NAME to disable root path name", ->
+          Codec.ROOT_NAME = ''
+          Codec.path(MyNewSub1Codec).should.be.deep.equal "/MyNew/MyNewSub/MyNewSub1"
+          Codec.ROOT_NAME = 'haha'
 
     describe "Instance Methods", ->
       describe ".pathArray()", ->

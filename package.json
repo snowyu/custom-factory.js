@@ -1,6 +1,6 @@
 {
   "name": "custom-factory",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "abstract factory class to register/unregister and alias your objects on CustomFactory",
   "homepage": "https://github.com/snowyu/custom-factory.js",
   "main": "./index",

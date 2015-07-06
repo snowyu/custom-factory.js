@@ -100,8 +100,9 @@ exports = module.exports = (Factory, aOptions)->
         register: _register = (aClass, aOptions)->
           if isString aOptions
             vName = aOptions
-          else
-            vName = aOptions.name if aOptions
+          else if aOptions
+            vName = aOptions.name
+            vCreateOnDemand = aOptions.createOnDemand
           if not vName
             vName = Factory.getNameFromClass(aClass)
           else
@@ -119,11 +120,11 @@ exports = module.exports = (Factory, aOptions)->
             if result
               aParentClass[vName] = aClass
               Factory[vName] = aClass unless aParentClass is Factory
-              if aOptions?
-                registeredObjects[vName] = aOptions
+              if vCreateOnDemand isnt false
+                registeredObjects[vName] = if aOptions? then aOptions else null
               else
-                #createObject aClass, aBufferSize
-                registeredObjects[vName] = null
+                registeredObjects[vName] =
+                  createObject aClass, undefined, aOptions
           result
         _register: _register
         unregister: (aName)->

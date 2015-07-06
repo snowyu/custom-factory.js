@@ -147,6 +147,18 @@ describe "CustomFactory", ->
           myCodec = Codec('bufit4')
           testCodecInstance myCodec, MyBufferSub4Codec
           myCodec.should.be.instanceOf MyBufferCodec
+        it "should register a new Codec Class with createOnDemand is false.", ->
+          class MyBufferSub5Codec
+            register(MyBufferSub5Codec, MyBufferCodec, createOnDemand:false).should.be.ok
+
+            constructor: -> return super
+
+          result = Codec._objects['MyBufferSub5']
+          testCodecInstance result, MyBufferSub5Codec
+          myCodec = Codec('MyBufferSub5')
+          testCodecInstance myCodec, MyBufferSub5Codec
+          myCodec.should.be.instanceOf MyBufferCodec
+          myCodec.should.be.equal result
       describe ".getClassList", ->
         it "should get the empty class list for root factory", ->
           Codec.getClassList(Codec).should.have.length 0

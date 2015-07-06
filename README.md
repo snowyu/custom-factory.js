@@ -12,6 +12,8 @@ The flat factory means register only on the Root Factory.
       * it is the registered name if aOptions is string.
       * name: use the name instead of class name to register if any.
         or it will use the class name(remove the last factory name if exists) to register.
+      * createOnDemand *(boolean)*: create the factory item instance on demand 
+        or create it immediately. defaults to true.
     * aParentClass: it is not allowed if it's a flatOnly factory.
   * `unregister(aName|aClass)`: *(class method)* unregister the class or name from the Factory
   * `alias/aliases(aClass, aliases...)`: *(class method)* create aliases to the aClass.

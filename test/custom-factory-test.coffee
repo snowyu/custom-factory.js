@@ -153,12 +153,60 @@ describe "CustomFactory", ->
 
             constructor: -> return super
 
-          result = Codec._objects['MyBufferSub5']
+          result = Codec::_objects['MyBufferSub5']
           testCodecInstance result, MyBufferSub5Codec
           myCodec = Codec('MyBufferSub5')
+          Codec::_objects.should.be.equal myCodec._objects
           testCodecInstance myCodec, MyBufferSub5Codec
           myCodec.should.be.instanceOf MyBufferCodec
           myCodec.should.be.equal result
+        it "should register a new sub child Codec Class with proper name.", ->
+          class ASubMyNewCodec
+            register(ASubMyNewCodec, MyNewCodec, baseNameOnly:2).should.be.ok
+            aliases ASubMyNewCodec, 'ASubMyNew', 'asub'
+            constructor: -> return super
+          class BSubASub
+            register(BSubASub, ASubMyNewCodec, baseNameOnly:3).should.be.ok
+            constructor: Codec
+          class CSubBSubASub
+            register(CSubBSubASub, BSubASub, baseNameOnly:4).should.be.ok
+            constructor: -> return super
+          class DSubCSubBSubASub
+            register(DSubCSubBSubASub, CSubBSubASub, baseNameOnly:4).should.be.ok
+            constructor: -> return super
+
+          ASubMyNewCodec::name.should.be.equal 'ASub'
+          BSubASub::name.should.be.equal 'BSub'
+          CSubBSubASub::name.should.be.equal 'CSub'
+          DSubCSubBSubASub::name.should.be.equal 'DSubCSub'
+
+          myCodec = Codec('ASub')
+          testCodecInstance myCodec, ASubMyNewCodec
+          myCodec.should.be.instanceOf ASubMyNewCodec
+          myCodec = Codec('BSub')
+          testCodecInstance myCodec, BSubASub
+          myCodec.should.be.instanceOf BSubASub
+          myCodec = Codec('CSub')
+          testCodecInstance myCodec, CSubBSubASub
+          myCodec.should.be.instanceOf CSubBSubASub
+          myCodec = Codec('DSubCSub')
+          testCodecInstance myCodec, DSubCSubBSubASub
+          myCodec.should.be.instanceOf DSubCSubBSubASub
+
+          unregister(ASubMyNewCodec).should.be.ok
+          unregister('BSub').should.be.ok
+          unregister(CSubBSubASub).should.be.ok
+          unregister('DSubCSub').should.be.ok
+
+          myCodec = Codec('ASub')
+          should.not.exist myCodec
+          myCodec = Codec('BSub')
+          should.not.exist myCodec
+          myCodec = Codec('CSub')
+          should.not.exist myCodec
+          myCodec = Codec('DSubCSub')
+          should.not.exist myCodec
+
       describe ".getClassList", ->
         it "should get the empty class list for root factory", ->
           Codec.getClassList(Codec).should.have.length 0
@@ -205,6 +253,15 @@ describe "CustomFactory", ->
           testCodecInstance myCodec, MoCodec
           unregister('Mo').should.be.equal true
           myCodec = Codec('Mo')
+          should.not.exist myCodec
+        it "should unregister a Codec Class via a custom name.", ->
+          class MoCodec
+            register(MoCodec, 'customName').should.be.ok
+            constructor: Codec
+          myCodec = Codec('customName')
+          testCodecInstance myCodec, MoCodec
+          unregister(MoCodec).should.be.equal true
+          myCodec = Codec('customName')
           should.not.exist myCodec
         it "should unregister a Codec Class via class.", ->
           class MoCodec

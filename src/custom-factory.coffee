@@ -1,4 +1,5 @@
 # Copyright (c) 2014-2015 Riceball LEE, MIT License
+deprecate             = require('depd')('custom-factory')
 inherits              = require("inherits-ex/lib/inherits")
 isInheritedFrom       = require("inherits-ex/lib/isInheritedFrom")
 createObject          = require("inherits-ex/lib/createObject")
@@ -10,6 +11,8 @@ isObject              = (v)-> v? and 'object' is typeof v
 exports = module.exports = (Factory, aOptions)->
   if isObject aOptions
     flatOnly = aOptions.flatOnly
+    baseNameOnly = aOptions.baseNameOnly if aOptions.baseNameOnly?
+  baseNameOnly = 1 unless baseNameOnly?
 
   # the Static(Class) Methods for Factory:
   extend Factory,
@@ -38,22 +41,37 @@ exports = module.exports = (Factory, aOptions)->
     formatName: formatName = (aName)->aName
     getNameFrom: (aClass)->
       if isFunction aClass
-        Factory.getNameFromClass(aClass)
+        #Factory.getNameFromClass(aClass)
+        aClass::name
       else
         Factory.formatName aClass
-    getNameFromClass: (aClass)->
+    getNameFromClass: (aClass, aParentClass, aBaseNameOnly)->
       result = aClass.name
       len = result.length
-      vFactoryName = Factory.name
 
       throw new InvalidArgumentError(
         'can not getNameFromClass: the ' +
          vFactoryName+'(constructor) has no name error.'
       ) unless len
+      aBaseNameOnly = baseNameOnly unless aBaseNameOnly?
 
+      ###
+      vFactoryName = Factory.name
       if vFactoryName and vFactoryName.length and
          result.substring(len-vFactoryName.length) is vFactoryName
         result = result.substring(0, len-vFactoryName.length)
+      ###
+      if aBaseNameOnly # then remove Parent Name if any
+        aParentClass = aClass.super_ unless aParentClass
+        names = getClassNameList aParentClass
+        names.push Factory.name
+        if names.length
+          for vFactoryName in names.reverse()
+            if vFactoryName and vFactoryName.length and
+               result.substring(len-vFactoryName.length) is vFactoryName
+              result = result.substring(0, len-vFactoryName.length)
+              len = result.length
+            break unless --aBaseNameOnly
       Factory.formatName result
     getRealNameFromAlias: (alias)->
       aliases[alias]
@@ -104,7 +122,11 @@ exports = module.exports = (Factory, aOptions)->
             vName = aOptions.name
             vCreateOnDemand = aOptions.createOnDemand
           if not vName
-            vName = Factory.getNameFromClass(aClass)
+            if aOptions && aOptions.baseNameOnly
+              vBaseNameOnly = aOptions.baseNameOnly
+            else
+              vBaseNameOnly = baseNameOnly
+            vName = Factory.getNameFromClass(aClass, aParentClass, vBaseNameOnly)
           else
             vName = Factory.formatName vName
           result = not registeredObjects.hasOwnProperty(vName)
@@ -133,9 +155,10 @@ exports = module.exports = (Factory, aOptions)->
             vClass = Factory[aName]
           else
             vClass = aName
-            aName = Factory.getNameFromClass(aName)
+            #aName = Factory.getNameFromClass(aName)
           result = vClass and isInheritedFrom vClass, aParentClass
           if result
+            aName = vClass::name
             #TODO:should I unregister all children?
             while vClass and vClass.super_ and vClass.super_ isnt Factory
               vClass = vClass.super_
@@ -153,6 +176,10 @@ exports = module.exports = (Factory, aOptions)->
           return aParentClass[aName] if aName
           return
   Factory.extendClass Factory
+  Factory::_objects = registeredObjects
+  Factory::_aliases = aliases
+  deprecate.property Factory, '_objects', 'use Factory::_objects instead'
+  deprecate.property Factory, '_aliases', 'use Factory::_aliases instead'
   Factory.register = (aClass, aParentClass, aOptions)->
     if aParentClass
       if not isFunction aParentClass or
@@ -204,7 +231,8 @@ exports = module.exports = (Factory, aOptions)->
             while isInheritedFrom vCaller, aName
               aName = vCaller
               vCaller = vCaller.caller
-            aName = Factory.getNameFromClass(aName) if aName
+            #aName = Factory.getNameFromClass(aName) if aName
+            aName = aName::name if aName
           return unless aName
         else
           aName = Factory.formatName aName

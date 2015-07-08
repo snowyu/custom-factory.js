@@ -14,6 +14,9 @@ The flat factory means register only on the Root Factory.
         or it will use the class name(remove the last factory name if exists) to register.
       * createOnDemand *(boolean)*: create the factory item instance on demand 
         or create it immediately. defaults to true.
+      * baseNameOnly *(number)*: extract basename from class name to register it.
+        defaults to 1. the baseNameOnly number can be used on hierarchical factory.
+        0 means use the whole class name to register it, no extract.
     * aParentClass: it is not allowed if it's a flatOnly factory.
   * `unregister(aName|aClass)`: *(class method)* unregister the class or name from the Factory
   * `alias/aliases(aClass, aliases...)`: *(class method)* create aliases to the aClass.
@@ -27,7 +30,7 @@ The flat factory means register only on the Root Factory.
   * `get(aName, aOptions)`: get the singleton object instance
   * `formatName(aName)`: format the registered name and return, defaults to same as aName. you can override this method to implement case insensitive.
   * `Factory[aName]`: get the registered class from your Factory class.
-  * `getClassList(aClass)`: get the hierarchical class list array of this aClass.
+  * `getClassList(aClass)`: get the hierarchical class path list array of this aClass.
   * `path(aClass, aRootName = Factory.name)`: get the path string of this aClass factory item.
   * `pathArray(aClass, aRootName = Factory.name)`: get the path array of this aClass factory item.
   * `registeredClass(aName)`: get the registered class via name.
@@ -42,6 +45,18 @@ These instance methods added if it is not flatOnly factory:
 * `pathArray(aRootName = Factory.name)`: get the path array of this factory item
 
 **Note**: the name is **case sensitive**.
+
+
+# Changes
+
+## v1.4.0
+
+These attributes could be visited via instance:
+
++ baseNameOnly option to extract basename from class name when register it.
+* `Factory._objects`: mark deprecated. use the `Factory::_objects` instead
+* `Factory._aliases`: mark deprecated. use the `Factory::_aliases` instead
+
 
 # Usage
 

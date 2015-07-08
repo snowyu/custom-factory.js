@@ -219,15 +219,15 @@ exports = module.exports = (Factory, aOptions)->
 
 
     if not flatOnly
-      @::register= (aClass, aOptions)-> @constructor.register aClass, aOptions
-      @::unregister= (aName)-> @constructor.unregister aName
+      @::register= (aClass, aOptions)-> @Class.register aClass, aOptions
+      @::unregister= (aName)-> @Class.unregister aName
       @::registered= (aName)-> Factory(aName)
       @::registeredClass= (aName)->
         aName = Factory.formatName aName
-        result = @constructor[aName]
+        result = @Class[aName]
         return result if result
         aName  = Factory.getRealNameFromAlias aName
-        return @constructor[aName] if aName
+        return @Class[aName] if aName
         return
       @::path = (aRootName)->
         '/' + @pathArray(aRootName).join '/'

@@ -77,7 +77,6 @@ Codec.prototype.initialize = function(aOptions){
 
 // your factory methods:
 Codec.prototype.encode = function(aValue){}
-}
 
 var register = Codec.register
 var aliases  = Codec.aliases

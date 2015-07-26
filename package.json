@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "depd": "^1.0.1",
-    "inherits-ex": "~1.0.6"
+    "inherits-ex": "^1.1.2"
   },
   "devDependencies": {
     "chai": "~1.10.0",

@@ -261,18 +261,18 @@ exports = module.exports = (Factory, aOptions)->
     toString: ->
       #@name.toLowerCase()
       @name
-    get: (aName, aOptions)->Factory.get(aName, aOptions)
+    get: (aName, aOptions)->Factory.get.call(@, aName, aOptions)
 
 
     if not flatOnly
-      @::register= (aClass, aOptions)-> @Class.register aClass, aOptions
-      @::unregister= (aName)-> @Class.unregister aName
+      @::register= (aClass, aOptions)-> @Class.register.call @, aClass, aOptions
+      @::unregister= (aName)-> @Class.unregister.call @, aName
       @::registered= (aName)-> Factory(aName)
       @::registeredClass= (aName)->
         aName = Factory.formatName aName
         result = @Class[aName]
         return result if result
-        aName  = Factory.getRealNameFromAlias aName
+        aName  = Factory.getRealNameFromAlias.call @, aName
         return @Class[aName] if aName
         return
       @::path = (aRootName)->

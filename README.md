@@ -185,3 +185,4 @@ These attributes could be visited via instance:
   * affects to path() and pathArray()
 * (1.4.5)all added properties of the factory class are non-enumerable now.
 + (1.4.5)add forEach()/forEachClass() to iterate the registered items.
++ (1.4.6)add Factory::get() instance method to registered items.

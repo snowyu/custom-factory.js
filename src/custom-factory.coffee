@@ -261,6 +261,7 @@ exports = module.exports = (Factory, aOptions)->
     toString: ->
       #@name.toLowerCase()
       @name
+    get: (aName, aOptions)->Factory.get(aName, aOptions)
 
 
     if not flatOnly

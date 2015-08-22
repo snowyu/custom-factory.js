@@ -532,6 +532,11 @@ describe "CustomFactory", ->
           myCodec.unregister("MyY").should.be.equal true
           myCodec = Codec('MyY')
           should.not.exist myCodec, "MyY"
+      describe ".get()", ->
+        it "should get the codec via instance method", ->
+          myCodec = Codec('MyNew')
+          result = myCodec.get('MyNewSub')
+          testCodecInstance result, MyNewSubCodec
     describe "the aOptions could be non-object", ->
       MyNCodec = createCtor "MyNCodec"
       initSize = Math.random()

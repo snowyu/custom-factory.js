@@ -181,5 +181,7 @@ These attributes could be visited via instance:
 + add baseNameOnly option to extract basename from class name when register it.
 * *broken* `Factory._objects`: mark deprecated. use the `Factory::_objects` instead
 * *broken* `Factory._aliases`: mark deprecated. use the `Factory::_aliases` instead
-+ It will be treated as customized path name if the registered name is beginning with path delimiter('/')
++ (1.4.4)It will be treated as customized path name if the registered name is beginning with path delimiter('/')
   * affects to path() and pathArray()
+* (1.4.5)all added properties of the factory class are non-enumerable now.
++ (1.4.5)add forEach()/forEachClass() to iterate the registered items.

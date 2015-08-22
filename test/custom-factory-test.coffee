@@ -76,7 +76,26 @@ describe "CustomFactory", ->
       myCodec = Codec('MyNew')
       testCodecInstance myCodec, MyNewCodec
       myCodec.should.have.property 'registeredClass'
+
     describe "Class(Static) Methods", ->
+      describe ".forEach", ->
+        it "should get all registered items.", ->
+          result = []
+          Codec.forEach (v, k)->result.push name:k, path: v.path()
+          result.should.be.deep.equal [
+            { name: 'MyNew', path: '/Codec/MyNew' }
+            { name: 'MyBuffer', path: '/Codec/MyBuffer' }
+            { name: 'MyNewSub', path: '/Codec/MyNew/MyNewSub' }
+            { name: 'MyNewSub1', path: '/Codec/MyNew/MyNewSub/MyNewSub1' }
+            { name: 'MyAlias', path: '/Codec/MyAlias' }
+            { name: 'MyN', path: '/Codec/MyN' }
+          ]
+          result = []
+          MyNewCodec.forEach (v, k)->result.push name:k, path: v.path()
+          result.should.be.deep.equal [
+            { name: 'MyNewSub', path: '/Codec/MyNew/MyNewSub' }
+          ]
+
       describe ".register", ->
         it "should not register a new Codec Class with duplicated name.", ->
           MyYCodec = createCtor "MyYCodec"

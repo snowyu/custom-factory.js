@@ -1,12 +1,13 @@
 # Copyright (c) 2014-2015 Riceball LEE, MIT License
 deprecate             = require('depd')('custom-factory')
-inherits              = require("inherits-ex/lib/inherits")
-isInheritedFrom       = require("inherits-ex/lib/isInheritedFrom")
-createObject          = require("inherits-ex/lib/createObject")
-extend                = require("inherits-ex/lib/_extend")
+inherits              = require('inherits-ex/lib/inherits')
+isInheritedFrom       = require('inherits-ex/lib/isInheritedFrom')
+createObject          = require('inherits-ex/lib/createObject')
+extend                = require('./extend')
 isFunction            = (v)-> 'function' is typeof v
 isString              = (v)-> 'string' is typeof v
 isObject              = (v)-> v? and 'object' is typeof v
+getObjectKeys         = Object.keys
 
 exports = module.exports = (Factory, aOptions)->
   if isObject aOptions
@@ -117,6 +118,20 @@ exports = module.exports = (Factory, aOptions)->
     get: (aName, aOptions)-> getInstance(aName, aOptions)
     extendClass: extendClass = (aParentClass) ->
       extend aParentClass,
+        forEachClass: (cb)->
+          if isFunction cb
+            for k in getObjectKeys aParentClass
+              v = aParentClass[k]
+              cb(v, k) if isInheritedFrom v, Factory
+          aParentClass
+        forEach: (aOptions, cb)->
+          if isFunction aOptions
+            cb = aOptions
+            aOptions = null
+          if isFunction cb
+            aParentClass.forEachClass (v,k)->
+              cb(Factory.get(k, aOptions), k)
+          aParentClass
         register: _register = (aClass, aOptions)->
           if isString aOptions
             vName = aOptions

@@ -133,7 +133,7 @@ var json2.should.not.be.equal(json)
       * it is the registered name if aOptions is string.
       * name: use the name instead of class name to register if any.
         or it will use the class name(remove the last factory name if exists) to register.
-      * createOnDemand *(boolean)*: create the factory item instance on demand 
+      * createOnDemand *(boolean)*: create the factory item instance on demand
         or create it immediately. defaults to true.
       * baseNameOnly *(number)*: extract basename from class name to register it if no specified name.
         defaults to 1. the baseNameOnly number can be used on hierarchical factory, means max level to
@@ -174,12 +174,12 @@ These instance methods added if it is not flatOnly factory:
 
 # Changes
 
-## v1.4.0
+## v1.4
 
 These attributes could be visited via instance:
 
-+ baseNameOnly option to extract basename from class name when register it.
-* `Factory._objects`: mark deprecated. use the `Factory::_objects` instead
-* `Factory._aliases`: mark deprecated. use the `Factory::_aliases` instead
-
-
++ add baseNameOnly option to extract basename from class name when register it.
+* *broken* `Factory._objects`: mark deprecated. use the `Factory::_objects` instead
+* *broken* `Factory._aliases`: mark deprecated. use the `Factory::_aliases` instead
++ It will be treated as customized path name if the registered name is beginning with path delimiter('/')
+  * affects to path() and pathArray()

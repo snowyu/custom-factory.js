@@ -30,6 +30,8 @@ exports = module.exports = (Factory, aOptions)->
     path: (aClass, aRootName)->
       '/' + @pathArray(aClass, aRootName).join '/'
     pathArray: (aClass, aRootName) ->
+      result = aClass::name
+      return result.split('/').filter(Boolean) if result[0] is '/'
       aRootName = Factory.ROOT_NAME unless aRootName?
       result = getClassNameList(aClass)
       result.push aRootName if aRootName

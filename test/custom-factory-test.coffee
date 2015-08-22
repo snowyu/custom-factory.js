@@ -417,6 +417,13 @@ describe "CustomFactory", ->
           Codec.ROOT_NAME = ''
           Codec.path(MyNewSub1Codec).should.be.deep.equal "/MyNew/MyNewSub/MyNewSub1"
           Codec.ROOT_NAME = 'haha'
+        it "should get path name correctly", ->
+          class MyPathCodec
+            register MyPathCodec, Codec, name:'/test/path'
+
+            constructor: -> return super
+
+          Codec.path(MyPathCodec).should.be.equal '/test/path'
 
     describe "Instance Methods", ->
       describe ".pathArray()", ->

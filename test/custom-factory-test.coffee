@@ -423,6 +423,7 @@ describe "CustomFactory", ->
 
             constructor: -> return super
 
+          expect(Codec::path()).be.equal '/haha'
           Codec.path(MyPathCodec).should.be.equal '/test/path'
 
     describe "Instance Methods", ->

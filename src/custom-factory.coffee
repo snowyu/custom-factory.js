@@ -12,7 +12,7 @@ exports = module.exports = (Factory, aOptions)->
   if isObject aOptions
     flatOnly = aOptions.flatOnly
     baseNameOnly = aOptions.baseNameOnly if aOptions.baseNameOnly?
-  baseNameOnly = 1 unless baseNameOnly?
+  baseNameOnly ?= 1
 
   # the Static(Class) Methods for Factory:
   extend Factory,
@@ -31,7 +31,7 @@ exports = module.exports = (Factory, aOptions)->
       '/' + @pathArray(aClass, aRootName).join '/'
     pathArray: (aClass, aRootName) ->
       result = aClass::name
-      return result.split('/').filter(Boolean) if result[0] is '/'
+      return result.split('/').filter(Boolean) if result and result[0] is '/'
       aRootName = Factory.ROOT_NAME unless aRootName?
       result = getClassNameList(aClass)
       result.push aRootName if aRootName

@@ -159,6 +159,8 @@ var json2.should.not.be.equal(json)
   * `path(aClass, aRootName = Factory.name)`: get the path string of this aClass factory item.
   * `pathArray(aClass, aRootName = Factory.name)`: get the path array of this aClass factory item.
   * `registeredClass(aName)`: get the registered class via name.
+  * `forEach(callback)`: iterate all the singleton instances to callback.
+    * `callback` *function(instance, name)*
 
 These instance methods added if it is not flatOnly factory:
 

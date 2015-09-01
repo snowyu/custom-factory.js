@@ -76,23 +76,6 @@ exports = module.exports = (Factory, aOptions)->
               len = result.length
             break unless --aBaseNameOnly
       Factory.formatName result
-    getRealNameFromAlias: (alias)->
-      aliases[alias]
-    alias: alias = (aClass, aAliases...)->
-      # aClass could be a class or class name.
-      aClass = Factory.getNameFrom(aClass)
-      aAliases = aAliases.map Factory.formatName
-      for alias in aAliases
-        aliases[alias] = aClass
-      return
-    aliases: alias
-    create: (aName, aOptions)->
-      result = Factory.registeredClass aName
-      if result is undefined
-        # Is it a alias?
-        aName = Factory.getRealNameFromAlias aName
-        result = Factory.registeredClass aName if aName
-      if result then createObject result, aOptions
     _get: getInstance = (aName, aOptions)->
       result = registeredObjects[aName]
       if result is undefined
@@ -191,7 +174,25 @@ exports = module.exports = (Factory, aOptions)->
           return result if result
           aName  = Factory.getRealNameFromAlias aName
           return aParentClass[aName] if aName
-          return
+      if not flatOnly or aParentClass is Factory
+        extend aParentClass,
+          getRealNameFromAlias: (alias)->
+            aliases[alias]
+          alias: alias = (aClass, aAliases...)->
+            # aClass could be a class or class name.
+            aClass = Factory.getNameFrom(aClass)
+            aAliases = aAliases.map Factory.formatName
+            for alias in aAliases
+              aliases[alias] = aClass
+            return
+          aliases: alias
+          create: (aName, aOptions)->
+            result = aParentClass.registeredClass aName
+            if result is undefined and aParentClass isnt Factory
+              # search the root factory
+              result = Factory.registeredClass aName
+            if result then createObject result, aOptions
+
   Factory.extendClass Factory
   Factory::_objects = registeredObjects
   Factory::_aliases = aliases

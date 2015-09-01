@@ -76,6 +76,15 @@ describe "CustomFactory", ->
       myCodec = Codec('MyNew')
       testCodecInstance myCodec, MyNewCodec
       myCodec.should.have.property 'registeredClass'
+    it "should have alias static method", ->
+      MyNewCodec.should.have.ownProperty 'alias'
+      MyNewCodec.should.have.ownProperty 'aliases'
+    it "should have register static method", ->
+      MyNewCodec.should.have.ownProperty 'register'
+    it "should have create static method", ->
+      MyNewCodec.should.have.ownProperty 'create'
+    it "should have getRealNameFromAlias static method", ->
+      MyNewCodec.should.have.ownProperty 'getRealNameFromAlias'
 
     describe "Class(Static) Methods", ->
       describe ".forEach", ->
@@ -262,6 +271,10 @@ describe "CustomFactory", ->
           myCodec = Codec.create('MyNew', 457)
           testCodecInstance(myCodec, MyNewCodec, 457)
           myCodec.should.not.be.equal MyNewCodec()
+        it "should create a new Codec object instance via Child MyNew.", ->
+          myCodec = MyNewCodec.create('MyNewSub', 457)
+          testCodecInstance(myCodec, MyNewSubCodec, 457)
+          myCodec.should.not.be.equal MyNewSubCodec()
       describe ".unregister", ->
         it "should unregister a Codec Class via name.", ->
           class MoCodec

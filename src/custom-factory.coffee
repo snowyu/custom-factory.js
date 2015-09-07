@@ -105,7 +105,8 @@ exports = module.exports = (Factory, aOptions)->
           if isFunction cb
             for k in getObjectKeys aParentClass
               v = aParentClass[k]
-              cb(v, k) if isInheritedFrom v, Factory
+              if isInheritedFrom v, Factory
+                break if cb(v, k) == 'brk'
           aParentClass
         forEach: (aOptions, cb)->
           if isFunction aOptions

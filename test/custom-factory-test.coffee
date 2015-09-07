@@ -104,6 +104,15 @@ describe "CustomFactory", ->
           result.should.be.deep.equal [
             { name: 'MyNewSub', path: '/Codec/MyNew/MyNewSub' }
           ]
+        it "should break forEach if callback return 'brk'.", ->
+          result = []
+          Codec.forEach (v, k)->
+            result.push name:k, path: v.path()
+            return 'brk' if result.length is 2
+          result.should.be.deep.equal [
+            { name: 'MyNew', path: '/Codec/MyNew' }
+            { name: 'MyBuffer', path: '/Codec/MyBuffer' }
+          ]
 
       describe ".register", ->
         it "should not register a new Codec Class with duplicated name.", ->

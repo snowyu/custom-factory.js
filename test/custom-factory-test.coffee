@@ -102,6 +102,9 @@ describe "CustomFactory", ->
           expect(result).to.be.equal 'my buffer'
           result = MyNewSub1Codec.displayName()
           expect(result).to.be.equal 'MyNewSub1'
+          MyNewCodec.displayName('')
+          result = MyNewCodec.displayName()
+          expect(result).to.be.equal 'new'
 
       describe ".forEach", ->
         it "should get all registered items.", ->
@@ -598,6 +601,26 @@ describe "CustomFactory", ->
           testCodecInstance myCodec, MyAliasCodec
           result = myCodec.aliases()
           expect(result).to.be.deep.equal ['alia1', 'other']
+      describe ".displayName()", ->
+        it "should get/set displayName.", ->
+          myCodec = Codec('new')
+          testCodecInstance myCodec, MyNewCodec
+          result = myCodec.displayName()
+          expect(result).to.be.equal 'new'
+          myCodec.displayName('new codec')
+          result = myCodec.displayName()
+          expect(result).to.be.equal 'new codec'
+          myCodec = Codec('MyBuffer')
+          result = myCodec.displayName()
+          expect(result).to.be.equal 'my buffer'
+          myCodec = Codec('MyNewSub1')
+          result = myCodec.displayName()
+          expect(result).to.be.equal 'MyNewSub1'
+          myCodec = Codec('new')
+          myCodec.displayName('')
+          result = myCodec.displayName()
+          expect(result).to.be.equal 'new'
+
     describe "the aOptions could be non-object", ->
       MyNCodec = createCtor "MyNCodec"
       initSize = Math.random()

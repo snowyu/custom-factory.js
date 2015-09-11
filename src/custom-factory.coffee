@@ -141,7 +141,7 @@ exports = module.exports = (Factory, aOptions)->
           if result
             extendClass(aClass) unless flatOnly
             aClass::name = vName
-            aClass::displayName = vDisplayName if vDisplayName
+            aClass::_displayName = vDisplayName if vDisplayName
             if result
               aParentClass[vName] = aClass
               Factory[vName] = aClass unless aParentClass is Factory
@@ -187,7 +187,16 @@ exports = module.exports = (Factory, aOptions)->
               aClass = aParentClass
             if isString aValue
               if isFunction aClass
-                aClass::displayName = aValue
+                if !aValue
+                  vClassName = Factory.getNameFrom(aClass)
+                  for k,v of aliases
+                    if v is vClassName
+                      aValue = k
+                      break
+                if aValue
+                  aClass::_displayName = aValue
+                else
+                  delete aClass::_displayName
               else
                 throw new TypeError 'set displayName: Invalid Class'
               return
@@ -195,7 +204,7 @@ exports = module.exports = (Factory, aOptions)->
             # if isString aClass
             #   aClass = Factory.registeredClass aClass
             if isFunction aClass
-              result = aClass::displayName if aClass::hasOwnProperty 'displayName'
+              result = aClass::_displayName if aClass::hasOwnProperty '_displayName'
               result ?= aClass::name
             else
               throw new TypeError 'get displayName: Invalid Class'
@@ -207,7 +216,8 @@ exports = module.exports = (Factory, aOptions)->
               aClass = Factory.getNameFrom(aClass)
               aAliases = aAliases.map Factory.formatName
               vClass = Factory.registeredClass(aClass) if !isFunction vClass
-              vClass::displayName = aAliases[0] if vClass and not vClass::hasOwnProperty 'displayName'
+              if vClass and not vClass::hasOwnProperty '_displayName'
+                vClass::_displayName = aAliases[0]
               for alias in aAliases
                 aliases[alias] = aClass
               return
@@ -295,7 +305,8 @@ exports = module.exports = (Factory, aOptions)->
       #@name.toLowerCase()
       @name
     get: (aName, aOptions)->Factory.get.call(@, aName, aOptions)
-    aliases: ->@Class.aliases.apply @, arguments
+    aliases: -> @Class.aliases.apply @, arguments
+    displayName: (aClass, aValue)-> @Class.displayName.call @, aClass, aValue
 
 
     if not flatOnly

@@ -196,17 +196,18 @@ exports = module.exports = (Factory, aOptions)->
             #   aClass = Factory.registeredClass aClass
             if isFunction aClass
               result = aClass::displayName
-              if !result
-                result = Factory.alias aClass
-                result = if result.length then result[0] else aClass::name
+              result ?= aClass::name
             else
               throw new TypeError 'get displayName: Invalid Class'
             result
           alias: alias = (aClass, aAliases...)->
             if aAliases.length
               # aClass could be a class or class name.
+              vClass = aClass
               aClass = Factory.getNameFrom(aClass)
               aAliases = aAliases.map Factory.formatName
+              vClass = Factory.registeredClass(aClass) if !isFunction vClass
+              vClass::displayName ?= aAliases[0] if vClass
               for alias in aAliases
                 aliases[alias] = aClass
               return

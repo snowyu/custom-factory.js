@@ -180,12 +180,19 @@ exports = module.exports = (Factory, aOptions)->
           getRealNameFromAlias: (alias)->
             aliases[alias]
           alias: alias = (aClass, aAliases...)->
-            # aClass could be a class or class name.
+            if aAliases.length
+              # aClass could be a class or class name.
+              aClass = Factory.getNameFrom(aClass)
+              aAliases = aAliases.map Factory.formatName
+              for alias in aAliases
+                aliases[alias] = aClass
+              return
+            aClass = aParentClass unless aClass
             aClass = Factory.getNameFrom(aClass)
-            aAliases = aAliases.map Factory.formatName
-            for alias in aAliases
-              aliases[alias] = aClass
-            return
+            result = []
+            for k,v of aliases
+              result.push k if v is aClass
+            result
           aliases: alias
           create: (aName, aOptions)->
             result = aParentClass.registeredClass aName
@@ -264,6 +271,7 @@ exports = module.exports = (Factory, aOptions)->
       #@name.toLowerCase()
       @name
     get: (aName, aOptions)->Factory.get.call(@, aName, aOptions)
+    aliases: ->@Class.aliases.apply @, arguments
 
 
     if not flatOnly

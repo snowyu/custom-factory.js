@@ -96,7 +96,6 @@ describe "CustomFactory", ->
             { name: 'MyBuffer', path: '/Codec/MyBuffer' }
             { name: 'MyNewSub', path: '/Codec/MyNew/MyNewSub' }
             { name: 'MyNewSub1', path: '/Codec/MyNew/MyNewSub/MyNewSub1' }
-            { name: 'MyAlias', path: '/Codec/MyAlias' }
             { name: 'MyN', path: '/Codec/MyN' }
           ]
           result = []
@@ -384,12 +383,21 @@ describe "CustomFactory", ->
 
 
       describe ".aliases", ->
-        class MyAliasCodec
-          register MyAliasCodec, Codec
-          aliases  MyAliasCodec, 'alia1', 'other'
+        MyAliasCodec = null
+        before ->
+          MyAliasCodec = class MyAliasCodec
+            register MyAliasCodec, Codec
+            aliases  MyAliasCodec, 'alia1', 'other'
 
-          constructor: -> return super
+            constructor: -> return super
+        after ->
+          Codec.unregister MyAliasCodec
 
+        it "should get aliases of a Codec", ->
+          result = MyAliasCodec.aliases()
+          expect(result).to.be.deep.equal ['alia1', 'other']
+          result = aliases MyAliasCodec
+          expect(result).to.be.deep.equal ['alia1', 'other']
         it "should get a global codec object instance via alias", ->
           myCodec = Codec('alia1')
           testCodecInstance myCodec, MyAliasCodec
@@ -559,6 +567,21 @@ describe "CustomFactory", ->
           myCodec = Codec('MyNew')
           result = myCodec.get('MyNewSub')
           testCodecInstance result, MyNewSubCodec
+      describe ".aliases()", ->
+        MyAliasCodec = null
+        before ->
+          MyAliasCodec = class MyAliasCodec
+            register MyAliasCodec, Codec
+            aliases  MyAliasCodec, 'alia1', 'other'
+            constructor: -> return super
+        after ->
+          Codec.unregister MyAliasCodec
+
+        it "should get aliases of a Codec", ->
+          myCodec = Codec('alia1')
+          testCodecInstance myCodec, MyAliasCodec
+          result = myCodec.aliases()
+          expect(result).to.be.deep.equal ['alia1', 'other']
     describe "the aOptions could be non-object", ->
       MyNCodec = createCtor "MyNCodec"
       initSize = Math.random()

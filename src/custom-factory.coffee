@@ -195,7 +195,7 @@ exports = module.exports = (Factory, aOptions)->
             # if isString aClass
             #   aClass = Factory.registeredClass aClass
             if isFunction aClass
-              result = aClass::displayName
+              result = aClass::displayName if aClass::hasOwnProperty 'displayName'
               result ?= aClass::name
             else
               throw new TypeError 'get displayName: Invalid Class'
@@ -207,7 +207,7 @@ exports = module.exports = (Factory, aOptions)->
               aClass = Factory.getNameFrom(aClass)
               aAliases = aAliases.map Factory.formatName
               vClass = Factory.registeredClass(aClass) if !isFunction vClass
-              vClass::displayName ?= aAliases[0] if vClass
+              vClass::displayName = aAliases[0] if vClass and not vClass::hasOwnProperty 'displayName'
               for alias in aAliases
                 aliases[alias] = aClass
               return

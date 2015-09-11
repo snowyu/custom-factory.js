@@ -100,6 +100,8 @@ describe "CustomFactory", ->
           expect(result).to.be.equal 'new codec'
           result = MyBufferCodec.displayName()
           expect(result).to.be.equal 'my buffer'
+          result = MyNewSub1Codec.displayName()
+          expect(result).to.be.equal 'MyNewSub1'
 
       describe ".forEach", ->
         it "should get all registered items.", ->

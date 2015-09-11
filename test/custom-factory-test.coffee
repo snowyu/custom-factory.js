@@ -51,7 +51,7 @@ describe "CustomFactory", ->
       aliases MyNewCodec, 'new'
       constructor: Codec
     class MyBufferCodec
-      register(MyBufferCodec).should.be.ok
+      register(MyBufferCodec, displayName:'my buffer').should.be.ok
       constructor: Codec
     class MyNewSubCodec
       register(MyNewSubCodec, MyNewCodec).should.be.ok
@@ -87,6 +87,20 @@ describe "CustomFactory", ->
       MyNewCodec.should.have.ownProperty 'getRealNameFromAlias'
 
     describe "Class(Static) Methods", ->
+      describe ".displayName", ->
+        it "should get/set displayName.", ->
+          result = MyNewCodec.displayName()
+          expect(result).to.be.equal 'new'
+          result = Codec.displayName(MyNewCodec)
+          expect(result).to.be.equal 'new'
+          MyNewCodec.displayName('new codec')
+          result = MyNewCodec.displayName()
+          expect(result).to.be.equal 'new codec'
+          result = Codec.displayName(MyNewCodec)
+          expect(result).to.be.equal 'new codec'
+          result = MyBufferCodec.displayName()
+          expect(result).to.be.equal 'my buffer'
+
       describe ".forEach", ->
         it "should get all registered items.", ->
           result = []

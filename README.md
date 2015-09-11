@@ -142,6 +142,7 @@ var json2.should.not.be.equal(json)
         * eg, the `Codec` is a Root Factory, we add the `TextCodec` to "Codec", add the `JsonTextCodec` to "TextCodec"
           * baseNameOnly = 1: `TextCodec` name is 'Text', `JsonTextCodec` name is 'JsonText'
           * baseNameOnly = 2: `TextCodec` name is 'Text', `JsonTextCodec` name is 'Json'
+      * displayName *(String)*: the display name.
     * aParentClass: it is not allowed if it's a flatOnly factory.
   * `unregister(aName|aClass)`: *(class method)* unregister the class or name from the Factory
   * `alias/aliases(aClass, aliases...)`: *(class method)* create aliases to the aClass.
@@ -176,6 +177,7 @@ These instance methods added if it is not flatOnly factory:
 
 # Changes
 
+
 ## v1.4
 
 These attributes could be visited via instance:
@@ -189,3 +191,5 @@ These attributes could be visited via instance:
 + (1.4.5)add forEach()/forEachClass() to iterate the registered items.
   * break if callback function return 'brk'
 + (1.4.6)add Factory::get() instance method to registered items.
+* (1.4.10) aliases() can get the aliases of a class itself.
++ (1.4.11) add the displayName() function to get or set display name.

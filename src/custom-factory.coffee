@@ -121,6 +121,7 @@ exports = module.exports = (Factory, aOptions)->
             vName = aOptions
           else if aOptions
             vName = aOptions.name
+            vDisplayName = aOptions.displayName
             vCreateOnDemand = aOptions.createOnDemand
           if not vName
             if aOptions && aOptions.baseNameOnly
@@ -140,6 +141,7 @@ exports = module.exports = (Factory, aOptions)->
           if result
             extendClass(aClass) unless flatOnly
             aClass::name = vName
+            aClass::displayName = vDisplayName if vDisplayName
             if result
               aParentClass[vName] = aClass
               Factory[vName] = aClass unless aParentClass is Factory
@@ -179,6 +181,27 @@ exports = module.exports = (Factory, aOptions)->
         extend aParentClass,
           getRealNameFromAlias: (alias)->
             aliases[alias]
+          displayName: (aClass, aValue)->
+            if isString aClass
+              aValue = aClass
+              aClass = aParentClass
+            if isString aValue
+              if isFunction aClass
+                aClass::displayName = aValue
+              else
+                throw new TypeError 'set displayName: Invalid Class'
+              return
+            aClass = aParentClass unless aClass
+            # if isString aClass
+            #   aClass = Factory.registeredClass aClass
+            if isFunction aClass
+              result = aClass::displayName
+              if !result
+                result = Factory.alias aClass
+                result = if result.length then result[0] else aClass::name
+            else
+              throw new TypeError 'get displayName: Invalid Class'
+            result
           alias: alias = (aClass, aAliases...)->
             if aAliases.length
               # aClass could be a class or class name.

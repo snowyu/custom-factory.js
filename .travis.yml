@@ -8,6 +8,7 @@ node_js:
   - "2.0"
   - "2.1"
   - "2.3"
+  - "4.0"
 before_install:
   - npm install -g grunt-cli
   - npm install coffee-script

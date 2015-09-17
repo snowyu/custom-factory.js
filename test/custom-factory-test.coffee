@@ -581,10 +581,10 @@ describe "CustomFactory", ->
           myCodec.unregister("MyY").should.be.equal true
           myCodec = Codec('MyY')
           should.not.exist myCodec, "MyY"
-      describe ".get()", ->
+      describe ".getFactoryItem()", ->
         it "should get the codec via instance method", ->
           myCodec = Codec('MyNew')
-          result = myCodec.get('MyNewSub')
+          result = myCodec.getFactoryItem('MyNewSub')
           testCodecInstance result, MyNewSubCodec
       describe ".aliases()", ->
         MyAliasCodec = null

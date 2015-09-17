@@ -304,7 +304,7 @@ exports = module.exports = (Factory, aOptions)->
     toString: ->
       #@name.toLowerCase()
       @name
-    get: (aName, aOptions)->Factory.get.call(@, aName, aOptions)
+    getFactoryItem: (aName, aOptions)->Factory.get.call(@, aName, aOptions)
     aliases: -> @Class.aliases.apply @, arguments
     displayName: (aClass, aValue)-> @Class.displayName.call @, aClass, aValue
 

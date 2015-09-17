@@ -177,10 +177,11 @@ These instance methods added if it is not flatOnly factory:
 
 # Changes
 
+## v.1.5
+
++ *broken* (1.5)rename Factory::get() instance method to Factory::getFactoryItem()
 
 ## v1.4
-
-These attributes could be visited via instance:
 
 + add baseNameOnly option to extract basename from class name when register it.
 * *broken* `Factory._objects`: mark deprecated. use the `Factory::_objects` instead
@@ -190,6 +191,6 @@ These attributes could be visited via instance:
 * (1.4.5)all added properties of the factory class are non-enumerable now.
 + (1.4.5)add forEach()/forEachClass() to iterate the registered items.
   * break if callback function return 'brk'
-+ (1.4.6)add Factory::get() instance method to registered items.
++ (1.4.6)add Factory::get() instance method to get registered items.
 * (1.4.10) aliases() can get the aliases of a class itself.
 + (1.4.11) add the displayName() function to get or set display name.

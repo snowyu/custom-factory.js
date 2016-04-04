@@ -19,11 +19,11 @@
     "test"
   ],
   "dependencies": {
-    "depd": "^1.0.1",
+    "depd": "^1.1.0",
     "inherits-ex": "^1.1.4"
   },
   "devDependencies": {
-    "chai": "~1.10.0",
+    "chai": "~3.5.0",
     "connect-livereload": "*",
     "grunt": "*",
     "grunt-contrib-clean": "*",
@@ -33,14 +33,14 @@
     "grunt-contrib-jshint": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
-    "grunt-mocha-test": "~0.12.4",
+    "grunt-mocha-test": "~0.12.7",
     "grunt-newer": "*",
     "grunt-release": "*",
     "grunt-saucelabs": "*",
-    "mocha": "~2.0.1",
+    "mocha": "~2.4.5",
     "pre-commit": "~1.0.1",
-    "sinon": "~1.12.2",
-    "sinon-chai": "~2.6.0",
+    "sinon": "~1.17.3",
+    "sinon-chai": "~2.8.0",
     "source-map-support": "*"
   },
   "repository": {

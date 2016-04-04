@@ -107,6 +107,11 @@ describe "CustomFactory", ->
           expect(result).to.be.equal 'new'
 
       describe ".forEach", ->
+        MyNewBufferCodec = createCtor "MyNewBuffer"
+        before ->
+          MyNewCodec.register MyNewBufferCodec
+        after ->
+          MyNewCodec.unregister MyNewBufferCodec
         it "should get all registered items.", ->
           result = []
           Codec.forEach (v, k)->result.push name:k, path: v.path()
@@ -115,12 +120,13 @@ describe "CustomFactory", ->
             { name: 'MyBuffer', path: '/Codec/MyBuffer' }
             { name: 'MyNewSub', path: '/Codec/MyNew/MyNewSub' }
             { name: 'MyNewSub1', path: '/Codec/MyNew/MyNewSub/MyNewSub1' }
-            { name: 'MyN', path: '/Codec/MyN' }
+            { name: 'MyNewBuffer', path: '/Codec/MyNew/MyNewBuffer' }
           ]
           result = []
           MyNewCodec.forEach (v, k)->result.push name:k, path: v.path()
           result.should.be.deep.equal [
             { name: 'MyNewSub', path: '/Codec/MyNew/MyNewSub' }
+            { name: 'MyNewBuffer', path: '/Codec/MyNew/MyNewBuffer' }
           ]
         it "should break forEach if callback return 'brk'.", ->
           result = []
@@ -624,7 +630,10 @@ describe "CustomFactory", ->
     describe "the aOptions could be non-object", ->
       MyNCodec = createCtor "MyNCodec"
       initSize = Math.random()
-      register MyNCodec, initSize
+      before ->
+        register MyNCodec, initSize
+      after ->
+        unregister MyNCodec
       it "should pass non-object aOptions via register", ->
         myCodec = Codec('MyNew')
         testCodecInstance myCodec, MyNewCodec

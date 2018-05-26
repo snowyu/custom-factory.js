@@ -155,7 +155,7 @@ exports = module.exports = (Factory, aOptions)->
         unregister: (aName)->
           if isString aName
             aName = Factory.formatName aName
-            vClass = Factory[aName]
+            vClass = Factory.hasOwnProperty(aName) and Factory[aName]
           else
             vClass = aName
             #aName = Factory.getNameFromClass(aName)
@@ -173,10 +173,10 @@ exports = module.exports = (Factory, aOptions)->
           !!result
         registeredClass: (aName)->
           aName   = Factory.formatName aName
-          result  = aParentClass[aName]
+          result  = aParentClass.hasOwnProperty(aName) and aParentClass[aName]
           return result if result
           aName  = Factory.getRealNameFromAlias aName
-          return aParentClass[aName] if aName
+          return aParentClass.hasOwnProperty(aName) and aParentClass[aName] if aName
       if not flatOnly or aParentClass is Factory
         extend aParentClass,
           getRealNameFromAlias: (alias)->
@@ -315,10 +315,10 @@ exports = module.exports = (Factory, aOptions)->
       @::registered= (aName)-> Factory(aName)
       @::registeredClass= (aName)->
         aName = Factory.formatName aName
-        result = @Class[aName]
+        result = @Class.hasOwnProperty(aName) and @Class[aName]
         return result if result
         aName  = Factory.getRealNameFromAlias.call @, aName
-        return @Class[aName] if aName
+        return @Class.hasOwnProperty(aName) and @Class[aName] if aName
         return
       @::path = (aRootName)->
         '/' + @pathArray(aRootName).join '/'

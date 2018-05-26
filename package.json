@@ -1,6 +1,6 @@
 {
   "name": "custom-factory",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "more easily add the factory ability to your class for node and javascript",
   "homepage": "https://github.com/snowyu/custom-factory.js",
   "main": "./index",
@@ -19,28 +19,25 @@
     "test"
   ],
   "dependencies": {
-    "depd": "^1.1.0",
-    "inherits-ex": "^1.1.4"
+    "depd": "^1.1.2",
+    "inherits-ex": "^1.2.3"
   },
   "devDependencies": {
-    "chai": "~3.5.0",
-    "connect-livereload": "*",
+    "chai": "~4.1.2",
+    "coffee-script": "^1.12.7",
     "grunt": "*",
     "grunt-contrib-clean": "*",
-    "grunt-contrib-coffee": "*",
-    "grunt-contrib-concat": "*",
+    "grunt-contrib-coffee": "^1.0.0",
     "grunt-contrib-copy": "*",
-    "grunt-contrib-jshint": "*",
-    "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
     "grunt-mocha-test": "~0.12.7",
     "grunt-newer": "*",
     "grunt-release": "*",
     "grunt-saucelabs": "*",
-    "mocha": "~2.4.5",
-    "pre-commit": "~1.0.1",
-    "sinon": "~1.17.3",
-    "sinon-chai": "~2.8.0",
+    "mocha": "~5.2.0",
+    "pre-commit": "~1.2.2",
+    "sinon": "^4.0.0",
+    "sinon-chai": "^3.0.0",
     "source-map-support": "*"
   },
   "repository": {

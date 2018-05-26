@@ -110,17 +110,17 @@ register(TestCodec, 'MyTest')
 
 
 ```js
-var TextCodec = Codec['Text']     # get the JsonCodec Class
-var JsonCodec = Codec['Json']     # note: name is case-sensitive!
-var JsonCodec = TextCodec['Json'] # or like this
+var TextCodec = Codec['Text']     // # get the JsonCodec Class
+var JsonCodec = Codec['Json']     // # note: name is case-sensitive!
+var JsonCodec = TextCodec['Json'] // # or like this
 
-var json = Codec('Json', bufSize: 12) # get the singleton instance from the Codec
-var json = JsonCodec()                # or like this
-var text = Codec('Text')              # or Codec('utf8')
+var json = Codec('Json', bufSize: 12) // # get the singleton instance from the Codec
+var json = JsonCodec()                // # or like this
+var text = Codec('Text')              // # or Codec('utf8')
 
-JsonCodec().should.be.equal Codec('Json')
+JsonCodec().should.be.equal(Codec('Json'))
 
-var json2 = new JsonCodec(bufSize: 123) # create a new JsonCodec instance, do not use singleton.
+var json2 = new JsonCodec(bufSize: 123) // # create a new JsonCodec instance, do not use singleton.
 var json2.should.not.be.equal(json)
 
 ```
@@ -136,8 +136,7 @@ var json2.should.not.be.equal(json)
       * createOnDemand *(boolean)*: create the factory item instance on demand
         or create it immediately. defaults to true.
       * baseNameOnly *(number)*: extract basename from class name to register it if no specified name.
-        defaults to 1. the baseNameOnly number can be used on hierarchical factory, means max level to
-        extract basename.
+        defaults to 1. the baseNameOnly number can be used on hierarchical factory, means max level to extract basename.
         0 means use the whole class name to register it, no extract.
         * eg, the `Codec` is a Root Factory, we add the `TextCodec` to "Codec", add the `JsonTextCodec` to "TextCodec"
           * baseNameOnly = 1: `TextCodec` name is 'Text', `JsonTextCodec` name is 'JsonText'

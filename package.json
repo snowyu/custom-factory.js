@@ -23,7 +23,7 @@
     "inherits-ex": "^1.2.3"
   },
   "devDependencies": {
-    "chai": "~4.1.2",
+    "chai": "~1.10.0",
     "coffee-script": "^1.12.7",
     "grunt": "*",
     "grunt-contrib-clean": "*",
@@ -34,10 +34,10 @@
     "grunt-newer": "*",
     "grunt-release": "*",
     "grunt-saucelabs": "*",
-    "mocha": "~5.2.0",
+    "mocha": "~2.1.0",
     "pre-commit": "~1.2.2",
-    "sinon": "^4.0.0",
-    "sinon-chai": "^3.0.0",
+    "sinon": "~1.12.2",
+    "sinon-chai": "~2.6.0",
     "source-map-support": "*"
   },
   "repository": {

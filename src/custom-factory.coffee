@@ -3,11 +3,14 @@ deprecate             = require('depd')('custom-factory')
 inherits              = require('inherits-ex/lib/inherits')
 isInheritedFrom       = require('inherits-ex/lib/isInheritedFrom')
 createObject          = require('inherits-ex/lib/createObject')
+getPrototypeOf        = require('inherits-ex/lib/getPrototypeOf')
 extend                = require('./extend')
 isFunction            = (v)-> 'function' is typeof v
 isString              = (v)-> 'string' is typeof v
 isObject              = (v)-> v? and 'object' is typeof v
 getObjectKeys         = Object.keys
+
+getParentClass = (ctor)-> ctor.super_ || getPrototypeOf(ctor)
 
 exports = module.exports = (Factory, aOptions)->
   if isObject aOptions
@@ -21,12 +24,12 @@ exports = module.exports = (Factory, aOptions)->
     getClassList: (ctor)->
       result = while ctor and ctor isnt Factory
         item = ctor
-        ctor = ctor.super_
+        ctor = getParentClass ctor
         item
     getClassNameList: getClassNameList = (ctor)->
       result = while ctor and ctor isnt Factory
         item = ctor::name
-        ctor = ctor.super_
+        ctor = getParentClass ctor
         item
     path: (aClass, aRootName)->
       '/' + @pathArray(aClass, aRootName).join '/'
@@ -65,7 +68,7 @@ exports = module.exports = (Factory, aOptions)->
         result = result.substring(0, len-vFactoryName.length)
       ###
       if aBaseNameOnly # then remove Parent Name if any
-        aParentClass = aClass.super_ unless aParentClass
+        aParentClass = getParentClass(aClass) unless aParentClass
         names = getClassNameList aParentClass
         names.push Factory.name
         if names.length
@@ -163,8 +166,8 @@ exports = module.exports = (Factory, aOptions)->
           if result
             aName = vClass::name
             #TODO:should I unregister all children?
-            while vClass and vClass.super_ and vClass.super_ isnt Factory
-              vClass = vClass.super_
+            while vClass and (vParentClass = getParentClass(vClass)) and vParentClass isnt Factory
+              vClass = getParentClass vClass
               delete vClass[aName]
             delete registeredObjects[aName]
             delete Factory[aName]

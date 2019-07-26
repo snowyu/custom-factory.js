@@ -1,16 +1,66 @@
 ### CustomFactory [![Build Status](https://img.shields.io/travis/snowyu/custom-factory.js/master.svg)](http://travis-ci.org/snowyu/custom-factory.js) [![npm](https://img.shields.io/npm/v/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![downloads](https://img.shields.io/npm/dm/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![license](https://img.shields.io/npm/l/custom-factory.svg)](https://npmjs.org/package/custom-factory)
 
 
-easily add the factory ability to your class which can singleton, name, register/unregister and aliases your object items.
+Easily add the factory ability to your class or object which can be singleton, name, register/unregister and aliases your class/object items.
 
 The factory could be hierarchical or flat. defaults to hierarchical.
 The flat factory means register only on the Root Factory.
 
+The General Factory for class or object(singleton instance).
+
+Hierarchical factory:
+
+1. all registered items are stored into the root factory and parent factory.
+1. the registered items are the enumrable properties of the root factory class and parent factory class.
+  * unless registered names or aliases exists.
+
 # Usage
 
+### Factory User
 
-### factory developer:
 
+The Simplest Class Factory.
+
+```js
+// only use the registered name to visit.
+const IntegerType = TypeFactory['Integer']
+// it can use an alias to visit.
+const IntType = TypeFactory('Int')
+
+// Int1Type is the same with IntType
+IntType.should.be.equal(IntegerType)
+
+var i = new IntType(1)
+```
+
+The hierarchical singleton object factory.
+
+```js
+var TextCodec = Codec['Text']     // # get the JsonCodec Class
+var JsonCodec = Codec['Json']     // # note: name is case-sensitive!
+var JsonCodec = TextCodec['Json'] // # or like this
+
+var json = Codec('Json', bufSize: 12) // # get the singleton instance from the Codec
+var json = JsonCodec()                // # or like this
+var text = Codec('Text')              // # or Codec('utf8')
+
+JsonCodec().should.be.equal(Codec('Json'))
+
+var json2 = new JsonCodec(bufSize: 123) // # create a new JsonCodec instance, do not use singleton.
+var json2.should.not.be.equal(json)
+
+```
+
+### Factory developer:
+
+Abstract Codec hierarchical factory.
+
+```
+Codec -> TextCodec -> JsonCodec
+                   -> XmlCodec
+```
+
+The realistic example
 
 for coffee-script:
 
@@ -106,26 +156,9 @@ register(TestCodec, 'MyTest')
 // register(TestCodec, {name: 'MyTest'})
 ```
 
-### user
-
-
-```js
-var TextCodec = Codec['Text']     // # get the JsonCodec Class
-var JsonCodec = Codec['Json']     // # note: name is case-sensitive!
-var JsonCodec = TextCodec['Json'] // # or like this
-
-var json = Codec('Json', bufSize: 12) // # get the singleton instance from the Codec
-var json = JsonCodec()                // # or like this
-var text = Codec('Text')              // # or Codec('utf8')
-
-JsonCodec().should.be.equal(Codec('Json'))
-
-var json2 = new JsonCodec(bufSize: 123) // # create a new JsonCodec instance, do not use singleton.
-var json2.should.not.be.equal(json)
-
-```
-
 # API
+
+The registered class is put into the property(the specified registered name) of the parent class.
 
 * CustomFactory(these class/static methods will be added to your factory class)
   * `register(aClass[, aParentClass=factory[, aOptions]])`:  *(class method)* register the aClass to your Factory Class.
@@ -171,7 +204,7 @@ These instance methods added if it is not flatOnly factory:
 * `path(aRootName = Factory.name)`: get the path string of this factory item
 * `pathArray(aRootName = Factory.name)`: get the path array of this factory item
 
-**Note**: the name is **case sensitive**.
+**Note**: the `name` is **case sensitive**.
 
 
 # Changes

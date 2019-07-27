@@ -18,7 +18,6 @@ Hierarchical factory:
 
 ### Factory User
 
-
 The Simplest Class Factory.
 
 ```js

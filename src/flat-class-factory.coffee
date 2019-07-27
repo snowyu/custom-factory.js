@@ -13,7 +13,7 @@ getObjectKeys         = Object.keys
 
 getParentClass = (ctor)-> ctor.super_ || getPrototypeOf(ctor)
 
-exports = module.exports = customAbility (Factory, aOptions) ->
+getFlatClassFactoryable = (Factory, aOptions) ->
   if isObject aOptions
     baseNameOnly = aOptions.baseNameOnly if aOptions.baseNameOnly?
     registeredName = aOptions.registeredName if aOptions.registeredName?
@@ -124,9 +124,12 @@ exports = module.exports = customAbility (Factory, aOptions) ->
       for k,v of @__aliases
         result.push k if v is aClass
       result
+    register: FlatClassFactoryable.register
+    unregister: FlatClassFactoryable.unregister
+    aliases: FlatClassFactoryable.aliases
 
   FlatClassFactoryable
-, ['@register', '@getFactoryItem', '@formatName']
 
+exports = module.exports = customAbility getFlatClassFactoryable, ['@register', '@getFactoryItem', '@formatName']
 
-
+exports.getFlatClassFactory = getFlatClassFactoryable

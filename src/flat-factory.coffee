@@ -7,6 +7,7 @@ getKeyByValue         = require('./utils/get-key-by-value')
 getObjectKeys         = Object.keys
 
 class FlatFactory
+  # define non-enumerable properties:
   defineProperty FlatFactory, '__aliases', {}
   defineProperty FlatFactory, 'getRealNameFromAlias', (alias)->
     @__aliases[alias]

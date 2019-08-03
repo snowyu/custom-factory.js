@@ -6,16 +6,17 @@ createObject          = require('inherits-ex/lib/createObject')
 getPrototypeOf        = require('inherits-ex/lib/getPrototypeOf')
 customAbility         = require('custom-ability')
 extend                = require('./extend')
-{getFlatClassFactory} = require('./flat-class-factory')
+{initFlatClassFactory}= require('./flat-class-factory')
+getParentClass        = require('./utils/get-parent-class')
+{getClassList, getClassNameList} = require('./utils/get-class-list')
 isFunction            = (v)-> 'function' is typeof v
 isString              = (v)-> 'string' is typeof v
 isObject              = (v)-> v? and 'object' is typeof v
 getObjectKeys         = Object.keys
 
-getParentClass = (ctor)-> ctor.super_ || getPrototypeOf(ctor)
 
 getClassFactoryable = (Factory, aOptions) ->
-  ClassFactory = getFlatClassFactory(Factory, aOptions)
+  ClassFactory = initFlatClassFactory(Factory, aOptions)
 
   if isObject aOptions
     baseNameOnly = aOptions.baseNameOnly if aOptions.baseNameOnly?
@@ -28,23 +29,13 @@ getClassFactoryable = (Factory, aOptions) ->
   # Factory.ROOT_NAME = Factory.name
 
   extend ClassFactory,
-    getClassList: (ctor)->
-      result = while ctor and ctor isnt Factory
-        item = ctor
-        ctor = getParentClass ctor
-        item
-    getClassNameList: getClassNameList = (ctor)->
-      result = while ctor and ctor isnt Factory
-        item = ctor::name
-        ctor = getParentClass ctor
-        item
     path: (aClass, aRootName)->
       '/' + @pathArray(aClass, aRootName).join '/'
     pathArray: (aClass, aRootName) ->
       result = aClass::name
       return result.split('/').filter(Boolean) if result and result[0] is '/'
       aRootName = Factory.ROOT_NAME unless aRootName?
-      result = getClassNameList(aClass)
+      result = getClassNameList(aClass, Factory)
       result.push aRootName if aRootName
       if Factory.formatName isnt formatName
         result = (Factory.formatName(i) for i in result)
@@ -54,7 +45,7 @@ getClassFactoryable = (Factory, aOptions) ->
         #Factory.getNameFromClass(aClass)
         aClass::name
       else
-        Factory.formatName aClass
+        this.formatName aClass
     getNameFromClass: (aClass, aParentClass, aBaseNameOnly)->
       result = aClass.name
       len = result.length
@@ -73,7 +64,7 @@ getClassFactoryable = (Factory, aOptions) ->
       ###
       if aBaseNameOnly # then remove Parent Name if any
         aParentClass = getParentClass(aClass) unless aParentClass
-        names = getClassNameList aParentClass
+        names = getClassNameList aParentClass, Factory
         names.push Factory.name
         if names.length
           for vFactoryName in names.reverse()
@@ -83,6 +74,29 @@ getClassFactoryable = (Factory, aOptions) ->
               len = result.length
             break unless --aBaseNameOnly
       Factory.formatName result
+    getFactoryItem: (aName, aOptions)->
+      result = registeredOnRoot[aName]
+      if result is undefined
+        # Is it an alias?
+        aName = Factory.getRealNameFromAlias aName
+        result = registeredOnRoot[aName] if aName
+      result = undefined unless result and isInheritedFrom result, Factory
+      result
+    register: (aClass, aParentClass, aOptions)->
+        if aParentClass
+          if not isFunction aParentClass or not isInheritedFrom aParentClass, Factory
+            aOptions = aParentClass
+            aParentClass = aOptions.parent
+            throw new TypeError('the parent hasn\'t registered yet.') if aParentClass && not isInheritedFrom aParentClass, Factory
+            aParentClass = Factory if not aParentClass
+        # else
+        #   aParentClass = Factory
+        # if aParentClass is Factory
+        #   Factory._register aClass, aOptions
+        # else
+        #   aParentClass.register aClass, aOptions
+        aParentClass = Factory unless aParentClass
+        result = inherits aClass, aParentClass
 
   ClassFactory
 

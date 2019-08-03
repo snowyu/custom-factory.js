@@ -13,18 +13,17 @@ getObjectKeys         = Object.keys
 
 getParentClass = (ctor)-> ctor.super_ || getPrototypeOf(ctor)
 
-getFlatClassFactoryable = (Factory, aOptions) ->
+# return FlatClassFactory class
+getFlatClassFactory = (Factory, aOptions) ->
   if isObject aOptions
-    baseNameOnly = aOptions.baseNameOnly if aOptions.baseNameOnly?
     registeredName = aOptions.registeredName if aOptions.registeredName?
 
-  baseNameOnly ?= 1
   Factory[registeredName] = {} if registeredName
   # hold all registered classes here
   registeredOnRoot = (registeredName && Factory[registeredName]) || Factory
   Factory.ROOT_NAME = Factory.name
 
-  class FlatClassFactoryable
+  class FlatClassFactory
     @__aliases: {}
     @getRealNameFromAlias: (alias)->
       @__aliases[alias]
@@ -42,7 +41,7 @@ getFlatClassFactoryable = (Factory, aOptions) ->
       else if aOptions
         vName = aOptions.name
         vDisplayName = aOptions.displayName
-        vCreateOnDemand = aOptions.createOnDemand
+        # vCreateOnDemand = aOptions.createOnDemand
       if not vName
         vName = aClass.name
         if vName.substring(len-Factory.name.length) is Factory.name
@@ -124,12 +123,20 @@ getFlatClassFactoryable = (Factory, aOptions) ->
       for k,v of @__aliases
         result.push k if v is aClass
       result
-    register: FlatClassFactoryable.register
-    unregister: FlatClassFactoryable.unregister
-    aliases: FlatClassFactoryable.aliases
+    register: FlatClassFactory.register
+    unregister: FlatClassFactory.unregister
+    aliases: FlatClassFactory.aliases
 
-  FlatClassFactoryable
+  if aOptions and isFunction aOptions.fnGet
+    vNewGetFactoryItem = aOptions.fnGet
+    getFactoryItem = ((inherited)->
+      that =
+        super: inherited
+        self: this
+      return -> vNewGetFactoryItem.apply(that, arguments)
+    )(FlatClassFactory.getFactoryItem)
+    FlatClassFactory.getFactoryItem = getFactoryItem
 
-exports = module.exports = customAbility getFlatClassFactoryable, ['@register', '@getFactoryItem', '@formatName']
+  FlatClassFactory
 
-exports.getFlatClassFactory = getFlatClassFactoryable
+module.exports.getFlatClassFactory = getFlatClassFactory

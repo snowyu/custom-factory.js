@@ -71,6 +71,26 @@ describe('BaseFactory', () => {
 
     });
 
+    describe('.displayName', () => {
+      test('should getDisplayName', () => {
+        class MyDisplayCodec {}
+        expect(register(MyDisplayCodec, {displayName: 'my display'})).toBeTruthy()
+        expect(Codec.getDisplayName('MyDisplay')).toStrictEqual('my display')
+        expect(MyDisplayCodec.getDisplayName()).toStrictEqual('my display')
+      });
+      test('should setDisplayName', () => {
+        class MyDisplayCodec {}
+        expect(register(MyDisplayCodec, {displayName: 'my display'})).toBeTruthy()
+        Codec.setDisplayName('MyDisplay', 'ChangeIt')
+        expect(Codec.getDisplayName('MyDisplay')).toStrictEqual('ChangeIt')
+        expect(MyDisplayCodec.getDisplayName()).toStrictEqual('ChangeIt')
+        MyDisplayCodec.setDisplayName('ChangeIt2')
+        expect(Codec.getDisplayName('MyDisplay')).toStrictEqual('ChangeIt2')
+        expect(MyDisplayCodec.getDisplayName()).toStrictEqual('ChangeIt2')
+      });
+
+    })
+
     describe('.alias', () => {
       test('should throw error if the alias already exists', () => {
         expect(MyBufferCodec.setAliases.bind(MyBufferCodec, null, 'new')).toThrow('already exists')

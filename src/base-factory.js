@@ -312,15 +312,23 @@ export class BaseFactory {
 
   static getDisplayName(aClass) {
     const Factory = this.Factory
-    if (!aClass) aClass = this
+    if (!aClass) {
+      aClass = this
+    } else if (isString(aClass)) {
+      aClass = Factory.get(aClass)
+    }
     return aClass.prototype._displayName || Factory.getNameFrom(aClass)
   }
 
   static setDisplayName(aClass, aDisplayName) {
     const Factory = this.Factory
     if (isString(aClass)) {
-      aDisplayName = aClass
-      aClass = this
+      if (isString(aDisplayName)) {
+        aClass = Factory.get(aClass)
+      } else {
+        aDisplayName = aClass
+        aClass = this
+      }
     }
     if (isString(aDisplayName)) {
       aClass.prototype._displayName = aDisplayName

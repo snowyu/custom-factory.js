@@ -143,7 +143,7 @@ export class CustomFactory extends BaseFactory {
 
     if (!aParentClass) aParentClass = this
     const result = this._registerWithParent(aClass, aParentClass, aOptions)
-    if (result && !aClass._children) aClass._children = {}
+    if (result && !aClass.hasOwnProperty('_children')) aClass._children = {}
     return result
   }
 }

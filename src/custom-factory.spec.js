@@ -140,6 +140,12 @@ describe('CustomFactory', () => {
   })
 
   describe('.get', () => {
+    test('should get registered item', () => {
+      expect(Codec.get('MyBuffer')).toStrictEqual(MyBufferCodec)
+      expect(MyNewCodec.get('MyBuffer')).toBeUndefined()
+      expect(MyNewCodec.get('SubMyNew')).toStrictEqual(SubMyNewCodec)
+    })
+
     test('should get registered item via alias', () => {
       expect(Codec.get('new')).toStrictEqual(MyNewCodec)
       expect(Codec.get('new2')).toStrictEqual(MyNewCodec)
@@ -199,13 +205,21 @@ describe('CustomFactory', () => {
     test('should register a new Codec Class with specified name via options object', () => {
       class MyCodec {}
       expect(register(MyCodec, { name: 'my1' })).toBeTruthy()
-      expect(Codec.get('my1')).toStrictEqual(MyCodec)
+      try {
+        expect(Codec.get('my1')).toStrictEqual(MyCodec)
+      } finally {
+        expect(unregister(MyCodec)).toBeTruthy()
+      }
     })
 
     test('should register a new Codec Class with specified name', () => {
       class MyCodec {}
       expect(register(MyCodec, 'my1')).toBeTruthy()
-      expect(Codec.get('my1')).toStrictEqual(MyCodec)
+      try {
+        expect(Codec.get('my1')).toStrictEqual(MyCodec)
+      } finally {
+        expect(unregister(MyCodec)).toBeTruthy()
+      }
     })
 
     test('should register a new Codec Class with specified display name', () => {
@@ -214,17 +228,25 @@ describe('CustomFactory', () => {
       expect(
         register(MyCodec, { name: 'my1', displayName: vDisplayName })
       ).toBeTruthy()
-      expect(Codec.get('my1')).toStrictEqual(MyCodec)
-      expect(Codec.get('my1').prototype._displayName).toStrictEqual(vDisplayName)
-    })
+      try {
+        expect(Codec.get('my1')).toStrictEqual(MyCodec)
+        expect(Codec.get('my1').prototype._displayName).toStrictEqual(vDisplayName)
+      } finally {
+        expect(unregister(MyCodec)).toBeTruthy()
+      }
+  })
 
     test('should throw error if register Class duplicity', () => {
       class MyCodec {}
       expect(register(MyCodec, { name: 'my1' })).toBeTruthy()
-      expect(register.bind(Codec, MyCodec, { name: 'my1' })).toThrow(
-        'has already been registered'
-      )
-    })
+      try {
+        expect(register.bind(Codec, MyCodec, { name: 'my1' })).toThrow(
+          'has already been registered'
+        )
+      } finally {
+        expect(unregister(MyCodec)).toBeTruthy()
+      }
+  })
 
     test('should throw error if parent Class is not factory', () => {
       class MyCodec {}

@@ -8,11 +8,12 @@ node_js:
   - "8"
   - "9"
   - "10"
-before_install:
-  - npm install -g grunt-cli
-after_install:
-  - npm install coffee-script
-before_script: grunt build
+  - "11"
+  - "12"
+  - "13"
+  - "14"
+install:
+  - npm install
 notifications:
   email:
     - snowyu.lee@gmail.com

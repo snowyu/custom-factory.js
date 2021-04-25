@@ -37,7 +37,10 @@ module.exports = {
         description: 'deletes the `lib` directory and transpiles all relevant `src` to the `lib`',
         script: series(cleanDist, transpile, 'nps build.ts'),
       },
-      ts: 'tsc lib/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types',
+      ts: {
+        description: 'build the typescript declaration files',
+        script: 'tsc',
+      },
       watch: 'nps "build --watch"'
     },
     test: {

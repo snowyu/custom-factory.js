@@ -390,6 +390,7 @@ export class BaseFactory {
       for (let j = 0; j < ref.length; j++) {
         const k = ref[j]
         const v = this._children[k]
+        /* istanbul ignore else */
         if (v !== Factory && isInheritedFrom(v, Factory)) {
           if (cb(v, k) === 'brk') {
             break

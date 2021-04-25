@@ -8,9 +8,9 @@
 const inherits = require('inherits-ex/lib/inherits')
 const isInheritedFrom = require('inherits-ex/lib/isInheritedFrom')
 const getPrototypeOf = require('inherits-ex/lib/getPrototypeOf')
-const createObject   = require('inherits-ex/lib/createObject')
+const createObject = require('inherits-ex/lib/createObject')
 
-const slice = [].slice
+// const slice = [].slice
 const getObjectKeys = Object.keys
 
 /**
@@ -31,7 +31,7 @@ export function isString(v) {
 }
 
 export function isObject(v) {
-  return (v != null) && 'object' === typeof v
+  return v != null && 'object' === typeof v
 }
 
 export function isPureObject(v) {
@@ -43,7 +43,7 @@ function _getClassNameEnsureDisplayName(Factory, aClass, aDisplayName) {
   if (isString(aClass)) {
     vClass = Factory.registeredClass(aClass)
   } else {
-    vClass = aClass;
+    vClass = aClass
     aClass = Factory.getNameFrom(aClass)
   }
   if (vClass && !vClass.prototype.hasOwnProperty('_displayName')) {
@@ -88,7 +88,7 @@ export class BaseFactory {
    */
   static get Factory() {
     if (!this._Factory) {
-      let vFactory = this._Factory = this.findRootFactory()
+      let vFactory = (this._Factory = this.findRootFactory())
       /* istanbul ignore else */
       if (!vFactory._children) vFactory._children = {}
       /* istanbul ignore else */
@@ -123,7 +123,9 @@ export class BaseFactory {
 
   static getNameFrom(aClass) {
     const Factory = this.Factory
-    const result = isFunction(aClass) ? aClass.prototype.name : Factory.formatName(aClass)
+    const result = isFunction(aClass)
+      ? aClass.prototype.name
+      : Factory.formatName(aClass)
     return result
   }
 
@@ -139,11 +141,14 @@ export class BaseFactory {
 
     if (aBaseNameOnly) {
       const vFactoryName = Factory.prototype.name || Factory.name
-      if (vFactoryName && vFactoryName.length &&
-        result.substring(len-vFactoryName.length) === vFactoryName)
-        result = result.substring(0, len-vFactoryName.length)
+      if (
+        vFactoryName &&
+        vFactoryName.length &&
+        result.substring(len - vFactoryName.length) === vFactoryName
+      )
+        result = result.substring(0, len - vFactoryName.length)
     }
-    return Factory.formatName(result);
+    return Factory.formatName(result)
   }
 
   /**
@@ -151,7 +156,7 @@ export class BaseFactory {
    * @param {typeof BaseFactory} aClass the class to register the Factory
    * @param {IBaseFactoryOptions|any} aOptions the options for the class and the factory
    */
-  static register(aClass, aOptions) {
+  static register() {
     return this._register.apply(this, arguments)
   }
 
@@ -163,7 +168,7 @@ export class BaseFactory {
    */
   static _register(aClass, aOptions) {
     const Factory = this.Factory
-    const vChildren =this._children
+    const vChildren = this._children
     let result, vDisplayName, vName, baseNameOnly
     if (isString(aOptions)) {
       vName = aOptions
@@ -174,7 +179,9 @@ export class BaseFactory {
     }
     if (baseNameOnly == null) baseNameOnly = Factory._baseNameOnly
 
-    vName = vName ? Factory.formatName(vName) : Factory.formatNameFromClass(aClass, baseNameOnly)
+    vName = vName
+      ? Factory.formatName(vName)
+      : Factory.formatNameFromClass(aClass, baseNameOnly)
 
     const isInherited = isInheritedFrom(aClass, Factory)
     result = vChildren.hasOwnProperty(vName) && isInherited
@@ -190,7 +197,9 @@ export class BaseFactory {
         aClass.prototype._displayName = vDisplayName
       }
       Factory._children[vName] = aClass
-      if (Factory !== this) {vChildren[vName] = aClass}
+      if (Factory !== this) {
+        vChildren[vName] = aClass
+      }
     }
     return result
   }
@@ -215,7 +224,8 @@ export class BaseFactory {
       // }
       if (!result) {
         aName = Factory.getNameFrom(this)
-        result = Factory._children.hasOwnProperty(aName) && Factory._children[aName]
+        result =
+          Factory._children.hasOwnProperty(aName) && Factory._children[aName]
       }
     }
     return result
@@ -223,7 +233,6 @@ export class BaseFactory {
 
   static unregister(aName) {
     let Factory = this.Factory
-    const aliases = Factory._aliases
     const vChildren = this._children
     let result, vClass
     if (isString(aName)) {
@@ -255,7 +264,7 @@ export class BaseFactory {
    */
   static cleanAliases(aName) {
     const Factory = this.Factory
-    const _aliases= Factory._aliases
+    const _aliases = Factory._aliases
     if (!aName) aName = this
     if (isFunction(aName)) aName = aName.prototype.name
     for (let k in _aliases) {
@@ -272,8 +281,8 @@ export class BaseFactory {
    */
   static removeAlias(...aliases) {
     const Factory = this.Factory
-    const _aliases= Factory._aliases
-    aliases.forEach(k => delete _aliases[k])
+    const _aliases = Factory._aliases
+    aliases.forEach((k) => delete _aliases[k])
   }
 
   /**
@@ -283,15 +292,19 @@ export class BaseFactory {
    */
   static setAliases(aClass, ...aAliases) {
     const Factory = this.Factory
-    const _aliases= Factory._aliases
-    let result, vClass;
+    const _aliases = Factory._aliases
     if (aAliases.length) {
-      aClass = _getClassNameEnsureDisplayName(Factory, aClass || this, aAliases[0])
-      aAliases.forEach(alias => {
+      aClass = _getClassNameEnsureDisplayName(
+        Factory,
+        aClass || this,
+        aAliases[0]
+      )
+      aAliases.forEach((alias) => {
         alias = Factory.formatName(alias)
-        if (_aliases[alias]) throw new TypeError('The alias:' + alias + ' already exists')
-        _aliases[alias] = aClass;
-      });
+        if (_aliases[alias])
+          throw new TypeError('The alias:' + alias + ' already exists')
+        _aliases[alias] = aClass
+      })
     }
   }
 
@@ -302,12 +315,13 @@ export class BaseFactory {
    */
   static setAlias(aClass, alias) {
     const Factory = this.Factory
-    const _aliases= Factory._aliases
+    const _aliases = Factory._aliases
 
     aClass = _getClassNameEnsureDisplayName(Factory, aClass || this, alias)
     alias = Factory.formatName(alias)
-    if (_aliases[alias]) throw new TypeError('The alias:' + alias + ' already exists')
-    _aliases[alias] = aClass;
+    if (_aliases[alias])
+      throw new TypeError('The alias:' + alias + ' already exists')
+    _aliases[alias] = aClass
   }
 
   /**
@@ -317,14 +331,14 @@ export class BaseFactory {
    */
   static getAliases(aClass) {
     const Factory = this.Factory
-    const _aliases= Factory._aliases
+    const _aliases = Factory._aliases
     if (!aClass) {
       aClass = Factory.getNameFrom(this)
     } else if (!isString(aClass)) {
       aClass = Factory.getNameFrom(aClass)
     }
     let result = Object.keys(_aliases)
-    if (aClass) result = result.filter(key => _aliases[key] === aClass)
+    if (aClass) result = result.filter((key) => _aliases[key] === aClass)
     return result
   }
 
@@ -334,12 +348,9 @@ export class BaseFactory {
 
   static set aliases(value) {
     this.cleanAliases()
-    if (isString(value))
-      this.setAlias(null, value)
-    else
-      this.setAliases(null, ...value)
+    if (isString(value)) this.setAlias(null, value)
+    else this.setAliases(null, ...value)
   }
-
 
   static getDisplayName(aClass) {
     const Factory = this.Factory
@@ -431,7 +442,7 @@ export class BaseFactory {
       if (aOptions != null) {
         aName.initialize(aOptions)
       }
-      return aName;
+      return aName
     }
 
     if (aName) {
@@ -445,9 +456,9 @@ export class BaseFactory {
     }
 
     const Factory = aName ? this.Factory : this
-    let result = Factory.registeredClass(aName);
+    let result = Factory.registeredClass(aName)
     if (result) {
-      return createObject(result, aOptions);
+      return createObject(result, aOptions)
     }
   }
 
@@ -460,10 +471,9 @@ export class BaseFactory {
    * @abstract
    * @param {*} aOptions the user defined options.
    */
-  initialize(aOptions) {}
+  initialize() {}
 
   toString() {
     return this.name
   }
-
 }

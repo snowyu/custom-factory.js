@@ -15,10 +15,10 @@ const cleanDist = rimraf('lib')
 //     .join(' || ')
 // const retry3 = retry(3)
 
-const quote = cmd =>
-  cmd.replace(new RegExp('\'', 'g'), '\\\'').replace(new RegExp('"', 'g'), '\\"')
+const quote = (cmd) =>
+  cmd.replace(new RegExp("'", 'g'), "\\'").replace(new RegExp('"', 'g'), '\\"')
 
-const optional = cmd =>
+const optional = (cmd) =>
   `(${cmd}) || echo "Optional command '${quote(cmd)}' failed".`
 
 // const timeout = n => cmd => `timeout -t ${n}m -- ${cmd}`
@@ -29,41 +29,42 @@ module.exports = {
     clean: {
       default: {
         description: 'clear the libs folder',
-        script: cleanDist
+        script: cleanDist,
       },
     },
     build: {
       default: {
-        description: 'deletes the `lib` directory and transpiles all relevant `src` to the `lib`',
+        description:
+          'deletes the `lib` directory and transpiles all relevant `src` to the `lib`',
         script: series(cleanDist, transpile, 'nps build.ts'),
       },
       ts: {
         description: 'build the typescript declaration files',
         script: 'tsc',
       },
-      watch: 'nps "build --watch"'
+      watch: 'nps "build --watch"',
     },
     test: {
       default: 'jest --runInBand --config .jest.config.js',
       cov: 'nps "test --coverage"',
       watch: 'nps "test --watchAll"',
-      coveralls: 'nps test.cov && cat ./.coverage/lcov.info | coveralls'
+      coveralls: 'nps test.cov && cat ./.coverage/lcov.info | coveralls',
     },
     lint: {
       default: 'npx eslint --config .eslintrc.js .',
-      fix: optional('nps "lint --fix"')
+      fix: optional('nps "lint --fix"'),
     },
     doc: {
       description: 'generate the API Document',
       default: series('nps build', 'nps doc.md'),
       md: {
         description: 'generate the API Markdown Document',
-        script: series('npx typedoc')
+        script: series('npx typedoc'),
       },
       html: {
         description: 'generate the API HTML Document',
-        script: series('npx typedoc --plugin none')
-      }
+        script: series('npx typedoc --plugin none'),
+      },
     },
-  }
-};
+  },
+}

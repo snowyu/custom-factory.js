@@ -13,11 +13,11 @@ module.exports = {
       branches: 20,
       functions: 20,
       lines: 20,
-      statements: -10
-    }
+      statements: -10,
+    },
   },
   transform: {
-    '^.+\\.js$': 'babel-jest'
+    '^.+\\.js$': 'babel-jest',
   },
   testMatch: [
     // '<rootDir>/test/jest/__tests__/**/*.spec.js',
@@ -30,4 +30,4 @@ module.exports = {
   ],
   moduleFileExtensions: ['js'],
   setupFilesAfterEnv: ['jest-extended'],
-};
+}

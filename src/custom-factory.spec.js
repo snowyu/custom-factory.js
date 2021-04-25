@@ -66,7 +66,7 @@ describe('CustomFactory', () => {
           expect(A.pathArray()).toEqual(['codec', 'a'])
           expect(A.pathArray()).toEqual(['codec', 'a'])
           expect(A.pathArray('Root')).toEqual(['root', 'a'])
-        } finally{
+        } finally {
           expect(unregister(A)).toBeTruthy()
         }
       })
@@ -92,7 +92,10 @@ describe('CustomFactory', () => {
       })
 
       it('should getClassList', () => {
-        expect(Codec.getClassList(SubMyNewCodec)).toEqual([SubMyNewCodec, MyNewCodec])
+        expect(Codec.getClassList(SubMyNewCodec)).toEqual([
+          SubMyNewCodec,
+          MyNewCodec,
+        ])
       })
     })
 
@@ -230,11 +233,13 @@ describe('CustomFactory', () => {
       ).toBeTruthy()
       try {
         expect(Codec.get('my1')).toStrictEqual(MyCodec)
-        expect(Codec.get('my1').prototype._displayName).toStrictEqual(vDisplayName)
+        expect(Codec.get('my1').prototype._displayName).toStrictEqual(
+          vDisplayName
+        )
       } finally {
         expect(unregister(MyCodec)).toBeTruthy()
       }
-  })
+    })
 
     test('should throw error if register Class duplicity', () => {
       class MyCodec {}
@@ -246,16 +251,15 @@ describe('CustomFactory', () => {
       } finally {
         expect(unregister(MyCodec)).toBeTruthy()
       }
-  })
+    })
 
     test('should throw error if parent Class is not factory', () => {
       class MyCodec {}
       class MyIllegalParentCodec {}
-      expect(register.bind(Codec, MyCodec, MyIllegalParentCodec, { name: 'my1' })).toThrow(
-        'he parent class is illegal'
-      )
+      expect(
+        register.bind(Codec, MyCodec, MyIllegalParentCodec, { name: 'my1' })
+      ).toThrow('he parent class is illegal')
     })
-
   })
 
   describe('.unregister', () => {

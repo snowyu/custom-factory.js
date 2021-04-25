@@ -1,33 +1,22 @@
 module.exports = {
-  'parser': '@babel/eslint-parser',
-  'plugins': [
-    'prettier',
-    'flowtype'
-  ],
-  'extends': [
-    'plugin:prettier/recommended',
-    'plugin:flowtype/recommended'
-  ],
-  'rules': {
+  parser: '@babel/eslint-parser',
+  plugins: ['prettier'],
+  extends: ['plugin:prettier/recommended'],
+  rules: {
     'no-unused-vars': 'error',
-    'prettier/prettier': 'error'
+    'prettier/prettier': 'error',
   },
-  'settings': {
-    'flowtype': {
-      'onlyFilesWithFlowAnnotation': true
-    }
-  },
-  overrides: [{
-    files: ['*.ts', '*.tsx'],
-    parser: '@typescript-eslint/parser',
-    plugins: [
-      'prettier',
-      '@typescript-eslint',
-    ],
-    extends: [
-      'plugin:prettier/recommended',
-      'eslint:recommended',
-      'plugin:@typescript-eslint/recommended',
-    ],
-  }]
-};
+  settings: {},
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      parser: '@typescript-eslint/parser',
+      plugins: ['prettier', '@typescript-eslint'],
+      extends: [
+        'plugin:prettier/recommended',
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+      ],
+    },
+  ],
+}

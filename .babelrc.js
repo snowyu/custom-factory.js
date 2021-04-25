@@ -1,39 +1,47 @@
-const { engines: { node } } = require('./package.json')
+const {
+  engines: { node },
+} = require('./package.json')
 
 const presets = [
-  ['@babel/env', {
-    // Require the highest node version you can.
-    // You should use at least a node version which
-    // supports async/await because Babel has been
-    // configured without polyfills/generators for
-    // async/await.
-    targets: {
-      node: node.substring(2) // Strip `>=`
+  [
+    '@babel/env',
+    {
+      // Require the highest node version you can.
+      // You should use at least a node version which
+      // supports async/await because Babel has been
+      // configured without polyfills/generators for
+      // async/await.
+      targets: {
+        node: node.substring(2), // Strip `>=`
+      },
+      // "modules": false, // disable strict mode
     },
-    // "modules": false, // disable strict mode
-  }],
+  ],
   // If you are not using flow remove the following line.
   '@babel/preset-flow',
-];
+]
 
 const plugins = [
   '@babel/plugin-proposal-class-properties',
-  ['@babel/plugin-transform-modules-commonjs', {strictMode: false}],
+  ['@babel/plugin-transform-modules-commonjs', { strictMode: false }],
   // ['@babel/plugin-transform-classes', {}],
   // ['babel-plugin-transform-class', {}],
-  ['module-resolver', {
-    'root': ['./src'],
-    'alias': {
-      '@lib': './src/lib'
+  [
+    'module-resolver',
+    {
+      root: ['./src'],
+      alias: {
+        '@lib': './src/lib',
+      },
     },
-  }],
+  ],
   // ['@babel/plugin-transform-runtime', {
   //   "absoluteRuntime": false,
   //   'corejs': false,
   //   'helpers': false,
   //   "regenerator": true,
   // }],
-];
+]
 
 module.exports = {
   presets,
@@ -49,4 +57,4 @@ module.exports = {
   // reason it is better to have the lines match up than to have
   // nicer source code.
   retainLines: true,
-};
+}

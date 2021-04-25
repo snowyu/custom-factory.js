@@ -1,14 +1,14 @@
+/**
+ * @typedef {Object} ICustomFactoryOptions
+ * @extends require('./base-factory').IBaseFactoryOptions
+ * @property {number=} baseNameOnly
+ * @property {typeof CustomFactory} parent
+ */
+
 const getPrototypeOf = require('inherits-ex/lib/getPrototypeOf');
 const isInheritedFrom = require('inherits-ex/lib/isInheritedFrom')
 
 const { BaseFactory, isPureObject, isFunction, isString, getParentClass } = require("./base-factory")
-
-/**
- * @typedef {Object} ICustomFactoryOptions
- * @extends IBaseFactoryOptions
- * @property {number=} baseNameOnly
- * @property {typeof CustomFactory} parent
- */
 
 /**
  * abstract hierarchical factory class
@@ -49,22 +49,18 @@ export class CustomFactory extends BaseFactory {
     return results
   }
 
-  static getNameFromClass(aClass, aParentClass, aBaseNameOnly) {
+  static formatNameFromClass(aClass, aParentClass, aBaseNameOnly) {
     // get the root factory
     const Factory = this.Factory
-    let len, result
-    result = aClass.prototype.name || aClass.name
-    len = result.length
-    if (!len) {
-      throw new InvalidArgumentError(
-        'can not getNameFromClass: the class(constructor) has no name error.')
-    }
+    let result = aClass.name
+    let len = result.length
+
     if (typeof aParentClass === 'number') {
       aBaseNameOnly = aParentClass
       aParentClass = undefined
     }
     if (aBaseNameOnly == null) {
-      aBaseNameOnly = Factory.baseNameOnly
+      aBaseNameOnly = Factory._baseNameOnly
     }
 
     /*
@@ -72,24 +68,22 @@ export class CustomFactory extends BaseFactory {
       result.substring(len-vFactoryName.length) is vFactoryName
       result = result.substring(0, len-vFactoryName.length)
      */
-    if (aBaseNameOnly) {
+    if (aBaseNameOnly > 0) {
       if (!aParentClass) {
-        aParentClass = this;
+        aParentClass = this
       }
-      const names = this.getClassNameList(aParentClass);
+      const names = this.getClassNameList(aParentClass)
       let vFactoryName = Factory.prototype.name || Factory.name
-      names.push(vFactoryName);
-      if (names.length) {
-        const ref = names.reverse();
-        for (let j = 0; j < ref.length; j++) {
-          vFactoryName = ref[j];
-          if (vFactoryName && vFactoryName.length && result.substring(len - vFactoryName.length) === vFactoryName) {
-            result = result.substring(0, len - vFactoryName.length);
-            len = result.length;
-          }
-          if (!--aBaseNameOnly) {
-            break;
-          }
+      names.push(vFactoryName)
+      const ref = names.reverse();
+      for (let j = 0; j < ref.length; j++) {
+        vFactoryName = ref[j];
+        if (vFactoryName && vFactoryName.length && result.substring(len - vFactoryName.length) === vFactoryName) {
+          result = result.substring(0, len - vFactoryName.length);
+          len = result.length;
+        }
+        if (--aBaseNameOnly <= 0) {
+          break;
         }
       }
     }
@@ -101,10 +95,18 @@ export class CustomFactory extends BaseFactory {
   }
 
   static pathArray(aClass, aRootName) {
-    const Factory = this.Factory || this
+    const Factory = this.Factory
+    if (isString(aClass)) {
+      aRootName = aClass
+      aClass = this
+    }
+    if (!aClass) aClass = this
     let result = aClass.prototype.name
     if (result && result[0] === '/') {
-      return result.split('/').filter(Boolean)
+      result = result.split('/').filter(Boolean)
+      if (this.formatName !== BaseFactory.formatName)
+        result = result.map(this.formatName)
+      return result
     }
 
     if (aRootName == null) {
@@ -112,9 +114,7 @@ export class CustomFactory extends BaseFactory {
     }
 
     result = Factory.getClassNameList(aClass)
-    if (aRootName) {
-      result.push(aRootName)
-    }
+    result.push(aRootName)
 
     if (this.formatName !== BaseFactory.formatName) {
       result = result.map(this.formatName)
@@ -123,7 +123,7 @@ export class CustomFactory extends BaseFactory {
   }
 
   static _registerWithParent(aClass, aParentClass, aOptions) {
-    const Factory = this.Factory || this
+    const Factory = this.Factory
     if (!isFunction(aParentClass) || !isInheritedFrom(aParentClass, Factory)) {
       throw new TypeError('register: the parent class is illegal')
     }
@@ -132,7 +132,7 @@ export class CustomFactory extends BaseFactory {
   }
 
   static register(aClass, aParentClass, aOptions) {
-    const Factory = this.Factory || this
+    const Factory = this.Factory
     if (isString(aParentClass)) {
       aOptions = aParentClass
       aParentClass = undefined
@@ -141,8 +141,9 @@ export class CustomFactory extends BaseFactory {
       aParentClass = aOptions.parent
     }
 
-    if (!aParentClass) aParentClass = Factory
-    return this._registerWithParent(aClass, aParentClass, aOptions)
-
+    if (!aParentClass) aParentClass = this
+    const result = this._registerWithParent(aClass, aParentClass, aOptions)
+    if (result && !aClass._children) aClass._children = {}
+    return result
   }
 }

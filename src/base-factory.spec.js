@@ -2,7 +2,7 @@ import 'jest-extended'
 import { BaseFactory } from './base-factory'
 
 class Codec extends BaseFactory {
-  static _aliases = {}
+  // static _aliases = {}
   // static Factory = Codec
 
   initialize(aOptions) {
@@ -34,9 +34,34 @@ describe('BaseFactory', () => {
 
 
   describe('static members', () => {
+    describe('helper functions', () => {
+      it('should getNameFrom with name string', () => {
+        expect(Codec.getNameFrom('hello')).toStrictEqual('hello')
+      });
+
+      it('should formatNameFromClass with name string', () => {
+        class MyNameCodec {}
+        class MyNameCodec1 {}
+        expect(register(MyNameCodec, Codec)).toBeTruthy()
+        try {
+          expect(
+            Codec.formatNameFromClass(MyNameCodec, 0)
+          ).toStrictEqual('MyNameCodec')
+          expect(
+            Codec.formatNameFromClass(MyNameCodec)
+          ).toStrictEqual('MyName')
+          expect(
+            Codec.formatNameFromClass(MyNameCodec1)
+          ).toStrictEqual('MyNameCodec1')
+        } finally {
+          expect(unregister(MyNameCodec)).toBeTruthy()
+        }
+      })
+    });
+
     describe('.forEach registered classes', () => {
       test('should get all registered items', () => {
-        let myCodec = Codec['MyNew']
+        let myCodec = Codec._children['MyNew']
         expect(myCodec).toStrictEqual(MyNewCodec)
         myCodec = Codec.get('MyBuffer')
         expect(myCodec).toStrictEqual(MyBufferCodec)
@@ -45,10 +70,11 @@ describe('BaseFactory', () => {
 
       test('should get all registered items via forEach', () => {
         let result = {}
-        Codec.forEach((item, name) => result[name] = item)
+        expect(Codec.forEach((item, name) => result[name] = item)).toStrictEqual(Codec)
         expect(Object.keys(result)).toHaveLength(2)
         expect(result.MyNew).toStrictEqual(MyNewCodec)
         expect(result.MyBuffer).toStrictEqual(MyBufferCodec)
+        expect(Codec.forEach()).toStrictEqual(Codec)
       });
     });
 
@@ -74,9 +100,18 @@ describe('BaseFactory', () => {
     describe('.displayName', () => {
       test('should getDisplayName', () => {
         class MyDisplayCodec {}
+
+        expect(Codec.getDisplayName('MyNew')).toStrictEqual('new')
+        expect(Codec.getDisplayName('MyBuffer')).toStrictEqual('MyBuffer')
+
         expect(register(MyDisplayCodec, {displayName: 'my display'})).toBeTruthy()
-        expect(Codec.getDisplayName('MyDisplay')).toStrictEqual('my display')
-        expect(MyDisplayCodec.getDisplayName()).toStrictEqual('my display')
+        try {
+          expect(Codec.getDisplayName('MyDisplay')).toStrictEqual('my display')
+          expect(Codec.getDisplayName(MyDisplayCodec)).toStrictEqual('my display')
+          expect(MyDisplayCodec.getDisplayName()).toStrictEqual('my display')
+        } finally {
+          expect(MyDisplayCodec.unregister()).toBeTrue()
+        }
       });
       test('should setDisplayName', () => {
         class MyDisplayCodec {}
@@ -87,6 +122,15 @@ describe('BaseFactory', () => {
         MyDisplayCodec.setDisplayName('ChangeIt2')
         expect(Codec.getDisplayName('MyDisplay')).toStrictEqual('ChangeIt2')
         expect(MyDisplayCodec.getDisplayName()).toStrictEqual('ChangeIt2')
+        Codec.setDisplayName(MyDisplayCodec, 'ChangeIt3')
+        expect(Codec.getDisplayName('MyDisplay')).toStrictEqual('ChangeIt3')
+        // set displayName only for string
+        Codec.setDisplayName(MyDisplayCodec, 123)
+        expect(Codec.getDisplayName('MyDisplay')).toStrictEqual('ChangeIt3')
+        Codec.setDisplayName(MyDisplayCodec, {displayName: 'ChangeIt5'})
+        expect(Codec.getDisplayName('MyDisplay')).toStrictEqual('ChangeIt5')
+
+        expect(MyDisplayCodec.unregister()).toBeTrue()
       });
 
     })
@@ -96,8 +140,21 @@ describe('BaseFactory', () => {
         expect(MyBufferCodec.setAliases.bind(MyBufferCodec, null, 'new')).toThrow('already exists')
         expect(MyBufferCodec.setAlias.bind(MyBufferCodec, null, 'new')).toThrow('already exists')
       });
+      test('should get/set alias via Codec', () => {
+        class MyAliasCodec {}
+        expect(register(MyAliasCodec)).toBeTruthy()
+        try {
+          Codec.setAliases(MyAliasCodec, 'a', 'a1')
+          Codec.setAliases(MyAliasCodec)
+          expect(Codec.getAliases('MyAlias')).toEqual(['a', 'a1'])
+          Codec.setAlias('MyAlias', 'a2')
+          expect(Codec.getAliases(MyAliasCodec)).toEqual(['a', 'a1', 'a2'])
+        } finally {
+          expect(MyAliasCodec.unregister()).toBeTrue()
+        }
+      })
 
-      test('should get/set alias via property aliases', () => {
+      test('should get/set alias via itself', () => {
         class MyAliasCodec {}
         expect(register(MyAliasCodec)).toBeTruthy()
         MyAliasCodec.setAliases(null, 'a')
@@ -122,6 +179,7 @@ describe('BaseFactory', () => {
         expect(Codec.registeredClass('new3')).toBeFalsy()
         expect(MyAliasCodec.unregister()).toBeTrue()
         expect(Codec.registeredClass('new6')).toBeFalsy()
+        expect(Codec.registeredClass()).toBeTrue()
       });
 
       test('should removeAlias', () => {
@@ -140,21 +198,28 @@ describe('BaseFactory', () => {
       test('should register a new Codec Class with specified name via options object', () => {
         class MyCodec {}
         expect(register(MyCodec, {name: 'my1'})).toBeTruthy()
-        expect(Codec.my1).toStrictEqual(MyCodec)
+        expect(Codec.get('my1')).toStrictEqual(MyCodec)
       });
 
       test('should register a new Codec Class with specified name', () => {
         class MyCodec {}
         expect(register(MyCodec, 'my1')).toBeTruthy()
-        expect(Codec.my1).toStrictEqual(MyCodec)
+        expect(Codec.get('my1')).toStrictEqual(MyCodec)
       });
+
+      test('should register a new Codec Class with specified baseNameOnly', () => {
+        class MyCodec {}
+        expect(register(MyCodec, {baseNameOnly: 0})).toBeTruthy()
+        expect(Codec.get('MyCodec')).toStrictEqual(MyCodec)
+      });
+
 
       test('should register a new Codec Class with specified display name', () => {
         const vDisplayName = 'this is a display name'
         class MyCodec {}
         expect(register(MyCodec, {name: 'my1', displayName: vDisplayName})).toBeTruthy()
-        expect(Codec.my1).toStrictEqual(MyCodec)
-        expect(Codec.my1.prototype._displayName).toStrictEqual(vDisplayName)
+        expect(Codec.get('my1')).toStrictEqual(MyCodec)
+        expect(Codec.get('my1').prototype._displayName).toStrictEqual(vDisplayName)
       });
 
       test('should throw error if register Class duplicity', () => {
@@ -171,7 +236,7 @@ describe('BaseFactory', () => {
         expect(register(MyUnCodec)).toBeTruthy()
         expect(Codec.registeredClass('MyUn')).toStrictEqual(MyUnCodec)
         expect(MyUnCodec.registeredClass()).toStrictEqual(MyUnCodec)
-        expect(Codec['MyUn']).toStrictEqual(MyUnCodec)
+        expect(Codec.get('MyUn')).toStrictEqual(MyUnCodec)
         MyUnCodec.aliases = ['un', 'un2']
         expect(MyUnCodec.aliases).toEqual(['un', 'un2'])
         expect(Codec.aliases).toEqual(['new', 'new2', 'un', 'un2'])
@@ -182,6 +247,7 @@ describe('BaseFactory', () => {
         expect(register(MyUnCodec)).toBeTruthy()
         expect(MyUnCodec.unregister()).toBeTrue()
         expect(Codec.registeredClass('MyUn')).toBeFalsy()
+        expect(unregister('unknown')).toBeFalsy()
       });
 
       test('should unregister via name from factory', () => {
@@ -208,6 +274,8 @@ describe('BaseFactory', () => {
         expect(result).toBeInstanceOf(MyNewCodec)
         expect(result).toHaveProperty('bufferSize', 32)
         expect(result.toString()).toStrictEqual('MyNew')
+        result = Codec.createObject('unknown', 32)
+        expect(result).toBeUndefined()
       });
 
       test('should create object', () => {
@@ -216,14 +284,19 @@ describe('BaseFactory', () => {
         expect(result).toHaveProperty('bufferSize', 32)
         result = MyNewCodec.createObject(33)
         expect(result).toHaveProperty('bufferSize', 33)
+        result = MyNewCodec.createObject()
+        expect(result).not.toHaveProperty('bufferSize')
       });
 
       test('should re-init object', () => {
         let result = Codec.createObject('new', 32)
         expect(result).toBeInstanceOf(MyNewCodec)
         expect(result).toHaveProperty('bufferSize', 32)
-        Codec.createObject(result, 132)
+        let result2 = Codec.createObject(result, 132)
+        expect(result2).toStrictEqual(result)
         expect(result).toHaveProperty('bufferSize', 132)
+        result2 = Codec.createObject(result)
+        expect(result2).toStrictEqual(result)
       });
 
     });

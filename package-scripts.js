@@ -6,7 +6,7 @@ const { series, rimraf } = require('nps-utils')
 // const pkg = require('./package.json')
 
 const transpile =
-  'babel --config-file ./.babelrc.js --out-dir lib --ignore __tests__,__mocks__ src'
+  'babel --config-file ./.babelrc.js --out-dir lib --ignore __tests__,__mocks__,**/*.spec.js,**/*.test.js src'
 const cleanDist = rimraf('lib')
 
 // const retry = n => cmd =>

@@ -16,7 +16,6 @@
   ],
   "scripts": {
     "start": "nps",
-    "prepare": "npm i --no-save flow-typed flow-bin",
     "test": "nps test"
   },
   "engines": {

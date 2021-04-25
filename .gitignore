@@ -1,5 +1,6 @@
 # Distribution directory used for the build output
 lib
+types
 api.md
 docs
 

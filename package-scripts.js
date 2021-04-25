@@ -32,6 +32,10 @@ module.exports = {
         script: cleanDist,
       },
     },
+    release: {
+      default: 'npx standard-version',
+      alpha: 'npx standard-version --prerelease alpha',
+    },
     build: {
       default: {
         description:

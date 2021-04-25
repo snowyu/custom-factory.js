@@ -3,25 +3,26 @@
   "version": "1.6.0",
   "description": "more easily add the factory ability to your class for node and javascript",
   "homepage": "https://github.com/snowyu/custom-factory.js",
-  "main": "./index",
+  "main": "./lib/index",
+  "types": "./types",
   "files": [
     "README.md",
     "LICENSE-MIT",
     "index.js",
     "test",
     "src",
-    "lib"
+    "lib",
+    "types"
   ],
   "scripts": {
     "start": "nps",
-    "prepare": "npm i --no-save flow-typed flow-bin typedoc",
+    "prepare": "npm i --no-save flow-typed flow-bin",
     "test": "nps test"
   },
   "engines": {
     "node": ">=8"
   },
   "dependencies": {
-    "depd": "^2.0.0",
     "inherits-ex": "^1.3.4"
   },
   "devDependencies": {
@@ -50,6 +51,8 @@
     "nps": "^5.10.0",
     "nps-utils": "^1.7.0",
     "prettier": "^2.2.1",
+    "typedoc": "^0.20.36",
+    "typedoc-plugin-markdown": "^3.7.1",
     "typescript": "^4.2.4"
   },
   "repository": {

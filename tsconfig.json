@@ -15,5 +15,9 @@
     // next to the .js files
     "outDir": "types"
   },
+  "typedocOptions": {
+    "entryPoints": ["src/index.js"],
+    "out": "docs"
+  },
   "exclude": ["**/*.spec.js", "**/*.test.js"]
 }

@@ -462,14 +462,14 @@ export class BaseFactory {
     }
   }
 
-  constructor(aOptions) {
-    this.initialize(aOptions)
+  constructor() {
+    this.initialize.apply(this, arguments)
   }
 
   /**
    * initialize instance method
    * @abstract
-   * @param {*} aOptions the user defined options.
+   * @param {...any} arguments pass through constructor
    */
   initialize() {}
 

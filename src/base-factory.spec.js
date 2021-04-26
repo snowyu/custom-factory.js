@@ -198,39 +198,70 @@ describe('BaseFactory', () => {
       test('should register a new Codec Class with specified name via options object', () => {
         class MyCodec {}
         expect(register(MyCodec, { name: 'my1' })).toBeTruthy()
-        expect(Codec.get('my1')).toStrictEqual(MyCodec)
+        try {
+          expect(Codec.get('my1')).toStrictEqual(MyCodec)
+        } finally {
+          expect(unregister(MyCodec)).toBeTruthy()
+        }
       })
 
       test('should register a new Codec Class with specified name', () => {
         class MyCodec {}
         expect(register(MyCodec, 'my1')).toBeTruthy()
-        expect(Codec.get('my1')).toStrictEqual(MyCodec)
+        try {
+          expect(Codec.get('my1')).toStrictEqual(MyCodec)
+        } finally {
+          expect(unregister(MyCodec)).toBeTruthy()
+        }
       })
 
       test('should register a new Codec Class with specified baseNameOnly', () => {
         class MyCodec {}
         expect(register(MyCodec, { baseNameOnly: 0 })).toBeTruthy()
-        expect(Codec.get('MyCodec')).toStrictEqual(MyCodec)
+        try {
+          expect(Codec.get('MyCodec')).toStrictEqual(MyCodec)
+        } finally {
+          expect(unregister(MyCodec)).toBeTruthy()
+        }
       })
 
       test('should register a new Codec Class with specified display name', () => {
         const vDisplayName = 'this is a display name'
         class MyCodec {}
-        expect(
-          register(MyCodec, { name: 'my1', displayName: vDisplayName })
-        ).toBeTruthy()
-        expect(Codec.get('my1')).toStrictEqual(MyCodec)
-        expect(Codec.get('my1').prototype._displayName).toStrictEqual(
-          vDisplayName
-        )
+        try {
+          expect(
+            register(MyCodec, { name: 'my1', displayName: vDisplayName })
+          ).toBeTruthy()
+          expect(Codec.get('my1')).toStrictEqual(MyCodec)
+          expect(Codec.get('my1').prototype._displayName).toStrictEqual(
+            vDisplayName
+          )
+        } finally {
+          expect(unregister(MyCodec)).toBeTruthy()
+        }
       })
 
       test('should throw error if register Class duplicity', () => {
         class MyCodec {}
         expect(register(MyCodec, { name: 'my1' })).toBeTruthy()
-        expect(register.bind(Codec, MyCodec, { name: 'my1' })).toThrow(
-          'has already been registered'
-        )
+        try {
+          expect(register.bind(Codec, MyCodec, { name: 'my1' })).toThrow(
+            'has already been registered'
+          )
+        } finally {
+          expect(unregister(MyCodec)).toBeTruthy()
+        }
+      })
+
+      test('should register a new Codec Class already extends Codec', () => {
+        class MyCodec extends Codec {}
+        expect(register(MyCodec, { name: 'my1' })).toBeTruthy()
+        try {
+          expect(Codec.get('my1')).toStrictEqual(MyCodec)
+        } finally {
+          expect(unregister(MyCodec)).toBeTruthy()
+          expect(Codec.get('my1')).toBeUndefined()
+        }
       })
     })
 

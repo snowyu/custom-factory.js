@@ -11,25 +11,22 @@ The General Factory for class or object(singleton instance).
 Hierarchical factory:
 
 1. all registered items are stored into the root factory and parent factory.
-1. the registered items are the enumrable properties of the root factory class and parent factory class.
-  * unless registered names or aliases exists.
+1. the registered items are the enumerable properties of the root factory class and parent factory class.
+   * unless registered names or aliases exists.
 
 ## Usage
 
-* BaseFactory:
-  * CustomFactory
-    * CustomChildFactory
-  * CustomFlatFactory
+* BaseFactory: the flat factory
+  * CustomFactory: the hierarchical factory
 
-### Factory User
+### Factory Usage
 
 The Simplest Class Factory.
 
 ```js
-// only use the registered name to visit.
-const IntegerType = TypeFactory['Integer']
+const IntegerType = TypeFactory.get('Integer')
 // it can use an alias to visit.
-const IntType = TypeFactory('Int')
+const IntType = TypeFactory.get('Int')
 
 // Int1Type is the same with IntType
 IntType.should.be.equal(IntegerType)
@@ -40,184 +37,170 @@ var i = new IntType(1)
 The hierarchical singleton object factory.
 
 ```js
-var TextCodec = Codec['Text']     // # get the JsonCodec Class
-var JsonCodec = Codec['Json']     // # note: name is case-sensitive!
-var JsonCodec = TextCodec['Json'] // # or like this
+const TextCodec = Codec.get('Text')     // # get the JsonCodec Class
+const JsonCodec = Codec.get('Json')     // # note: name is case-sensitive!
+const Json1Codec = TextCodec.get('Json') // # or like this
 
-var json = Codec('Json', bufSize: 12) // # get the singleton instance from the Codec
-var json = JsonCodec()                // # or like this
-var text = Codec('Text')              // # or Codec('utf8')
+const TextCodec = Codec.get('Text')  // or Codec('utf8')
 
-JsonCodec().should.be.equal(Codec('Json'))
+JsonCodec.should.be.equal(Json1Codec)
 
-var json2 = new JsonCodec(bufSize: 123) // # create a new JsonCodec instance, do not use singleton.
-var json2.should.not.be.equal(json)
+const NumberType   = Type.get('number')
+const IntegerType  = Type.get('integer')
+
+isInheritedFrom(IntegerType, NumberType).should.be.true
+IntegerType.should.be.equal(NumberType.get('integer'))
+
+const aInteger = new IntegerType(124)
+const aRangeInteger = new IntegerType(0, {min: 0, max: 100})
+
+expect(aInteger).toBeGreaterThan(aRangeInteger)
+aRangeInteger.assign(6)
+expect(aInteger + aRangeInteger).toEqual(130)
 
 ```
 
-## factory developer
+## Factory Development
 
 Abstract Codec hierarchical factory.
 
-```
-Codec -> TextCodec -> JsonCodec
-                   -> XmlCodec
+```mermaid
+graph LR
+  IntegerType --> NumberType --> Type
+  FloatType  --> NumberType
+  StringType --> Type
+  BooleanType --> Type
+  ....... --> Type
 ```
 
 The realistic example
 
-for coffee-script:
-
-```coffee
-
-factory = require 'custom-factory'
-
-class Codec
-  # make the Codec factory-able:
-  factory Codec
-  # if you wanna a flat factory:
-  #factory Codec, flatOnly: true
-
-  constructor: (aName, aOptions)->return super
-  # the constructor's aOptions will be passed through
-  initialize: (aOptions)->
-    @bufferSize = aOptions.bufSize if aOptions
-  # your factory methods:
-  encode: (aValue)->
-
-register = Codec.register
-aliases  = Codec.aliases
-
-class TextCodec
-  register TextCodec
-  aliases TextCodec, 'utf8', 'utf-8'
-  constructor: Codec
-  encode: (aValue)->
-
-class JsonCodec
-  register JsonCodec, TextCodec
-  constructor: -> return super
-  encode: (aValue)->
-
-class TestCodec
-  # register with a specified name:
-  register TestCodec, 'MyTest'
-  # or like this:
-  # register TestCodec, name: 'MyTest'
-
-
-```
-
-for javascript:
-
 ```js
-var factory = require('custom-factory')
+import { CustomFactory } from 'custom-factory'
 
-// Class Codec
-function Codec(){
-  return Codec.__super__.constructor.apply(this, arguments);
+export class Type extends CustomFactory {
+
+  static findRootFactory() {
+    return this._findRootFactory(Type)
+  }
+
+  static toValue(aValue, options) {return aValue}
+  static validate(aValue, raiseError, aOptions) {}
+  static createType(options) {
+    const vTypeClass = createCtor(options.name)
+    if (register(vTypeClass, this, options)) {
+      // assign type properties from options
+      assignProperties(vTypeClass, options)
+      return vTypeClass
+    }
+  }
+
+  initialize(value, options) {
+    this.assign(value, options)
+  }
+
+  assign(value, options) {this.value = this.constructor.toValue(value, options)}
+  isValid(options) {return this.constructor.validate(this.value, false, options) }
+  valueOf() {return this.value}
+  toJSON() {return this.toObject()}
+
+  toString() {return this.value+''}
+  toObject(options) {return this.value}
 }
 
-// make the Codec factory-able:
-factory(Codec)
-// if you wanna a flat factory:
-// factory(Codec, {flatOnly: true})
+export const register = Type.register.bind(Type)
+export const unregister = Type.unregister.bind(Type)
+export const alias = Type.setAliases.bind(Type)
 
-// the constructor's aOptions will be passed through
-Codec.prototype.initialize = function(aOptions){
-  if (aOptions)
-    this.bufferSize = aOptions.bufSize
+export class IntegerType extends Type {
+  static toValue(aValue, options) {
+    let result
+    const vTypeOf = typeof aValue
+    if (vTypeOf === 'string') {
+      result = parseInt(aValue)
+    } else if (vTypeOf === 'number') {
+      result = Math.round(aValue)
+    }
+    return result
+  }
 }
+register(IntegerType)
+aliases(IntegerType, 'int')
 
-// your factory methods:
-Codec.prototype.encode = function(aValue){}
-
-var register = Codec.register
-var aliases  = Codec.aliases
-
-// Class TextCodec
-function TextCodec() {
-  Codec.apply(this, arguments)
-}
-register(TextCodec)
-aliases(TextCodec, 'utf8', 'utf-8')
-TextCodec.prototype.encode = function(aValue){}
-
-// class JsonCodec
-function JsonCodec() {
-  TextCodec.apply(this, arguments)
-}
-register(JsonCodec)
-JsonCodec.prototype.encode = function(aValue){}
-
-// class TestCodec
-function TestCodec() {
-  Codec.apply(this, arguments)
-}
-// register with a specified name:
-register(TestCodec, 'MyTest')
-// or like this:
-// register(TestCodec, {name: 'MyTest'})
 ```
 
-# API
+## API
 
 The registered class is put into the property(the specified registered name) of the parent class.
 
-* CustomFactory(these class/static methods will be added to your factory class)
-  * `register(aClass[, aParentClass=factory[, aOptions]])`:  *(class method)* register the aClass to your Factory Class.
-    * aOptions *(object|string)*: It will use the aOptions as default options to create instance.
-      * it is the registered name if aOptions is string.
-      * name: use the name instead of class name to register if any.
-        or it will use the class name(remove the last factory name if exists) to register.
-      * createOnDemand *(boolean)*: create the factory item instance on demand
-        or create it immediately. defaults to true.
-      * baseNameOnly *(number)*: extract basename from class name to register it if no specified name.
-        defaults to 1. the baseNameOnly number can be used on hierarchical factory, means max level to extract basename.
-        0 means use the whole class name to register it, no extract.
-        * eg, the `Codec` is a Root Factory, we add the `TextCodec` to "Codec", add the `JsonTextCodec` to "TextCodec"
-          * baseNameOnly = 1: `TextCodec` name is 'Text', `JsonTextCodec` name is 'JsonText'
-          * baseNameOnly = 2: `TextCodec` name is 'Text', `JsonTextCodec` name is 'Json'
-      * displayName *(String)*: the display name.
-    * aParentClass: it is not allowed if it's a flatOnly factory.
-  * `unregister(aName|aClass)`: *(class method)* unregister the class or name from the Factory
-  * `alias/aliases(aClass, aliases...)`: *(class method)* create aliases to the aClass.
-  * `constructor(aName, aOptions)`: get a singleton instance or create a new instance item.
-  * `constructor(aOptions)`: get a singleton instance or create a new instance item.
-    * aOptions: *(object)*
-      * name: the factory item name. defaults to the constructor name
-      * fnGet: *(function)* replace the default '`get`' method.
-  * `constructor(aInstance, aOptions)`: apply(re-initialize) the aOptions to the aInstance .
-  * `create(aName, aOptions)`: create a new object instance
-  * `get(aName, aOptions)`: get the singleton object instance
-  * `formatName(aName)`: format the registered name and return, defaults to same as aName. you can override this method to implement case insensitive.
-  * `Factory[aName]`: get the registered class from your Factory class.
-  * `getClassList(aClass)`: get the hierarchical class path list array of this aClass.
-  * `path(aClass, aRootName = Factory.name)`: get the path string of this aClass factory item.
-  * `pathArray(aClass, aRootName = Factory.name)`: get the path array of this aClass factory item.
-  * `registeredClass(aName)`: get the registered class via name.
-  * `forEach(callback)`: iterate all the singleton instances to callback.
-    * `callback` *function(instance, name)*
-
-These instance methods added if it is not flatOnly factory:
-
-* `register(aClass[, aOptions])`: register a class to itself.
-* `unregister(aName|aClass)`: same as the unregister class method.
-* `registered(aName)`: get a singleton instance which is registered to itself.
-* `registeredClass[aName]`: get the registered class.
-* `path(aRootName = Factory.name)`: get the path string of this factory item
-* `pathArray(aRootName = Factory.name)`: get the path array of this factory item
+* BaseFactory: the flat factory
+  * static members:
+    * `register(ctor, options)`: register a class to the factory,
+      * ctor: it will be automatically inherited to the Factory after registered if ctor isn't derived from BaseFactory
+      * options*(object|string)*: the options for the class and the factory
+        * it is the registered name if aOptions is string.
+        * name*(String)*: optional unique id name to register, defaults to class name
+        * displayName: optional display name
+        * baseNameOnly*(number)*: extract basename from class name to register it if no specified name.
+          defaults to 1. the baseNameOnly number can be used on hierarchical factory, means max level to extract basename.
+          0 means use the whole class name to register it, no extract.
+          * eg, the `Codec` is a Root Factory, we add the `TextCodec` to "Codec", add the `JsonTextCodec` to "TextCodec"
+            * baseNameOnly = 1: `TextCodec` name is 'Text', `JsonTextCodec` name is 'JsonText'
+            * baseNameOnly = 2: `TextCodec` name is 'Text', `JsonTextCodec` name is 'Json'
+    * `unregister(aName|aClass|undefined)`: unregister the class, class name or itself from the Factory
+    * `setAliases(aClass, ...aliases: string[])`: add/update aliases to the aClass.
+    * `setAlias(aClass, alias: string)`: add/update an alias to the aClass.
+    * `getAliases(aClass: typeof BaseFactory|string|undefined)`: get the aliases of the class or itself
+    * `removeAlias(...aliases: string[])`: remove aliases from the factory.
+    * `cleanAliases(aClass: typeof BaseFactory|string|undefined)`: remove all aliases of the registered item or itself
+    * `aliases: string[]`: get or set the aliases of itself.
+      * Note: assign the value will clean all aliases of itself first.
+    * `getDisplayName(aClass: typeof BaseFactory|string|undefined)`: get the display of the class or itself
+    * `setDisplayName(aClass?: typeof BaseFactory|string|undefined, displayName: string|{displayName: string})`: set the display of the class or itself
+    * `forEach(cb: (class: typeof BaseFactory, name: string)=>'brk'|string|undefined)`: executes a provided callback function once for each registered element.
+    * `get(name: string): typeof BaseFactory`: get the registered class via name
+    * `registeredClass(aName: string|undefined): false|typeof BaseFactory`: check the name, alias or itself whether registered
+    * `formatName(aName: string): string`: format the registered name, defaults to same as aName. you can override this method to implement case insensitive.
+    * `findRootFactory(): typeof BaseFactory`: must override, to tell which Factory Class is the Root.
+    * `_Factory`: internal property, The Root Factory class
+    * `_children`: internal property, The registered Factory classes
+    * `_aliases`: internal property, The registered Factory aliases
+  * instance members
+    * `initialize()`: initialize instance method which called by `constructor()`
+      * pass through all arguments coming from constructor
+    * `toString(): string`: return the `this.name`.
+* CustomFactory: the hierarchical factory inherits from BaseFactory(Only the different and new methods are listed here)
+  * static members
+    * `register(aClass, aParentClass, aOptions)`: register the aClass to aParentClass Class.
+    * `register(aClass, aOptions)`: register the aClass to itself or `aOptions.parent`
+      * `options`*(object|string)*: the options for the class and the factory
+        * it is the registered name if aOptions is string.
+        * `name`*(String)*: optional unique id name to register, defaults to class name
+        * `displayName`: optional display name
+        * `baseNameOnly`*(number)*: extract basename from class name to register it if no specified name.
+          defaults to 1. the baseNameOnly number can be used on hierarchical factory, means max level to extract basename.
+          0 means use the whole class name to register it, no extract.
+          * eg, the `Codec` is a Root Factory, we add the `TextCodec` to "Codec", add the `JsonTextCodec` to "TextCodec"
+            * baseNameOnly = 1: `TextCodec` name is 'Text', `JsonTextCodec` name is 'JsonText'
+            * baseNameOnly = 2: `TextCodec` name is 'Text', `JsonTextCodec` name is 'Json'
+    * `path(aClass?: typeof CustomFactory, aRootName?: string)`: get the path string of this aClass factory item or itself.
+      * `aRootName`: defaults to `RootFactory.ROOT_NAME || RootFactory.prototype.name || RootFactory.name`
+    * `pathArray(aClass?: typeof CustomFactory, aRootName?: string)`: get the path array of this aClass factory item or itself.
+      * `aRootName`: defaults to `RootFactory.ROOT_NAME || RootFactory.prototype.name || RootFactory.name`
 
 **Note**: the `name` is **case sensitive**.
 
+## Changes
 
-# Changes
+### v2.x
 
-## v.1.5
+* refract the code with class.
+
+### v.1.5
 
 + *broken* (1.5)rename Factory::get() instance method to Factory::getFactoryItem()
 
-## v1.4
+### v1.4
 
 + add baseNameOnly option to extract basename from class name when register it.
 * *broken* `Factory._objects`: mark deprecated. use the `Factory::_objects` instead

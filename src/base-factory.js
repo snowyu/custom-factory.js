@@ -206,7 +206,7 @@ export class BaseFactory {
 
   /**
    * check the name, alias or itself whether registered
-   * @param {string} aName the class name
+   * @param {string|undefined} aName the class name
    * @returns {false|typeof BaseFactory}
    */
   static registeredClass(aName) {
@@ -383,7 +383,7 @@ export class BaseFactory {
 
   /**
    * @callback FactoryClassForEachFn
-   * @param {BaseFactory} class
+   * @param {typeof BaseFactory} class
    * @param {string} name
    * @returns {'brk'|string|undefined}
    */
@@ -469,7 +469,7 @@ export class BaseFactory {
   /**
    * initialize instance method
    * @abstract
-   * @param {...any} arguments pass through constructor
+   * @param {...any} arguments pass through all arguments coming from constructor
    */
   initialize() {}
 

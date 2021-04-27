@@ -1,9 +1,9 @@
-/**
- * @typedef {Object} ICustomFactoryOptions
- * @extends require('./base-factory').IBaseFactoryOptions
- * @property {number=} baseNameOnly
- * @property {typeof CustomFactory} parent
- */
+// /**
+//  * @typedef {Object} ICustomFactoryOptions
+//  * @extends require('./base-factory').IBaseFactoryOptions
+//  * @property {number=} baseNameOnly
+//  * @property {typeof CustomFactory} parent
+//  */
 
 // const getPrototypeOf = require('inherits-ex/lib/getPrototypeOf')
 const isInheritedFrom = require('inherits-ex/lib/isInheritedFrom')
@@ -55,6 +55,7 @@ export class CustomFactory extends BaseFactory {
     return results
   }
 
+  /** @internal */
   static formatNameFromClass(aClass, aParentClass, aBaseNameOnly) {
     // get the root factory
     const Factory = this.Factory

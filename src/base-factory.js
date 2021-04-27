@@ -99,6 +99,12 @@ export class BaseFactory {
 
   static _baseNameOnly = 1
 
+  /**
+   * find the real root factory
+   * @abstract
+   * @internal
+   * @returns {typeof BaseFactory} the root factory class
+   */
   static findRootFactory() {
     return this._findRootFactory(BaseFactory)
   }
@@ -129,6 +135,13 @@ export class BaseFactory {
     return result
   }
 
+  /**
+   * format name for the aClass
+   * @param {*} aClass
+   * @param {*} aBaseNameOnly
+   * @returns {string} the name to register
+   * @internal
+   */
   static formatNameFromClass(aClass, aBaseNameOnly) {
     // get the root factory
     const Factory = this.Factory
@@ -383,7 +396,7 @@ export class BaseFactory {
 
   /**
    * @callback FactoryClassForEachFn
-   * @param {typeof BaseFactory} class
+   * @param {typeof BaseFactory} ctor
    * @param {string} name
    * @returns {'brk'|string|undefined}
    */
@@ -415,7 +428,7 @@ export class BaseFactory {
   /**
    * get the registered class via name
    * @param {string} aName the class name or alias
-   * @returns {false|typeof BaseFactory}
+   * @returns {undefined|typeof BaseFactory} return the registered class if found the name
    */
   static get(name) {
     return this._get(name)
@@ -469,6 +482,7 @@ export class BaseFactory {
   /**
    * initialize instance method
    * @abstract
+   * @internal
    * @param {...any} arguments pass through all arguments coming from constructor
    */
   initialize() {}

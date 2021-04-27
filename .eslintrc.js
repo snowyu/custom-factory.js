@@ -3,7 +3,7 @@ module.exports = {
   plugins: ['prettier'],
   extends: ['plugin:prettier/recommended'],
   rules: {
-    'no-unused-vars': 'error',
+    'no-unused-vars': 'warn',
     'prettier/prettier': 'error',
   },
   settings: {},

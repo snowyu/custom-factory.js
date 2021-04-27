@@ -488,5 +488,4 @@ export class BaseFactory {
    * @param {...any} arguments pass through all arguments coming from constructor
    */
   initialize() {}
-
 }

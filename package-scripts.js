@@ -40,11 +40,15 @@ module.exports = {
       default: {
         description:
           'deletes the `lib` directory and transpiles all relevant `src` to the `lib`',
-        script: series(cleanDist, transpile, 'nps build.ts'),
+        script: series(cleanDist, 'nps build.babel'),
       },
+      babel: transpile,
       ts: {
         description: 'build the typescript declaration files',
-        script: 'tsc',
+        script: series(
+          'tsc',
+          'npx remove-internal --outdir=./types types/*.d.ts'
+        ),
       },
       watch: 'nps "build --watch"',
     },

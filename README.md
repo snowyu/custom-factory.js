@@ -80,10 +80,6 @@ import { CustomFactory } from 'custom-factory'
 
 export class Type extends CustomFactory {
 
-  static findRootFactory() {
-    return this._findRootFactory(Type)
-  }
-
   static toValue(aValue, options) {return aValue}
   static validate(aValue, raiseError, aOptions) {}
   static createType(options) {
@@ -161,7 +157,7 @@ The registered class is put into the property(the specified registered name) of 
     * `get(name: string): typeof BaseFactory`: get the registered class via name
     * `registeredClass(aName: string|undefined): false|typeof BaseFactory`: check the name, alias or itself whether registered
     * `formatName(aName: string): string`: format the registered name, defaults to same as aName. you can override this method to implement case insensitive.
-    * `findRootFactory(): typeof BaseFactory`: must override, to tell which Factory Class is the Root.
+    * `findRootFactory(): typeof BaseFactory`: optional override, if you have your abstract factory
     * `_Factory`: internal property, The Root Factory class
     * `_children`: internal property, The registered Factory classes
     * `_aliases`: internal property, The registered Factory aliases

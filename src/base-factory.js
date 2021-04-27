@@ -168,6 +168,7 @@ export class BaseFactory {
    * register the aClass to the factory
    * @param {typeof BaseFactory} aClass the class to register the Factory
    * @param {IBaseFactoryOptions|any} aOptions the options for the class and the factory
+   * @returns {boolean} return true if successful.
    */
   static register() {
     return this._register.apply(this, arguments)
@@ -178,6 +179,7 @@ export class BaseFactory {
    * @internal
    * @param {typeof BaseFactory} aClass the class to register the Factory
    * @param {IBaseFactoryOptions|any} aOptions the options for the class and the factory
+   * @returns {boolean} return true if successful.
    */
   static _register(aClass, aOptions) {
     const Factory = this.Factory
@@ -487,7 +489,4 @@ export class BaseFactory {
    */
   initialize() {}
 
-  toString() {
-    return this.name
-  }
 }

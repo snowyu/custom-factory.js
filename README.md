@@ -164,7 +164,6 @@ The registered class is put into the property(the specified registered name) of 
   * instance members
     * `initialize()`: initialize instance method which called by `constructor()`
       * pass through all arguments coming from constructor
-    * `toString(): string`: return the `this.name`.
 * CustomFactory: the hierarchical factory inherits from BaseFactory(Only the different and new methods are listed here)
   * static members
     * `register(aClass, aParentClass, aOptions)`: register the aClass to aParentClass Class.

@@ -141,6 +141,13 @@ export class CustomFactory extends BaseFactory {
     return aParentClass._register(aClass, aOptions)
   }
 
+  /**
+   * register the aClass to the factory
+   * @param {typeof CustomFactory=} aClass the class to register the Factory
+   * @param {typeof CustomFactory|IBaseFactoryOptions=} aParentClass the optional parent class
+   * @param {IBaseFactoryOptions|any=} aOptions the options for the class and the factory
+   * @returns {boolean} return true if successful.
+   */
   static register(aClass, aParentClass, aOptions) {
     if (isString(aParentClass)) {
       aOptions = aParentClass

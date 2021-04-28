@@ -207,9 +207,11 @@ describe('CustomFactory', () => {
   describe('.register', () => {
     test('should register a new Codec Class with specified name via options object', () => {
       class MyCodec {}
-      expect(register(MyCodec, { name: 'my1' })).toBeTruthy()
+      register(MyCodec, { name: 'my1', aliases: ['my1_2', 'My1'] })
       try {
         expect(Codec.get('my1')).toStrictEqual(MyCodec)
+        expect(Codec.get('my1_2')).toStrictEqual(MyCodec)
+        expect(Codec.get('My1')).toStrictEqual(MyCodec)
       } finally {
         expect(unregister(MyCodec)).toBeTruthy()
       }

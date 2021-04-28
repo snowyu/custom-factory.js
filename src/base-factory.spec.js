@@ -35,7 +35,7 @@ describe('BaseFactory', () => {
       it('should formatNameFromClass with name string', () => {
         class MyNameCodec {}
         class MyNameCodec1 {}
-        expect(register(MyNameCodec, Codec)).toBeTruthy()
+        expect(register(MyNameCodec)).toBeTruthy()
         try {
           expect(Codec.formatNameFromClass(MyNameCodec, 0)).toStrictEqual(
             'MyNameCodec'
@@ -197,9 +197,13 @@ describe('BaseFactory', () => {
     describe('.register', () => {
       test('should register a new Codec Class with specified name via options object', () => {
         class MyCodec {}
-        expect(register(MyCodec, { name: 'my1' })).toBeTruthy()
+        expect(
+          register(MyCodec, { name: 'my1', aliases: ['my1_2', 'My1'] })
+        ).toBeTruthy()
         try {
           expect(Codec.get('my1')).toStrictEqual(MyCodec)
+          expect(Codec.get('my1_2')).toStrictEqual(MyCodec)
+          expect(Codec.get('My1')).toStrictEqual(MyCodec)
         } finally {
           expect(unregister(MyCodec)).toBeTruthy()
         }
@@ -217,9 +221,12 @@ describe('BaseFactory', () => {
 
       test('should register a new Codec Class with specified baseNameOnly', () => {
         class MyCodec {}
-        expect(register(MyCodec, { baseNameOnly: 0 })).toBeTruthy()
+        expect(
+          register(MyCodec, { baseNameOnly: 0, alias: 'My1' })
+        ).toBeTruthy()
         try {
           expect(Codec.get('MyCodec')).toStrictEqual(MyCodec)
+          expect(Codec.get('My1')).toStrictEqual(MyCodec)
         } finally {
           expect(unregister(MyCodec)).toBeTruthy()
         }

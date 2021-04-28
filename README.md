@@ -1,6 +1,5 @@
 # CustomFactory [![Build Status](https://img.shields.io/travis/snowyu/custom-factory.js/master.svg)](http://travis-ci.org/snowyu/custom-factory.js) [![npm](https://img.shields.io/npm/v/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![downloads](https://img.shields.io/npm/dm/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![license](https://img.shields.io/npm/l/custom-factory.svg)](https://npmjs.org/package/custom-factory)
 
-
 Easily add the factory ability to your class or object which can be singleton, name, register/unregister and aliases your class/object items.
 
 The factory could be hierarchical or flat. defaults to hierarchical.
@@ -137,6 +136,7 @@ The registered class is put into the property(the specified registered name) of 
         * it is the registered name if aOptions is string.
         * name*(String)*: optional unique id name to register, defaults to class name
         * displayName: optional display name
+        * alias,aliases*(String|string[])*: optional alias
         * baseNameOnly*(number)*: extract basename from class name to register it if no specified name.
           defaults to 1. the baseNameOnly number can be used on hierarchical factory, means max level to extract basename.
           0 means use the whole class name to register it, no extract.
@@ -197,14 +197,14 @@ The registered class is put into the property(the specified registered name) of 
 
 ### v1.4
 
-+ add baseNameOnly option to extract basename from class name when register it.
+* add baseNameOnly option to extract basename from class name when register it.
 * *broken* `Factory._objects`: mark deprecated. use the `Factory::_objects` instead
 * *broken* `Factory._aliases`: mark deprecated. use the `Factory::_aliases` instead
-+ (1.4.4)It will be treated as customized path name if the registered name is beginning with path delimiter('/')
+* (1.4.4)add It will be treated as customized path name if the registered name is beginning with path delimiter('/')
   * affects to path() and pathArray()
 * (1.4.5)all added properties of the factory class are non-enumerable now.
-+ (1.4.5)add forEach()/forEachClass() to iterate the registered items.
+* (1.4.5)add forEach()/forEachClass() to iterate the registered items.
   * break if callback function return 'brk'
-+ (1.4.6)add Factory::get() instance method to get registered items.
+* (1.4.6)add Factory::get() instance method to get registered items.
 * (1.4.10) aliases() can get the aliases of a class itself.
-+ (1.4.11) add the displayName() function to get or set display name.
+* (1.4.11) add the displayName() function to get or set display name.

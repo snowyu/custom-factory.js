@@ -1,6 +1,7 @@
+// /// <reference path="./base-factory.js" />
 // /**
 //  * @typedef {Object} ICustomFactoryOptions
-//  * @extends require('./base-factory').IBaseFactoryOptions
+//  * @extends IBaseFactoryOptions
 //  * @property {number=} baseNameOnly
 //  * @property {typeof CustomFactory} parent
 //  */

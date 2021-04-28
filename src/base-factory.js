@@ -3,6 +3,8 @@
  * @property {string=} name
  * @property {string=} displayName
  * @property {boolean=} baseNameOnly
+ * @property {string[]|string=} aliases
+ * @property {string[]|string=} alias
  */
 
 const inherits = require('inherits-ex/lib/inherits')
@@ -214,6 +216,15 @@ export class BaseFactory {
       Factory._children[vName] = aClass
       if (Factory !== this) {
         vChildren[vName] = aClass
+      }
+      const alias = aOptions && (aOptions.alias || aOptions.aliases)
+      if (alias) {
+        /* istanbul ignore else */
+        if (isString(alias)) {
+          Factory.setAlias(aClass, alias)
+        } else if (Array.isArray(alias)) {
+          Factory.setAliases(aClass, ...alias)
+        }
       }
     }
     return result

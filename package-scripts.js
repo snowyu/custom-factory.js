@@ -40,7 +40,7 @@ module.exports = {
       default: {
         description:
           'deletes the `lib` directory and transpiles all relevant `src` to the `lib`',
-        script: series(cleanDist, 'nps build.babel'),
+        script: series(cleanDist, 'nps build.babel', 'nps build.ts'),
       },
       babel: transpile,
       ts: {

@@ -306,6 +306,15 @@ describe('CustomFactory', () => {
       expect(unregister('un2')).toBeTrue()
       expect(Codec.registeredClass('MyUn')).toBeFalsy()
     })
+    test('should unregister child from factory', () => {
+      class UnMyNewCodec {}
+      expect(register(UnMyNewCodec, MyNewCodec)).toBeTruthy()
+      UnMyNewCodec.aliases = ['un', 'un2']
+
+      expect(unregister('un2')).toBeTrue()
+      expect(Codec.registeredClass('UnMyNew')).toBeFalsy()
+      expect(MyNewCodec.registeredClass('UnMyNew')).toBeFalsy()
+    })
   })
   describe('.createObject', () => {
     test('should create object via name', () => {

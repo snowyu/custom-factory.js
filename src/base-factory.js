@@ -279,7 +279,10 @@ export class BaseFactory {
       aName = Factory.getNameFrom(vClass)
       delete Factory._children[aName]
       Factory.cleanAliases(aName)
-      if (Factory !== this) delete vChildren[aName]
+      const vParentClass = getParentClass(vClass)
+      if (Factory !== vParentClass) {
+        delete vParentClass._children[aName]
+      }
     }
     return !!result
   }

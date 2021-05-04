@@ -102,10 +102,22 @@ export class CustomFactory extends BaseFactory {
     return Factory.formatName(result)
   }
 
+  /**
+   * get path of a class or itself
+   * @param {*=} aClass
+   * @param {*=} aRootName
+   * @returns {string[]}
+   */
   static path(aClass, aRootName) {
     return '/' + this.pathArray(aClass, aRootName).join('/')
   }
 
+  /**
+   * get path array of a class or itself
+   * @param {*=} aClass
+   * @param {*=} aRootName
+   * @returns {string[]}
+   */
   static pathArray(aClass, aRootName) {
     const Factory = this.Factory
     if (isString(aClass)) {

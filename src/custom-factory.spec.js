@@ -24,6 +24,7 @@ describe('CustomFactory', () => {
 
   class MyNewCodec {
     constructor() {
+      if (!this.Class) this.Class = Object.getPrototypeOf(this).constructor
       const Parent = getParentClass(this.Class)
       return Reflect.construct(Parent, arguments, this.Class)
     }
@@ -199,7 +200,7 @@ describe('CustomFactory', () => {
       expect(Codec.registeredClass('new5')).toStrictEqual(MyAliasCodec)
       expect(Codec.registeredClass('new6')).toStrictEqual(MyAliasCodec)
       expect(Codec.registeredClass('new3')).toBeFalsy()
-      expect(MyAliasCodec.unregister()).toBeTrue()
+      expect(MyAliasCodec.unregister()).toBe(true)
       expect(Codec.registeredClass('new6')).toBeFalsy()
     })
   })
@@ -281,12 +282,12 @@ describe('CustomFactory', () => {
         'un',
         'un2',
       ])
-      expect(unregister(MyUnCodec)).toBeTrue()
+      expect(unregister(MyUnCodec)).toBe(true)
       expect(Codec.registeredClass('MyUn')).toBeFalsy()
       expect(Codec.aliases).toEqual(['new', 'new2', 'newSub', 'sub'])
 
       expect(register(MyUnCodec)).toBeTruthy()
-      expect(MyUnCodec.unregister()).toBeTrue()
+      expect(MyUnCodec.unregister()).toBe(true)
       expect(Codec.registeredClass('MyUn')).toBeFalsy()
     })
 
@@ -294,7 +295,7 @@ describe('CustomFactory', () => {
       class MyUnCodec {}
       expect(register(MyUnCodec)).toBeTruthy()
 
-      expect(unregister('MyUn')).toBeTrue()
+      expect(unregister('MyUn')).toBe(true)
       expect(Codec.registeredClass('MyUn')).toBeFalsy()
     })
 
@@ -303,7 +304,7 @@ describe('CustomFactory', () => {
       expect(register(MyUnCodec)).toBeTruthy()
       MyUnCodec.aliases = ['un', 'un2']
 
-      expect(unregister('un2')).toBeTrue()
+      expect(unregister('un2')).toBe(true)
       expect(Codec.registeredClass('MyUn')).toBeFalsy()
     })
     test('should unregister child from factory', () => {
@@ -311,12 +312,17 @@ describe('CustomFactory', () => {
       expect(register(UnMyNewCodec, MyNewCodec)).toBeTruthy()
       UnMyNewCodec.aliases = ['un', 'un2']
 
-      expect(unregister('un2')).toBeTrue()
+      expect(unregister('un2')).toBe(true)
       expect(Codec.registeredClass('UnMyNew')).toBeFalsy()
       expect(MyNewCodec.registeredClass('UnMyNew')).toBeFalsy()
     })
   })
   describe('.createObject', () => {
+    test('should new Object directly', () => {
+      const result = new MyNewCodec(33)
+      expect(result).toBeInstanceOf(MyNewCodec)
+      expect(result).toHaveProperty('bufferSize', 33)
+    })
     test('should create object via name', () => {
       let result = Codec.createObject('new', 32)
       expect(result).toBeInstanceOf(MyNewCodec)

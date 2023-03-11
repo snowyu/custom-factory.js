@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/snowyu/custom-factory.js/compare/v2.1.0-alpha.0...v2.1.0) (2023-03-11)
+
+
+### Bug Fixes
+
+* **CustomFactory:** unregister child should remove itself from parent class too ([b50fb4f](https://github.com/snowyu/custom-factory.js/commit/b50fb4fe47bba3d509c26939c9de760cca9917cc))
+
 ## [2.1.0-alpha.0](https://github.com/snowyu/custom-factory.js/compare/v1.5.0...v2.1.0-alpha.0) (2021-04-25)
 
 

@@ -7,61 +7,63 @@ The flat factory means register only on the Root Factory.
 
 The General Factory for class or object(singleton instance).
 
-Hierarchical factory:
+Hierarchical factory(`CustomFactory`):
 
 1. all registered items are stored into the root factory and parent factory.
 1. the registered items are the enumerable properties of the root factory class and parent factory class.
    * unless registered names or aliases exists.
+
+The class factory pattern is a design pattern that allows for the registration and retrieval of classes based on a unique name or alias. The main goal of the pattern is to decouple the creation of objects from their use, thus promoting better code reusability and flexibility.
+
+The `BaseFactory` class is a simple implementation of the class factory pattern that supports flat registration and retrieval of classes. The `register()` method allows a class to be registered with the factory by providing a constructor function, along with an optional set of options. The options can include a unique name or alias for the class, as well as a display name. Multiple aliases can also be provided. The `unregister()` method removes a class from the factory, and the `get()` method retrieves a class based on its unique name or alias.
+
+The `CustomFactory` class is an extension of `BaseFactory` that supports hierarchical registration of classes. Classes can be registered with parent classes, creating a hierarchy of class registration that resembles a directory structure. The `register()` method can take an optional parent class parameter, allowing a class to be registered as a child of the parent. The `path()` method returns a string representation of the hierarchical path to a class, and the `pathArray()` method returns an array representation of the hierarchical path.
+
+Overall, the class factory pattern provides a useful way to manage classes in a flexible and organized manner, especially in large-scale software systems.
 
 ## Usage
 
 * BaseFactory: the flat factory
   * CustomFactory: the hierarchical factory
 
-### Factory Usage
-
-The Simplest Class Factory.
-
-```js
-const IntegerType = TypeFactory.get('Integer')
-// it can use an alias to visit.
-const IntType = TypeFactory.get('Int')
-
-// Int1Type is the same with IntType
-IntType.should.be.equal(IntegerType)
-
-var i = new IntType(1)
-```
-
-The hierarchical singleton object factory.
-
-```js
-const TextCodec = Codec.get('Text')     // # get the JsonCodec Class
-const JsonCodec = Codec.get('Json')     // # note: name is case-sensitive!
-const Json1Codec = TextCodec.get('Json') // # or like this
-
-const TextCodec = Codec.get('Text')  // or Codec('utf8')
-
-JsonCodec.should.be.equal(Json1Codec)
-
-const NumberType   = Type.get('number')
-const IntegerType  = Type.get('integer')
-
-isInheritedFrom(IntegerType, NumberType).should.be.true
-IntegerType.should.be.equal(NumberType.get('integer'))
-
-const aInteger = new IntegerType(124)
-const aRangeInteger = new IntegerType(0, {min: 0, max: 100})
-
-expect(aInteger).toBeGreaterThan(aRangeInteger)
-aRangeInteger.assign(6)
-expect(aInteger + aRangeInteger).toEqual(130)
-
-```
-
 ## Factory Development
 
-Abstract Codec hierarchical factory.
+### The Flat Factory
+
+```js
+import { BaseFactory } from 'custom-factory'
+
+class Factory extends BaseFactory {
+  initialize(aOptions) {
+    if (typeof aOptions === 'number') {
+      this.bufferSize = aOptions
+    } else if (aOptions && aOptions.bufferSize) {
+      this.bufferSize = aOptions.bufferSize
+    }
+  }
+}
+
+const register = Factory.register.bind(Factory)
+const aliases = Factory.setAliases.bind(Factory)
+const unregister = Factory.unregister.bind(Factory)
+
+class MyFactory {}
+register(MyFactory)
+aliases(MyFactory, 'my', 'MY')
+
+expect(Factory.get('my')).toStrictEqual(MyFactory)
+Factory.setDisplayName('MyFactory', 'ChangeIt')
+expect(Factory.getDisplayName('MyFactory')).toStrictEqual('ChangeIt')
+expect(MyFactory.getDisplayName()).toStrictEqual('ChangeIt')
+
+let result = Factory.createObject('my', 32)
+expect(result).toBeInstanceOf(MyFactory)
+expect(result).toBeInstanceOf(Factory)
+expect(result).toHaveProperty('bufferSize', 32)
+
+```
+
+### The Hierarchical Factory
 
 ```mermaid
 graph LR
@@ -72,10 +74,10 @@ graph LR
   ....... --> Type
 ```
 
-The realistic example
+The realistic dynamic type example
 
 ```js
-import { CustomFactory } from 'custom-factory'
+import { CustomFactory, BaseFactory } from 'custom-factory'
 
 export class Type extends CustomFactory {
 
@@ -121,6 +123,46 @@ export class IntegerType extends Type {
 }
 register(IntegerType)
 aliases(IntegerType, 'int')
+```
+
+### Factory Usage
+
+The Simplest Class Factory.
+
+```js
+const IntegerType = TypeFactory.get('Integer')
+// it can use an alias to visit.
+const IntType = TypeFactory.get('Int')
+
+// Int1Type is the same with IntType
+IntType.should.be.equal(IntegerType)
+
+var i = new IntType(1)
+```
+
+The hierarchical singleton object factory.
+
+```js
+const TextCodec = Codec.get('Text')     // # get the JsonCodec Class
+const JsonCodec = Codec.get('Json')     // # note: name is case-sensitive!
+const Json1Codec = TextCodec.get('Json') // # or like this
+
+const TextCodec = Codec.get('Text')  // or Codec('utf8')
+
+JsonCodec.should.be.equal(Json1Codec)
+
+const NumberType   = Type.get('number')
+const IntegerType  = Type.get('integer')
+
+isInheritedFrom(IntegerType, NumberType).should.be.true
+IntegerType.should.be.equal(NumberType.get('integer'))
+
+const aInteger = new IntegerType(124)
+const aRangeInteger = new IntegerType(0, {min: 0, max: 100})
+
+expect(aInteger).toBeGreaterThan(aRangeInteger)
+aRangeInteger.assign(6)
+expect(aInteger + aRangeInteger).toEqual(130)
 
 ```
 
@@ -183,13 +225,13 @@ The registered class is put into the property(the specified registered name) of 
     * `pathArray(aClass?: typeof CustomFactory, aRootName?: string)`: get the path array of this aClass factory item or itself.
       * `aRootName`: defaults to `RootFactory.ROOT_NAME || RootFactory.prototype.name || RootFactory.name`
 
-**Note**: the `name` is **case sensitive**.
+**Note**: the `name` is **case sensitive**, you can overwrite the `formatName(aName: string): string` static method to implement the **case insensitive**.
 
 ## Changes
 
 ### v2.x
 
-* refract the code with class.
+* *broken* refactor the code with class declaration
 
 ### v.1.5
 

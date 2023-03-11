@@ -16,27 +16,43 @@ const createObject = require('inherits-ex/lib/createObject')
 const getObjectKeys = Object.keys
 
 /**
- * get the parent class(ctor) of ctor
+ * get the parent class(ctor) of the ctor
  * @param {Function} ctor
- * @returns {Function} parent ctor
+ * @returns the parent ctor
  */
 export function getParentClass(ctor) {
   // get the internal __proto__([[prototype]]) property
   return ctor.super_ || getPrototypeOf(ctor)
 }
 
+/**
+ * Detect the value whether is a function
+ * @param v the value to detect
+ */
 export function isFunction(v) {
   return 'function' === typeof v
 }
 
+/**
+ * Detect the value whether is a string
+ * @param {*} v the value to detect
+ */
 export function isString(v) {
   return 'string' === typeof v
 }
 
+/**
+ * Detect the value whether is an object
+ * @param {*} v the value to detect
+ */
 export function isObject(v) {
   return v != null && 'object' === typeof v
 }
 
+/**
+ * Detect the object whether is a pure object(the ctor is Object)
+ * @param {*} v the value to detect
+ */
 export function isPureObject(v) {
   return isObject(v) && v.constructor === Object
 }

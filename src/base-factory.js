@@ -16,11 +16,12 @@ const createObject = require('inherits-ex/lib/createObject')
 const getObjectKeys = Object.keys
 
 /**
- * get the parent class of ctor
- * @param {*} ctor
- * @returns
+ * get the parent class(ctor) of ctor
+ * @param {Function} ctor
+ * @returns {Function} parent ctor
  */
 export function getParentClass(ctor) {
+  // get the internal __proto__([[prototype]]) property
   return ctor.super_ || getPrototypeOf(ctor)
 }
 

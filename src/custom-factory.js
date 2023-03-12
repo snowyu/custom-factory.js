@@ -1,10 +1,11 @@
-// /// <reference path="./base-factory.js" />
-// /**
-//  * @typedef {Object} ICustomFactoryOptions
-//  * @extends IBaseFactoryOptions
-//  * @property {number=} baseNameOnly
-//  * @property {typeof CustomFactory} parent
-//  */
+///// <reference path="./base-factory.js" />
+
+/**
+ * @typedef {import('./base-factory.js').IBaseFactoryOptions & {
+ *   baseNameOnly?: number;
+ *   parent?: typeof CustomFactory;
+ * }} ICustomFactoryOptions
+ */
 
 // const getPrototypeOf = require('inherits-ex/lib/getPrototypeOf')
 const isInheritedFrom = require('inherits-ex/lib/isInheritedFrom')
@@ -18,7 +19,7 @@ const {
 } = require('./base-factory')
 
 /**
- * abstract hierarchical factory class
+ * Abstract hierarchical factory class
  */
 export class CustomFactory extends BaseFactory {
   /**
@@ -157,8 +158,8 @@ export class CustomFactory extends BaseFactory {
   /**
    * register the aClass to the factory
    * @param {typeof CustomFactory=} aClass the class to register the Factory
-   * @param {typeof CustomFactory|IBaseFactoryOptions=} aParentClass the optional parent class
-   * @param {IBaseFactoryOptions|any=} aOptions the options for the class and the factory
+   * @param {typeof CustomFactory|ICustomFactoryOptions=} aParentClass the optional parent class
+   * @param {ICustomFactoryOptions|any=} aOptions the options for the class and the factory
    * @returns {boolean} return true if successful.
    */
   static register(aClass, aParentClass, aOptions) {

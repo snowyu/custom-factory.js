@@ -27,7 +27,7 @@ export function getParentClass(ctor) {
 
 /**
  * Detect the value whether is a function
- * @param v the value to detect
+ * @param {*} v the value to detect
  */
 export function isFunction(v) {
   return 'function' === typeof v
@@ -57,6 +57,13 @@ export function isPureObject(v) {
   return isObject(v) && v.constructor === Object
 }
 
+/**
+ * Set the displayname to the class in the Factory if no displayname exists
+ * @param {typeof BaseFactory} Factory
+ * @param {string|Function} aClass the class in the Factory
+ * @param {string=} aDisplayName the displayname to set
+ * @returns {String} the unique name of the aClass in the Factory
+ */
 function _getClassNameEnsureDisplayName(Factory, aClass, aDisplayName) {
   let vClass
   if (isString(aClass)) {
@@ -72,7 +79,8 @@ function _getClassNameEnsureDisplayName(Factory, aClass, aDisplayName) {
 }
 
 /**
- * abstract flat factory class
+ * Abstract flat factory class
+ * @abstract
  */
 export class BaseFactory {
   /**
@@ -85,7 +93,7 @@ export class BaseFactory {
   static _Factory = undefined
 
   /**
-   * The registered Factory classes
+   * The registered classes in the Factory
    * @name _children
    * @abstract
    * @internal
@@ -94,7 +102,7 @@ export class BaseFactory {
   static _children = undefined
 
   /**
-   * the registered items aliases object.
+   * the registered alias items object.
    * the key is alias name, the value is the registered name
    * @type {[alias: string]: string}
    * @abstract
@@ -116,18 +124,44 @@ export class BaseFactory {
     return this._Factory
   }
 
+  /**
+   * Extracts a specified number of words from a PascalCase class name to use as a base name for registration,
+   * only if no `name` is specified. The parameter value indicates the maximum depth of the word extraction.
+   *
+   * In JavaScript, class names use `PascalCase` convention where each word starts with a capital letter.
+   * The baseNameOnly parameter is a number that specifies which words to extract from the class name as the base name.
+   * If the value is 1, it extracts the first word, 2 extracts the first two words, and 0 uses the entire class name.
+   * The base name is used to register the class to the factory.
+   *
+   * @example
+   *   such as "JsonTextCodec" if baseNameOnly is 1, the first word "Json" will be extracted from "JsonTextCodec" as
+   *   the base name. If baseNameOnly is 2, the first two words "JsonText" will be extracted as the base name. If
+   *   baseNameOnly is 0, the entire class name "JsonTextCodec" will be used as the base name.
+   * @name _baseNameOnly
+   * @type {number}
+   * @default 1
+   * @internal
+   */
   static _baseNameOnly = 1
 
   /**
    * find the real root factory
+   *
+   * You can overwrite it to specify your root factory class
    * @abstract
    * @internal
-   * @returns {typeof BaseFactory} the root factory class
+   * @returns {typeof BaseFactory|undefined} the root factory class
    */
   static findRootFactory() {
     return this._findRootFactory(BaseFactory)
   }
 
+  /**
+   * find the real root factory
+   * @internal
+   * @param {typeof BaseFactory} aClass the abstract root factory class
+   * @returns {typeof BaseFactory|undefined}
+   */
   static _findRootFactory(aClass) {
     let result
     let ctor = this
@@ -138,14 +172,33 @@ export class BaseFactory {
     return result
   }
 
+  /**
+   * get the unique name in the factory from an alias name
+   * @param {string} alias the alias name
+   * @returns {string|undefined} the unique name in the factory
+   */
   static getRealNameFromAlias(alias) {
     return this._aliases[alias]
   }
 
+  /**
+   * format(transform) the name to be registered.
+   *
+   * defaults to returning the name unchanged. By overloading this method, case-insensitive names can be achieved.
+   * @abstract
+   * @internal
+   * @param {string} aName
+   * @returns {string}
+   */
   static formatName(aName) {
     return aName
   }
 
+  /**
+   * Get the unique(registered) name in the factory
+   * @param {string|Function} aClass
+   * @returns {string} the unique name in the factory
+   */
   static getNameFrom(aClass) {
     const Factory = this.Factory
     const result = isFunction(aClass)
@@ -155,7 +208,7 @@ export class BaseFactory {
   }
 
   /**
-   * format name for the aClass
+   * format(transform) the name to be registered for the aClass
    * @param {*} aClass
    * @param {*} aBaseNameOnly
    * @returns {string} the name to register
@@ -248,9 +301,9 @@ export class BaseFactory {
   }
 
   /**
-   * check the name, alias or itself whether registered
+   * Check the name, alias or itself whether registered.
    * @param {string|undefined} aName the class name
-   * @returns {false|typeof BaseFactory}
+   * @returns {false|typeof BaseFactory} the registered class if registered, otherwise returns false
    */
   static registeredClass(aName) {
     let Factory = this.Factory
@@ -274,6 +327,11 @@ export class BaseFactory {
     return result
   }
 
+  /**
+   * unregister this class in the factory
+   * @param {string|Function|undefined} aName the registered name or class, no name means unregister itself.
+   * @returns {boolean} true means successful
+   */
   static unregister(aName) {
     let Factory = this.Factory
     const vChildren = this._children
@@ -335,6 +393,16 @@ export class BaseFactory {
    * set aliases to a class
    * @param {typeof BaseFactory|string|undefined} aClass the class to set aliases
    * @param  {...string} aliases the left arguments are aliases
+   *
+   * @example
+   *   import { BaseFactory } from 'custom-factory'
+   *   class Factory extends BaseFactory {}
+   *   const register = Factory.register.bind(Factory)
+   *   const aliases = Factory.setAliases.bind(Factory)
+   *   class MyFactory {}
+   *   register(MyFactory)
+   *   aliases(MyFactory, 'my', 'MY')
+   *
    */
   static setAliases(aClass, ...aAliases) {
     const Factory = this.Factory
@@ -371,8 +439,8 @@ export class BaseFactory {
   }
 
   /**
-   * get the aliases of the class
-   * @param {typeof BaseFactory|string|undefined} aClass the class or name to get aliases
+   * get the aliases of the aClass
+   * @param {typeof BaseFactory|string|undefined} aClass the class or name to get aliases, means itself if no aClass specified
    * @returns {string[]} aliases
    */
   static getAliases(aClass) {
@@ -388,6 +456,9 @@ export class BaseFactory {
     return result
   }
 
+  /**
+   * the aliases of itself
+   */
   static get aliases() {
     return this.getAliases()
   }
@@ -398,6 +469,11 @@ export class BaseFactory {
     else this.setAliases(null, ...value)
   }
 
+  /**
+   * Get the display name from aClass
+   * @param {string|Function|undefined} aClass the class, name or itself, means itself if no aClass
+   * @returns {string|undefined}
+   */
   static getDisplayName(aClass) {
     const Factory = this.Factory
     if (!aClass) {
@@ -408,6 +484,11 @@ export class BaseFactory {
     return aClass.prototype._displayName || Factory.getNameFrom(aClass)
   }
 
+  /**
+   * Set the display name to the aClass
+   * @param {string|Function|undefined} aClass the class, name or itself, means itself if no aClass
+   * @param {string|{displayName: string}} aDisplayName the display name to set
+   */
   static setDisplayName(aClass, aDisplayName) {
     const Factory = this.Factory
     if (isString(aClass)) {
@@ -428,9 +509,10 @@ export class BaseFactory {
   }
 
   /**
+   * This callback function is used to get all the classes in the factory. If 'brk' is returned, the function will stop.
    * @callback FactoryClassForEachFn
-   * @param {typeof BaseFactory} ctor
-   * @param {string} name
+   * @param {typeof BaseFactory} ctor the class in the factory
+   * @param {string} name the unique name in the factory
    * @returns {'brk'|string|undefined}
    */
 
@@ -459,7 +541,7 @@ export class BaseFactory {
   }
 
   /**
-   * get the registered class via name
+   * Get the registered class via name
    * @param {string} aName the class name or alias
    * @returns {undefined|typeof BaseFactory} return the registered class if found the name
    */
@@ -478,7 +560,7 @@ export class BaseFactory {
   }
 
   /**
-   * create a new object instance of Factory
+   * Create a new object instance of Factory
    * @param {string|BaseFactory} aName
    * @param {*} aOptions
    * @returns {BaseFactory|undefined}
@@ -512,6 +594,7 @@ export class BaseFactory {
     this.initialize.apply(this, arguments)
   }
 
+  /* istanbul ignore next */
   /**
    * initialize instance method
    * @abstract

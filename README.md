@@ -179,12 +179,12 @@ The registered class is put into the property(the specified registered name) of 
         * name*(String)*: optional unique id name to register, defaults to class name
         * displayName: optional display name
         * alias,aliases*(String|string[])*: optional alias
-        * baseNameOnly*(number)*: extract basename from class name to register it if no specified name.
-          defaults to 1. the baseNameOnly number can be used on hierarchical factory, means max level to extract basename.
-          0 means use the whole class name to register it, no extract.
-          * eg, the `Codec` is a Root Factory, we add the `TextCodec` to "Codec", add the `JsonTextCodec` to "TextCodec"
-            * baseNameOnly = 1: `TextCodec` name is 'Text', `JsonTextCodec` name is 'JsonText'
-            * baseNameOnly = 2: `TextCodec` name is 'Text', `JsonTextCodec` name is 'Json'
+        * baseNameOnly*(boolean)*: extracts a specified number of words from a PascalCase class name to use as a base name for registration, only if no `name` is specified.
+          * defaults to true. the baseNameOnly number can be used on hierarchical factory.
+          * false means use the whole class name to register it, no extract.
+          * eg, the `Codec` is a Root Factory, we add the `TextCodec` to "Codec"
+            * `baseNameOnly = true`: `TextCodec` name is 'Text'
+            * `baseNameOnly = false`: `TextCodec` name is 'TextCodec'
     * `unregister(aName|aClass|undefined)`: unregister the class, class name or itself from the Factory
     * `setAliases(aClass, ...aliases: string[])`: add/update aliases to the aClass.
     * `setAlias(aClass, alias: string)`: add/update an alias to the aClass.
@@ -214,9 +214,9 @@ The registered class is put into the property(the specified registered name) of 
         * it is the registered name if aOptions is string.
         * `name`*(String)*: optional unique id name to register, defaults to class name
         * `displayName`: optional display name
-        * `baseNameOnly`*(number)*: extract basename from class name to register it if no specified name.
-          defaults to 1. the baseNameOnly number can be used on hierarchical factory, means max level to extract basename.
-          0 means use the whole class name to register it, no extract.
+        * baseNameOnly*(number)*: extracts a specified number of words from a PascalCase class name to use as a base name for registration, only if no `name` is specified. The parameter value indicates the maximum depth of the word extraction.
+          * defaults to 1. the baseNameOnly number can be used on hierarchical factory.
+          * 0 means use the whole class name to register it, no extract.
           * eg, the `Codec` is a Root Factory, we add the `TextCodec` to "Codec", add the `JsonTextCodec` to "TextCodec"
             * baseNameOnly = 1: `TextCodec` name is 'Text', `JsonTextCodec` name is 'JsonText'
             * baseNameOnly = 2: `TextCodec` name is 'Text', `JsonTextCodec` name is 'Json'

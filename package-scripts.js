@@ -47,7 +47,7 @@ module.exports = {
         description: 'build the typescript declaration files',
         script: series(
           'tsc',
-          'npx remove-internal --outdir=./types types/*.d.ts'
+          // 'npx remove-internal --outdir=./types types/*.d.ts'
         ),
       },
       watch: 'nps "build --watch"',

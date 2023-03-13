@@ -9,7 +9,7 @@
 
 // const getPrototypeOf = require('inherits-ex/lib/getPrototypeOf')
 // const isInheritedFrom = require('inherits-ex/lib/isInheritedFrom')
-import * as isInheritedFrom from 'inherits-ex/lib/isInheritedFrom.js'
+import isInheritedFrom from 'inherits-ex/lib/isInheritedFrom.js'
 
 // const {
 //   BaseFactory,

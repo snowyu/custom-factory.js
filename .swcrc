@@ -1,0 +1,31 @@
+{
+  "exclude": ["test", ".*\\.spec|test\\.(j|t)s$"],
+  "jsc": {
+    "target": "es2015",
+    "keepClassNames": true,
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true,
+      // "jsx": true
+    },
+    "minify": {
+      "compress": false,
+      "mangle": false,
+    },
+    "transform": {
+      "legacyDecorator": true,
+      // "decoratorMetadata": true, // for ts `emitDecoratorMetadata`
+    }
+  },
+  "module": {
+    "type": "commonjs", // `commonjs`, `umd`, `amd`, `systemjs`, `es6`, `nodenext`
+    // "noInterop": true
+  },
+  // "env": {
+  //   "targets": {
+  //     "node": "18",
+  //   }
+  // },
+  // "minify": true,
+  // "isModule": true,
+}

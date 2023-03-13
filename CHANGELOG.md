@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/snowyu/custom-factory.js/compare/v2.1.0...v2.2.0) (2023-03-13)
+
+
+### Features
+
+* Add ESM(ECMAScript module) supports for nodejs@12 and above ([3c1fb61](https://github.com/snowyu/custom-factory.js/commit/3c1fb6153351284b5cd275e2bcba5ff8f8126246))
+* Use [SWC](https://swc.rs/) instead of babel. ([64ca528](https://github.com/snowyu/custom-factory.js/commit/64ca5281e943596467a591662e28c9aabdf8f687))
+
+
+### Bug Fixes
+
+* import glitch ([b2efb3b](https://github.com/snowyu/custom-factory.js/commit/b2efb3bbb14481d344f166b10d034c237b86cd04))
+* some ts declaration and documents missing ([dcf027b](https://github.com/snowyu/custom-factory.js/commit/dcf027bbf6d04c5f32116fe16708ac7f83a567d8))
+
 ## [2.1.0](https://github.com/snowyu/custom-factory.js/compare/v2.1.0-alpha.0...v2.1.0) (2023-03-11)
 
 

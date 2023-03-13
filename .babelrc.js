@@ -26,15 +26,15 @@ const plugins = [
   ['@babel/plugin-transform-modules-commonjs', { strictMode: false }],
   // ['@babel/plugin-transform-classes', {}],
   // ['babel-plugin-transform-class', {}],
-  [
-    'module-resolver',
-    {
-      root: ['./src'],
-      alias: {
-        '@lib': './src/lib',
-      },
-    },
-  ],
+  // [
+  //   'module-resolver',
+  //   {
+  //     root: ['./src'],
+  //     alias: {
+  //       '@lib': './src/lib',
+  //     },
+  //   },
+  // ],
   // ['@babel/plugin-transform-runtime', {
   //   "absoluteRuntime": false,
   //   'corejs': false,

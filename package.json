@@ -34,6 +34,8 @@
     "build.swc.cjs": "swc src -d lib/cjs --config-file build.swcrc -C module.type=commonjs",
     "build.swc.mjs": "swc src -d lib/esm --config-file build.swcrc -C module.type=es6",
     "build.ts": "tsc",
+    "release": "npx standard-version",
+    "release.alpha": "npx standard-version --prerelease alpha",
     "start": "nps",
     "test": "jest --runInBand --config .jest.config.cjs"
   },

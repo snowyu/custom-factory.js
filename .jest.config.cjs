@@ -5,7 +5,7 @@ module.exports = {
   coverageDirectory: '.coverage',
   // coverageReporters: ['json', 'html', 'lcov'],
   collectCoverageFrom: ['src/**/*.js'],
-  coveragePathIgnorePatterns: ['.jest.config.js', 'src/index.js'],
+  coveragePathIgnorePatterns: ['.jest.config.cjs', 'src/index.js'],
   // Fail if there is less than 20% branch, line, and function coverage,
   // or if there are more than 20 uncovered statements:
   coverageThreshold: {
@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   transform: {
-    '^.+\\.js$': 'babel-jest',
+    '^.+\\.js$': '@swc/jest',
   },
   testMatch: [
     // '<rootDir>/test/jest/__tests__/**/*.spec.js',

@@ -7,10 +7,15 @@
  * @property {string[]|string=} alias
  */
 
-const inherits = require('inherits-ex/lib/inherits')
-const isInheritedFrom = require('inherits-ex/lib/isInheritedFrom')
-const getPrototypeOf = require('inherits-ex/lib/getPrototypeOf')
-const createObject = require('inherits-ex/lib/createObject')
+// const inherits = require('inherits-ex/lib/inherits')
+// const isInheritedFrom = require('inherits-ex/lib/isInheritedFrom')
+// const getPrototypeOf = require('inherits-ex/lib/getPrototypeOf')
+// const createObject = require('inherits-ex/lib/createObject')
+import * as inherits from 'inherits-ex/lib/inherits.js'
+import * as isInheritedFrom from 'inherits-ex/lib/isInheritedFrom.js'
+import * as getPrototypeOf from 'inherits-ex/lib/getPrototypeOf.js'
+import * as createObject from 'inherits-ex/lib/createObject.js'
+
 
 // const slice = [].slice
 const getObjectKeys = Object.keys

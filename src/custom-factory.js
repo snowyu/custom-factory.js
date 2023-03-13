@@ -8,15 +8,24 @@
  */
 
 // const getPrototypeOf = require('inherits-ex/lib/getPrototypeOf')
-const isInheritedFrom = require('inherits-ex/lib/isInheritedFrom')
+// const isInheritedFrom = require('inherits-ex/lib/isInheritedFrom')
+import * as isInheritedFrom from 'inherits-ex/lib/isInheritedFrom.js'
 
-const {
+// const {
+//   BaseFactory,
+//   isPureObject,
+//   isFunction,
+//   isString,
+//   getParentClass,
+// } = require('./base-factory')
+
+import {
   BaseFactory,
   isPureObject,
   isFunction,
   isString,
   getParentClass,
-} = require('./base-factory')
+} from './base-factory.js'
 
 /**
  * Abstract hierarchical factory class

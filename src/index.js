@@ -1,2 +1,2 @@
-export * from './base-factory'
-export * from './custom-factory'
+export * from './base-factory.js'
+export * from './custom-factory.js'

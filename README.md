@@ -229,6 +229,15 @@ The registered class is put into the property(the specified registered name) of 
 
 ## Changes
 
+### v2.1.0
+
+* *broken* nodejs@11 and below
+  * the `require('custome-factory/lib/*.js')` should be `require('custome-factory/lib/cjs/*.js')` now
+* Add ESM(ECMAScript module) supports for nodejs@12 and above
+* Add `type: module` for nodejs@12 and above(the `.js` defaults to `.mjs` now.)
+  * So `import` only for nodejs@12 and above
+* Use [SWC](https://swc.rs/) instead of babel.
+
 ### v2.x
 
 * *broken* refactor the code with class declaration

@@ -18,7 +18,7 @@ const presets = [
     },
   ],
   // If you are not using flow remove the following line.
-  '@babel/preset-flow',
+  // '@babel/preset-flow',
 ]
 
 const plugins = [
@@ -57,4 +57,12 @@ module.exports = {
   // reason it is better to have the lines match up than to have
   // nicer source code.
   retainLines: true,
+
+  // can not ignore these files for test
+  // ignore: [
+  //   "__tests__",
+  //   "__mocks__",
+  //   "**/*.spec.js",
+  //   "**/*.test.js",
+  // ],
 }

@@ -1,13 +1,17 @@
 // package-scripts.js is a convention used by the 'nps' utility
 // It's like package.json scripts, but more flexible.
 // const { concurrent, series, runInNewWindow, rimraf } = require('nps-utils')
-const { series, rimraf } = require('nps-utils')
+// const { series, rimraf } = require('nps-utils')
+
+function series(...scripts) {
+  return scripts.filter(Boolean).join(' && ')
+}
 
 // const pkg = require('./package.json')
 
 const transpile =
   'babel --config-file ./.babelrc.js --out-dir lib --ignore __tests__,__mocks__,**/*.spec.js,**/*.test.js src'
-const cleanDist = rimraf('lib')
+const cleanDist = "rimraf 'lib'"
 
 // const retry = n => cmd =>
 //   Array(n)

@@ -229,7 +229,7 @@ The registered class is put into the property(the specified registered name) of 
 
 ## Changes
 
-### v2.1.0
+### v2.2.0
 
 * *broken* nodejs@11 and below
   * the `require('custome-factory/lib/*.js')` should be `require('custome-factory/lib/cjs/*.js')` now

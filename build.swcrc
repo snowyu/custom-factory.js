@@ -1,4 +1,5 @@
 {
+  "exclude": ["test", ".*\\.spec|test\\.(j|t)s$"],
   "jsc": {
     "target": "es2015",
     "keepClassNames": true,

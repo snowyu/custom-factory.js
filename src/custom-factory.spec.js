@@ -1,6 +1,6 @@
 import 'jest-extended'
 // const getPrototypeOf = require('inherits-ex/lib/getPrototypeOf')
-const createCtor = require('inherits-ex/lib/createCtor')
+import { createCtor } from 'inherits-ex/lib/createCtor'
 
 import { CustomFactory } from './custom-factory'
 import { getParentClass } from './base-factory'

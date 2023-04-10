@@ -599,7 +599,7 @@ export class BaseFactory {
     this.initialize.apply(this, arguments)
   }
 
-  /* istanbul ignore next */
+  /* istanbul ignore start */
   /**
    * initialize instance method
    * @abstract
@@ -607,4 +607,5 @@ export class BaseFactory {
    * @param {...any} arguments pass through all arguments coming from constructor
    */
   initialize() {}
+  /* istanbul ignore end */
 }

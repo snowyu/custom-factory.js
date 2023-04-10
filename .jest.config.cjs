@@ -17,7 +17,8 @@ module.exports = {
     },
   },
   transform: {
-    '^.+\\.js$': '@swc/jest',
+    // '^.+\\.js$': '@swc/jest',
+    "\\.[jt]sx?$": "babel-jest"
   },
   testMatch: [
     // '<rootDir>/test/jest/__tests__/**/*.spec.js',

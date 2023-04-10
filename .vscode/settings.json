@@ -33,5 +33,6 @@
     "dist/": true,
     "node_modules": true,
     ".coverage": true
-  }
+  },
+  "jest.jestCommandLine": "npm test --"
 }

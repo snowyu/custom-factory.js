@@ -1,10 +1,10 @@
 /**
  * @typedef {Object} IBaseFactoryOptions
- * @property {string=} name
- * @property {string=} displayName
+ * @property {string=} name  the registered item name
+ * @property {string=} displayName the registered item display name
  * @property {boolean=} baseNameOnly
- * @property {string[]|string=} aliases
- * @property {string[]|string=} alias
+ * @property {string[]|string=} aliases the registered item aliases
+ * @property {string[]|string=} alias   the registered item alias
  * @property {Function|boolean} [isFactory] defaults to true
  * @property {boolean} [autoInherits] defaults to true
  */

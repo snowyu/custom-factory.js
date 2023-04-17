@@ -1,5 +1,6 @@
 import 'jest-extended'
 import { BaseFactory, isPureObject } from './base-factory'
+import { isInheritedFrom } from 'inherits-ex';
 
 class Codec extends BaseFactory {
   // static _aliases = {}
@@ -298,6 +299,39 @@ describe('BaseFactory', () => {
           expect(Codec.get('my1')).toBeUndefined()
         }
       })
+      test('should register a new product item Class', () => {
+        class MyPCodec {}
+        expect(
+          register(MyPCodec, { isFactory: false })
+        ).toBeTruthy()
+        try {
+          expect(Codec.get('MyP')).toStrictEqual(MyPCodec)
+          expect(isInheritedFrom(MyPCodec, Codec)).toBe(false)
+        } finally {
+          expect(unregister(MyPCodec)).toBeTruthy()
+        }
+      })
+      test('should not register a new factory item Class if no autoInherits', () => {
+        class MyPCodec {}
+        expect( () =>
+          register(MyPCodec, { autoInherits: false })
+        ).toThrow(`the factory item "MyP" is not inherited from "Codec"`)
+      })
+      test('should register a new another factory item Class with autoInherits', () => {
+        class MyPCodec {}
+        class CcCodec {}
+        expect(
+          register(MyPCodec, { isFactory: CcCodec })
+        ).toBeTruthy()
+        try {
+          expect(Codec.get('MyP')).toStrictEqual(MyPCodec)
+          expect(isInheritedFrom(MyPCodec, Codec)).toBe(false)
+          expect(isInheritedFrom(MyPCodec, CcCodec)).toBeTruthy()
+        } finally {
+          expect(unregister(MyPCodec)).toBeTruthy()
+        }
+      })
+
     })
 
     describe('.unregister', () => {

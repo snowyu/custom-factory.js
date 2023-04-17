@@ -5,6 +5,8 @@
  * @property {boolean=} baseNameOnly
  * @property {string[]|string=} aliases
  * @property {string[]|string=} alias
+ * @property {Function|boolean} [isFactory] defaults to true
+ * @property {boolean} [autoInherits] defaults to true
  */
 
 // const inherits = require('inherits-ex/lib/inherits')
@@ -215,7 +217,7 @@ export class BaseFactory {
   /**
    * format(transform) the name to be registered for the aClass
    * @param {*} aClass
-   * @param {*} aBaseNameOnly
+   * @param {number} [aBaseNameOnly]
    * @returns {string} the name to register
    * @internal
    */
@@ -244,7 +246,7 @@ export class BaseFactory {
   /**
    * register the aClass to the factory
    * @param {typeof BaseFactory} aClass the class to register the Factory
-   * @param {IBaseFactoryOptions|any} aOptions the options for the class and the factory
+   * @param {IBaseFactoryOptions|any} [aOptions] the options for the class and the factory
    * @returns {boolean} return true if successful.
    */
   static register() {
@@ -255,19 +257,24 @@ export class BaseFactory {
    * register the aClass to the factory
    * @internal
    * @param {typeof BaseFactory} aClass the class to register the Factory
-   * @param {IBaseFactoryOptions|any} aOptions the options for the class and the factory
+   * @param {IBaseFactoryOptions|any} [aOptions] the options for the class and the factory
    * @returns {boolean} return true if successful.
    */
   static _register(aClass, aOptions) {
     const Factory = this.Factory
     const vChildren = this._children
+    let isFactoryItem = true
+    let autoInherits = true
     let result, vDisplayName, vName, baseNameOnly
     if (isString(aOptions)) {
       vName = aOptions
+      aOptions = undefined
     } else if (aOptions) {
       vName = aOptions.name
       vDisplayName = aOptions.displayName
       baseNameOnly = aOptions.baseNameOnly
+      if (aOptions.isFactory != null) isFactoryItem = aOptions.isFactory
+      if (aOptions.autoInherits != null) autoInherits = aOptions.autoInherits
     }
     if (baseNameOnly == null) baseNameOnly = Factory._baseNameOnly
 
@@ -275,12 +282,21 @@ export class BaseFactory {
       ? Factory.formatName(vName)
       : Factory.formatNameFromClass(aClass, baseNameOnly)
 
-    const isInherited = isInheritedFrom(aClass, Factory)
-    result = vChildren.hasOwnProperty(vName) && isInherited
-    if (result) {
+    result = !vChildren.hasOwnProperty(vName)
+    if (!result) {
       throw new TypeError('the ' + vName + ' has already been registered.')
     }
-    result = isInherited ? true : inherits(aClass, this)
+
+    if (isFactoryItem) {
+      if (isFactoryItem === true) {isFactoryItem = this}
+      const isInherited = isInheritedFrom(aClass, isFactoryItem)
+      if (autoInherits) {
+        if (!isInherited) inherits(aClass, isFactoryItem)
+      } else {
+        throw new TypeError('the factory item "' + vName + '" is not inherited from "' + isFactoryItem.name + '"')
+      }
+    }
+
 
     /* istanbul ignore else */
     if (result) {
@@ -354,17 +370,19 @@ export class BaseFactory {
       // const vParent = getParentClass(this)
       vClass = this
     }
-    result = vClass && isInheritedFrom(vClass, Factory)
+    result = !!vClass
     if (result) {
       aName = Factory.getNameFrom(vClass)
       delete Factory._children[aName]
       Factory.cleanAliases(aName)
-      const vParentClass = getParentClass(vClass)
-      if (Factory !== vParentClass) {
-        delete vParentClass._children[aName]
+      if (isInheritedFrom(vClass, Factory)) {
+        const vParentClass = getParentClass(vClass)
+        if (Factory !== vParentClass) {
+          delete vParentClass._children[aName]
+        }
       }
     }
-    return !!result
+    return result
   }
 
   /**

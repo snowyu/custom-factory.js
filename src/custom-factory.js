@@ -1,5 +1,4 @@
-///// <reference path="./base-factory.js" />
-
+// /// <reference path="./base-factory.js" />
 /**
  * @typedef {import('./base-factory.js').IBaseFactoryOptions & {
  *   baseNameOnly?: number;
@@ -21,10 +20,10 @@ import isInheritedFrom from 'inherits-ex/lib/isInheritedFrom.js'
 
 import {
   BaseFactory,
-  isPureObject,
-  isFunction,
-  isString,
   getParentClass,
+  isFunction,
+  isPureObject,
+  isString,
 } from './base-factory.js'
 
 /**
@@ -87,9 +86,7 @@ export class CustomFactory extends BaseFactory {
       result = result.substring(0, len-vFactoryName.length)
      */
     if (aBaseNameOnly > 0) {
-      if (!aParentClass) {
-        aParentClass = this
-      }
+      if (!aParentClass) {aParentClass = this}
       const names = this.getClassNameList(aParentClass)
       let vFactoryName = Factory.prototype.name || Factory.name
       names.push(vFactoryName)
@@ -134,7 +131,7 @@ export class CustomFactory extends BaseFactory {
       aRootName = aClass
       aClass = this
     }
-    if (!aClass) aClass = this
+    if (!aClass) {aClass = this}
     let result = aClass.prototype.name
     if (result && result[0] === '/') {
       result = result.split('/').filter(Boolean)
@@ -180,9 +177,9 @@ export class CustomFactory extends BaseFactory {
       aParentClass = aOptions.parent
     }
 
-    if (!aParentClass) aParentClass = this
+    if (!aParentClass) {aParentClass = this}
     const result = this._registerWithParent(aClass, aParentClass, aOptions)
-    if (result && !aClass.hasOwnProperty('_children')) aClass._children = {}
+    if (result && !aClass.hasOwnProperty('_children')) {aClass._children = {}}
     return result
   }
 }

@@ -37,7 +37,7 @@ export function getParentClass(ctor) {
  * @param {*} v the value to detect
  */
 export function isFunction(v) {
-  return 'function' === typeof v
+  return typeof v === 'function'
 }
 
 /**
@@ -45,7 +45,7 @@ export function isFunction(v) {
  * @param {*} v the value to detect
  */
 export function isString(v) {
-  return 'string' === typeof v
+  return typeof v === 'string'
 }
 
 /**
@@ -53,7 +53,7 @@ export function isString(v) {
  * @param {*} v the value to detect
  */
 export function isObject(v) {
-  return v != null && 'object' === typeof v
+  return v != null && typeof v === 'object'
 }
 
 /**
@@ -122,11 +122,11 @@ export class BaseFactory {
    */
   static get Factory() {
     if (!this._Factory) {
-      let vFactory = (this._Factory = this.findRootFactory())
+      const vFactory = (this._Factory = this.findRootFactory())
       /* istanbul ignore else */
-      if (!vFactory._children) vFactory._children = {}
+      if (!vFactory._children) {vFactory._children = {}}
       /* istanbul ignore else */
-      if (!vFactory._aliases) vFactory._aliases = {}
+      if (!vFactory._aliases) {vFactory._aliases = {}}
     }
     return this._Factory
   }
@@ -225,7 +225,7 @@ export class BaseFactory {
     // get the root factory
     const Factory = this.Factory
     let result = aClass.name
-    let len = result.length
+    const len = result.length
 
     if (aBaseNameOnly == null) {
       aBaseNameOnly = Factory._baseNameOnly
@@ -265,7 +265,7 @@ export class BaseFactory {
     const vChildren = this._children
     let isFactoryItem = true
     let autoInherits = true
-    let result, vDisplayName, vName, baseNameOnly
+    let vDisplayName, vName, baseNameOnly
     if (isString(aOptions)) {
       vName = aOptions
       aOptions = undefined
@@ -273,16 +273,16 @@ export class BaseFactory {
       vName = aOptions.name
       vDisplayName = aOptions.displayName
       baseNameOnly = aOptions.baseNameOnly
-      if (aOptions.isFactory != null) isFactoryItem = aOptions.isFactory
-      if (aOptions.autoInherits != null) autoInherits = aOptions.autoInherits
+      if (aOptions.isFactory != null) {isFactoryItem = aOptions.isFactory}
+      if (aOptions.autoInherits != null) {autoInherits = aOptions.autoInherits}
     }
-    if (baseNameOnly == null) baseNameOnly = Factory._baseNameOnly
+    if (baseNameOnly == null) {baseNameOnly = Factory._baseNameOnly}
 
     vName = vName
       ? Factory.formatName(vName)
       : Factory.formatNameFromClass(aClass, baseNameOnly)
 
-    result = !vChildren.hasOwnProperty(vName)
+    const result = !vChildren.hasOwnProperty(vName)
     if (!result) {
       throw new TypeError('the ' + vName + ' has already been registered.')
     }
@@ -291,7 +291,7 @@ export class BaseFactory {
       if (isFactoryItem === true) {isFactoryItem = this}
       const isInherited = isInheritedFrom(aClass, isFactoryItem)
       if (autoInherits) {
-        if (!isInherited) inherits(aClass, isFactoryItem)
+        if (!isInherited) {inherits(aClass, isFactoryItem)}
       } else {
         throw new TypeError('the factory item "' + vName + '" is not inherited from "' + isFactoryItem.name + '"')
       }
@@ -327,7 +327,7 @@ export class BaseFactory {
    * @returns {false|typeof BaseFactory} the registered class if registered, otherwise returns false
    */
   static registeredClass(aName) {
-    let Factory = this.Factory
+    const Factory = this.Factory
     let result
     if (aName) {
       result = this.get(aName)
@@ -354,15 +354,15 @@ export class BaseFactory {
    * @returns {boolean} true means successful
    */
   static unregister(aName) {
-    let Factory = this.Factory
+    const Factory = this.Factory
     const vChildren = this._children
-    let result, vClass
+    let vClass
     if (isString(aName)) {
       aName = Factory.formatName(aName)
       vClass = vChildren.hasOwnProperty(aName) && vChildren[aName]
       if (!vClass) {
         aName = Factory.getRealNameFromAlias(aName)
-        if (aName) vClass = vChildren.hasOwnProperty(aName) && vChildren[aName]
+        if (aName) {vClass = vChildren.hasOwnProperty(aName) && vChildren[aName]}
       }
     } else if (isFunction(aName)) {
       vClass = aName
@@ -370,7 +370,7 @@ export class BaseFactory {
       // const vParent = getParentClass(this)
       vClass = this
     }
-    result = !!vClass
+    const result = !!vClass
     if (result) {
       aName = Factory.getNameFrom(vClass)
       delete Factory._children[aName]
@@ -392,9 +392,9 @@ export class BaseFactory {
   static cleanAliases(aName) {
     const Factory = this.Factory
     const _aliases = Factory._aliases
-    if (!aName) aName = this
-    if (isFunction(aName)) aName = aName.prototype.name
-    for (let k in _aliases) {
+    if (!aName) {aName = this}
+    if (isFunction(aName)) {aName = aName.prototype.name}
+    for (const k in _aliases) {
       const v = _aliases[k]
       if (v === aName) {
         delete _aliases[k]
@@ -475,7 +475,7 @@ export class BaseFactory {
       aClass = Factory.getNameFrom(aClass)
     }
     let result = Object.keys(_aliases)
-    if (aClass) result = result.filter((key) => _aliases[key] === aClass)
+    if (aClass) {result = result.filter((key) => _aliases[key] === aClass)}
     return result
   }
 
@@ -488,7 +488,7 @@ export class BaseFactory {
 
   static set aliases(value) {
     this.cleanAliases()
-    if (isString(value)) this.setAlias(null, value)
+    if (isString(value)) {this.setAlias(null, value)}
     else this.setAliases(null, ...value)
   }
 
@@ -577,7 +577,7 @@ export class BaseFactory {
     const vChildren = this._children
     name = Factory.formatName(name)
     let result = vChildren.hasOwnProperty(name) && vChildren[name]
-    if (!result) name = Factory.getRealNameFromAlias(name)
+    if (!result) {name = Factory.getRealNameFromAlias(name)}
     result = vChildren.hasOwnProperty(name) && vChildren[name]
     return result || undefined
   }
@@ -607,7 +607,7 @@ export class BaseFactory {
     }
 
     const Factory = aName ? this.Factory : this
-    let result = Factory.registeredClass(aName)
+    const result = Factory.registeredClass(aName)
     if (result) {
       return createObject(result, aOptions)
     }

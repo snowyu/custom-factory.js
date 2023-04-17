@@ -1,6 +1,13 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [2.3.0-alpha.0](https://github.com/snowyu/custom-factory.js/compare/v2.2.0...v2.3.0-alpha.0) (2023-04-17)
+
+
+### Features
+
+* supports to register the product item and factory item via `isFactory` and autoInherits options ([3e43bb9](https://github.com/snowyu/custom-factory.js/commit/3e43bb99ee09477d3c5ab8e49556ff7826504c42))
 
 ## [2.2.0](https://github.com/snowyu/custom-factory.js/compare/v2.1.0...v2.2.0) (2023-03-13)
 

@@ -28,11 +28,16 @@
     "types"
   ],
   "scripts": {
-    "build": "rimraf lib && npm run build.cjs && npm run build.ts",
+    "build": "rimraf lib && npm run build.cjs && npm run build.ts && npm run doc.md",
     "build.cjs": "babel src --out-dir lib --config-file ./.babelrc --ignore '**/*.spec.js' --ignore '**/*.test.js'",
     "build.ts": "tsc --declaration --emitDeclarationOnly --outDir lib",
-    "release": "npx standard-version",
-    "release.alpha": "npx standard-version --prerelease alpha",
+    "clean": "rm -fr web docs types lib",
+    "doc": "typedoc --plugin none --out web ./src",
+    "doc.md": "typedoc --plugin typedoc-plugin-markdown --out docs ./src",
+    "lint": "npx eslint --config .eslintrc.yml src",
+    "lint.fix": "npm run lint -- --fix",
+    "release": "npm run clean && npm run build && git add docs && git ci -m 'docs: update API docs' && npx commit-and-tag-version -s",
+    "release.alpha": "npm run release -- --prerelease alpha",
     "test": "jest --runInBand --config .jest.config.cjs"
   },
   "engines": {

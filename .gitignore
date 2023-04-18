@@ -2,7 +2,6 @@
 lib
 types
 api.md
-docs
 
 # Jest Code Coverage
 .coverage

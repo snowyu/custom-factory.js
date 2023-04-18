@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[custom-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/custom-factory.js#L6)
+[custom-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/custom-factory.js#L6)
 
 ## Functions
 
@@ -57,7 +57,7 @@ the parent ctor
 
 #### Defined in
 
-[base-factory.js:30](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L30)
+[base-factory.js:30](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L30)
 
 ___
 
@@ -79,7 +79,7 @@ Detect the value whether is a function
 
 #### Defined in
 
-[base-factory.js:39](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L39)
+[base-factory.js:39](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L39)
 
 ___
 
@@ -101,7 +101,7 @@ Detect the value whether is an object
 
 #### Defined in
 
-[base-factory.js:55](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L55)
+[base-factory.js:55](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L55)
 
 ___
 
@@ -123,7 +123,7 @@ Detect the object whether is a pure object(the ctor is Object)
 
 #### Defined in
 
-[base-factory.js:63](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L63)
+[base-factory.js:63](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L63)
 
 ___
 
@@ -145,4 +145,4 @@ Detect the value whether is a string
 
 #### Defined in
 
-[base-factory.js:47](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L47)
+[base-factory.js:47](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L47)

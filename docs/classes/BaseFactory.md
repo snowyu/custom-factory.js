@@ -69,7 +69,7 @@ Abstract flat factory class
 
 #### Defined in
 
-[base-factory.js:616](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L616)
+[base-factory.js:616](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L616)
 
 ## Properties
 
@@ -87,7 +87,7 @@ _Factory
 
 #### Defined in
 
-[base-factory.js:100](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L100)
+[base-factory.js:100](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L100)
 
 ___
 
@@ -102,7 +102,7 @@ the key is alias name, the value is the registered name
 
 #### Defined in
 
-[base-factory.js:118](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L118)
+[base-factory.js:118](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L118)
 
 ___
 
@@ -139,7 +139,7 @@ _baseNameOnly
 
 #### Defined in
 
-[base-factory.js:152](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L152)
+[base-factory.js:152](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L152)
 
 ___
 
@@ -161,7 +161,7 @@ _children
 
 #### Defined in
 
-[base-factory.js:109](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L109)
+[base-factory.js:109](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L109)
 
 ## Accessors
 
@@ -177,7 +177,7 @@ typeof [`BaseFactory`](BaseFactory.md)
 
 #### Defined in
 
-[base-factory.js:123](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L123)
+[base-factory.js:123](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L123)
 
 ___
 
@@ -193,7 +193,7 @@ the aliases of itself
 
 #### Defined in
 
-[base-factory.js:485](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L485)
+[base-factory.js:485](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L485)
 
 • `Static` `set` **aliases**(`value`): `void`
 
@@ -209,7 +209,7 @@ the aliases of itself
 
 #### Defined in
 
-[base-factory.js:489](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L489)
+[base-factory.js:489](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L489)
 
 ## Methods
 
@@ -227,7 +227,7 @@ initialize instance method
 
 #### Defined in
 
-[base-factory.js:627](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L627)
+[base-factory.js:627](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L627)
 
 ___
 
@@ -249,7 +249,7 @@ typeof [`BaseFactory`](BaseFactory.md)
 
 #### Defined in
 
-[base-factory.js:172](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L172)
+[base-factory.js:172](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L172)
 
 ___
 
@@ -269,7 +269,7 @@ typeof [`BaseFactory`](BaseFactory.md)
 
 #### Defined in
 
-[base-factory.js:575](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L575)
+[base-factory.js:575](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L575)
 
 ___
 
@@ -294,7 +294,7 @@ return true if successful.
 
 #### Defined in
 
-[base-factory.js:263](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L263)
+[base-factory.js:263](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L263)
 
 ___
 
@@ -316,7 +316,7 @@ remove all aliases of the registered item or itself
 
 #### Defined in
 
-[base-factory.js:392](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L392)
+[base-factory.js:392](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L392)
 
 ___
 
@@ -339,7 +339,7 @@ Create a new object instance of Factory
 
 #### Defined in
 
-[base-factory.js:591](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L591)
+[base-factory.js:591](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L591)
 
 ___
 
@@ -361,7 +361,7 @@ the root factory class
 
 #### Defined in
 
-[base-factory.js:162](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L162)
+[base-factory.js:162](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L162)
 
 ___
 
@@ -383,7 +383,7 @@ executes a provided callback function once for each registered element.
 
 #### Defined in
 
-[base-factory.js:547](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L547)
+[base-factory.js:547](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L547)
 
 ___
 
@@ -409,7 +409,7 @@ defaults to returning the name unchanged. By overloading this method, case-insen
 
 #### Defined in
 
-[base-factory.js:200](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L200)
+[base-factory.js:200](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L200)
 
 ___
 
@@ -434,7 +434,7 @@ the name to register
 
 #### Defined in
 
-[base-factory.js:224](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L224)
+[base-factory.js:224](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L224)
 
 ___
 
@@ -458,7 +458,7 @@ return the registered class if found the name
 
 #### Defined in
 
-[base-factory.js:571](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L571)
+[base-factory.js:571](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L571)
 
 ___
 
@@ -482,7 +482,7 @@ aliases
 
 #### Defined in
 
-[base-factory.js:469](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L469)
+[base-factory.js:469](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L469)
 
 ___
 
@@ -504,7 +504,7 @@ Get the display name from aClass
 
 #### Defined in
 
-[base-factory.js:500](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L500)
+[base-factory.js:500](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L500)
 
 ___
 
@@ -528,7 +528,7 @@ the unique name in the factory
 
 #### Defined in
 
-[base-factory.js:209](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L209)
+[base-factory.js:209](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L209)
 
 ___
 
@@ -552,7 +552,7 @@ the unique name in the factory
 
 #### Defined in
 
-[base-factory.js:187](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L187)
+[base-factory.js:187](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L187)
 
 ___
 
@@ -576,7 +576,7 @@ return true if successful.
 
 #### Defined in
 
-[base-factory.js:252](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L252)
+[base-factory.js:252](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L252)
 
 ___
 
@@ -600,7 +600,7 @@ the registered class if registered, otherwise returns false
 
 #### Defined in
 
-[base-factory.js:329](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L329)
+[base-factory.js:329](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L329)
 
 ___
 
@@ -622,7 +622,7 @@ remove specified aliases
 
 #### Defined in
 
-[base-factory.js:409](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L409)
+[base-factory.js:409](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L409)
 
 ___
 
@@ -645,7 +645,7 @@ set alias to a class
 
 #### Defined in
 
-[base-factory.js:453](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L453)
+[base-factory.js:453](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L453)
 
 ___
 
@@ -680,7 +680,7 @@ import { BaseFactory } from 'custom-factory'
 
 #### Defined in
 
-[base-factory.js:430](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L430)
+[base-factory.js:430](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L430)
 
 ___
 
@@ -703,7 +703,7 @@ Set the display name to the aClass
 
 #### Defined in
 
-[base-factory.js:515](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L515)
+[base-factory.js:515](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L515)
 
 ___
 
@@ -727,4 +727,4 @@ true means successful
 
 #### Defined in
 
-[base-factory.js:356](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L356)
+[base-factory.js:356](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L356)

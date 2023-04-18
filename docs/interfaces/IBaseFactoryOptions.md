@@ -24,7 +24,7 @@ the registered item alias
 
 #### Defined in
 
-[base-factory.js:7](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L7)
+[base-factory.js:7](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L7)
 
 ___
 
@@ -36,7 +36,7 @@ the registered item aliases
 
 #### Defined in
 
-[base-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L6)
+[base-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L6)
 
 ___
 
@@ -48,7 +48,7 @@ defaults to true
 
 #### Defined in
 
-[base-factory.js:9](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L9)
+[base-factory.js:9](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L9)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[base-factory.js:5](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L5)
+[base-factory.js:5](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L5)
 
 ___
 
@@ -70,7 +70,7 @@ the registered item display name
 
 #### Defined in
 
-[base-factory.js:4](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L4)
+[base-factory.js:4](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L4)
 
 ___
 
@@ -82,7 +82,7 @@ defaults to true
 
 #### Defined in
 
-[base-factory.js:8](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L8)
+[base-factory.js:8](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L8)
 
 ___
 
@@ -94,4 +94,4 @@ the registered item name
 
 #### Defined in
 
-[base-factory.js:3](https://github.com/snowyu/custom-factory.js/blob/4ef6485/src/base-factory.js#L3)
+[base-factory.js:3](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L3)

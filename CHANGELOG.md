@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.3.0-alpha.1](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.0...v2.3.0-alpha.1) (2023-04-18)
+
+
+### Bug Fixes
+
+* **ts:** ts declaration files position error ([8108e87](https://github.com/snowyu/custom-factory.js/commit/8108e87e7977d1cdb0535ea93c25fa7efae2d529))
+
 ## [2.3.0-alpha.0](https://github.com/snowyu/custom-factory.js/compare/v2.2.0...v2.3.0-alpha.0) (2023-04-17)
 
 

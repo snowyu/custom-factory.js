@@ -65,7 +65,13 @@ export class CustomFactory extends BaseFactory {
     return results
   }
 
-  /** @internal */
+  /**
+   * @internal
+   * @param {*} aClass
+   * @param {*|number} [aParentClass]
+   * @param {number} [aBaseNameOnly]
+   * @returns
+   */
   static formatNameFromClass(aClass, aParentClass, aBaseNameOnly) {
     // get the root factory
     const Factory = this.Factory

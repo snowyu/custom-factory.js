@@ -168,7 +168,7 @@ export class BaseFactory {
   static _findRootFactory(aClass) {
     let result
     let ctor = this
-    while (ctor && ctor !== aClass) {
+    while (ctor && ctor !== aClass && ctor !== Object) {
       result = ctor
       ctor = getParentClass(ctor)
     }

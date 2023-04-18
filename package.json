@@ -5,19 +5,6 @@
   "homepage": "https://github.com/snowyu/custom-factory.js",
   "main": "./lib/index.js",
   "module": "./src/index.js",
-  "exports": {
-    "./package.json": "./package.json",
-    "./src/*": "./src/*.js",
-    ".": {
-      "require": "./lib/cjs/index.js",
-      "import": "./lib/esm/index.js"
-    },
-    "./lib/*": {
-      "require": "./lib/cjs/*.js",
-      "import": "./lib/esm/*.js"
-    }
-  },
-  "types": "./types",
   "files": [
     "README.md",
     "LICENSE-MIT",

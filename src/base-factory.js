@@ -13,10 +13,7 @@
 // const isInheritedFrom = require('inherits-ex/lib/isInheritedFrom')
 // const getPrototypeOf = require('inherits-ex/lib/getPrototypeOf')
 // const createObject = require('inherits-ex/lib/createObject')
-import inherits from 'inherits-ex/lib/inherits.js'
-import isInheritedFrom from 'inherits-ex/lib/isInheritedFrom.js'
-import getPrototypeOf from 'inherits-ex/lib/getPrototypeOf.js'
-import createObject from 'inherits-ex/lib/createObject.js'
+import {createObject, getPrototypeOf, getSuperCtor, inherits, isInheritedFrom} from 'inherits-ex'
 
 
 // const slice = [].slice
@@ -24,13 +21,12 @@ const getObjectKeys = Object.keys
 
 /**
  * get the parent class(ctor) of the ctor
+ *
+ * @callback
  * @param {Function} ctor
- * @returns the parent ctor
+ * @returns {Function} the parent ctor
  */
-export function getParentClass(ctor) {
-  // get the internal __proto__([[prototype]]) property
-  return ctor.super_ || getPrototypeOf(ctor)
-}
+export const getParentClass = getSuperCtor
 
 /**
  * Detect the value whether is a function

@@ -100,7 +100,7 @@ export class BaseFactory {
    * @name _children
    * @abstract
    * @internal
-   * @type {{[name: string]:typeof BaseFactory}}
+   * @type {{[name: string]:any|typeof BaseFactory}}
    */
   static _children = undefined
 
@@ -117,14 +117,18 @@ export class BaseFactory {
    * The Root Factory class
    */
   static get Factory() {
-    if (!this._Factory) {
-      const vFactory = (this._Factory = this.findRootFactory())
+    let vFactory = this._Factory
+    if (!vFactory) {
+      vFactory = (this._Factory = this.findRootFactory())
+    }
+    /* istanbul ignore else */
+    if (vFactory) {
       /* istanbul ignore else */
       if (!vFactory._children) {vFactory._children = {}}
       /* istanbul ignore else */
-      if (!vFactory._aliases) {vFactory._aliases = {}}
+      if (this.hasOwnProperty('aliases') && !vFactory._aliases) {vFactory._aliases = {}}
     }
-    return this._Factory
+    return vFactory
   }
 
   /**
@@ -151,12 +155,14 @@ export class BaseFactory {
    * find the real root factory
    *
    * You can overwrite it to specify your root factory class
+   * or set _Factory directly.
    * @abstract
    * @internal
    * @returns {typeof BaseFactory|undefined} the root factory class
    */
   static findRootFactory() {
-    return this._findRootFactory(BaseFactory)
+    /* istanbul ignore next */
+    return this === BaseFactory ? this : this._findRootFactory(BaseFactory)
   }
 
   /**
@@ -585,7 +591,7 @@ export class BaseFactory {
    * @returns {BaseFactory|undefined}
    */
   static createObject(aName, aOptions) {
-    if (aName instanceof BaseFactory) {
+    if (aName instanceof this.Factory) {
       if (aOptions != null) {
         aName.initialize(aOptions)
       }
@@ -613,13 +619,12 @@ export class BaseFactory {
     this.initialize.apply(this, arguments)
   }
 
-  /* istanbul ignore start */
+  /* istanbul ignore next */
   /**
    * initialize instance method
    * @abstract
    * @internal
-   * @param {...any} arguments pass through all arguments coming from constructor
+   * @param {...*} [args] pass through all arguments coming from constructor
    */
-  initialize() {}
-  /* istanbul ignore end */
+  initialize(...args) {}
 }

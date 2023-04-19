@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.3.0-alpha.3](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.2...v2.3.0-alpha.3) (2023-04-19)
+
+
+### Features
+
+* **ability:** add helper object singleton instance ability to factory ([def4c03](https://github.com/snowyu/custom-factory.js/commit/def4c03aedd68aa4564cd53091cf016fa8117f70))
+* **base-factory:** add getRealName core method ([56dc4b7](https://github.com/snowyu/custom-factory.js/commit/56dc4b72eaec2d5571b940f4bfbe49291f560e68))
+
+
+### Bug Fixes
+
+* **ability:** should not assign _children and _aliases ([05913c7](https://github.com/snowyu/custom-factory.js/commit/05913c779bc7c40a799fce1cbce3b3e6f903d16b))
+* **base_factory:** _aliases not defined ([3401181](https://github.com/snowyu/custom-factory.js/commit/340118122cefb6aef116f4943b952955b422b48e))
+
 ## [2.3.0-alpha.2](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.1...v2.3.0-alpha.2) (2023-04-19)
 
 

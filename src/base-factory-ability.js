@@ -4,7 +4,7 @@ import {createAbilityInjector} from 'custom-ability'
 import {BaseFactory} from './base-factory.js'
 
 
-export const coreMethods = ['@register', '@_register', '@Factory', '@formatName', '@formatNameFromClass']
+export const coreMethods = ['@register', '@_register', '@Factory', '@formatName', '@formatNameFromClass', '@getRealName']
 
 function getFactoryClass(targetClass, options) {
   class Factory {
@@ -18,6 +18,8 @@ function getFactoryClass(targetClass, options) {
 
   delete Factory['_findRootFactory']
   delete Factory['findRootFactory']
+  Factory['_children'] = undefined
+  Factory['_aliases']  = undefined
 
   defineProperty(Factory, '_Factory', targetClass)
   return Factory

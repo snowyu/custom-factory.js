@@ -181,13 +181,21 @@ export class BaseFactory {
     return result
   }
 
+  static getRealName(name) {
+    const Factory = this.Factory
+    const vChildren = this._children
+    name = Factory.formatName(name)
+    if (!vChildren.hasOwnProperty(name) && Factory.getRealNameFromAlias) {name = Factory.getRealNameFromAlias(name)}
+    return name
+  }
+
   /**
    * get the unique name in the factory from an alias name
    * @param {string} alias the alias name
    * @returns {string|undefined} the unique name in the factory
    */
   static getRealNameFromAlias(alias) {
-    return this._aliases[alias]
+    return this._aliases && this._aliases[alias]
   }
 
   /**
@@ -360,12 +368,8 @@ export class BaseFactory {
     const vChildren = this._children
     let vClass
     if (isString(aName)) {
-      aName = Factory.formatName(aName)
-      vClass = vChildren.hasOwnProperty(aName) && vChildren[aName]
-      if (!vClass) {
-        aName = Factory.getRealNameFromAlias(aName)
-        if (aName) {vClass = vChildren.hasOwnProperty(aName) && vChildren[aName]}
-      }
+      aName = Factory.getRealName(aName)
+      vClass = aName && vChildren[aName]
     } else if (isFunction(aName)) {
       vClass = aName
     } else {
@@ -575,13 +579,11 @@ export class BaseFactory {
   }
 
   static _get(name) {
-    const Factory = this.Factory
-    const vChildren = this._children
-    name = Factory.formatName(name)
-    let result = vChildren.hasOwnProperty(name) && vChildren[name]
-    if (!result) {name = Factory.getRealNameFromAlias(name)}
-    result = vChildren.hasOwnProperty(name) && vChildren[name]
-    return result || undefined
+    name = this.getRealName(name)
+    if (name) {
+      /* istanbul ignore next */
+      return this._children[name] || undefined
+    }
   }
 
   /**

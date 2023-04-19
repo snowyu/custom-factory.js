@@ -22,6 +22,8 @@ function getFactoryClass(targetClass, options) {
 
   delete Factory['_findRootFactory']
   delete Factory['findRootFactory']
+  Factory['_children'] = undefined
+  Factory['_aliases']  = undefined
 
   defineProperty(Factory, '_Factory', targetClass)
   return Factory

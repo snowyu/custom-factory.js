@@ -309,6 +309,7 @@ The registered class is put into the property(the specified registered name) of 
 * NodeJS>= 8
 * Keep back BabelJs for the SWC issue: can not multiple `export *` files.
 * Revert back to CommonJS package.
+* Add factory ability(AoP)
 
 ### v2.2.x
 

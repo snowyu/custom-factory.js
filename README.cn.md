@@ -33,8 +33,6 @@ BaseFactory 的核心是静态方法 `register`，我们可以通过它将一个
 * `isFactory` `{Function|boolean}`：表示注册项是否是工厂类型，默认为 `true`, isFactory如果是`Function`那么就以它代替自动继承的工厂类
 * `autoInherits` `{boolean}`: 当注册项是工厂类型时,是否自动检查并继承自工厂类，默认为 `true`
 
-`register` 方法还可以接受一个构造函数，这个构造函数将被自动继承到工厂中，以便于创建对象实例。
-
 除了 `register` 方法，`BaseFactory` 还提供了以下静态方法：
 
 * `unregister`：用于注销类或注册名。

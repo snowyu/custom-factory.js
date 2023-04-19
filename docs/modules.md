@@ -17,8 +17,14 @@
 
 - [ICustomFactoryOptions](modules.md#icustomfactoryoptions)
 
+### Variables
+
+- [coreMethods](modules.md#coremethods)
+
 ### Functions
 
+- [addBaseFactoryAbility](modules.md#addbasefactoryability)
+- [addFactoryAbility](modules.md#addfactoryability)
 - [getParentClass](modules.md#getparentclass)
 - [isFunction](modules.md#isfunction)
 - [isObject](modules.md#isobject)
@@ -33,13 +39,75 @@
 
 #### Defined in
 
-[custom-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/custom-factory.js#L6)
+[src/custom-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/custom-factory.js#L6)
+
+## Variables
+
+### coreMethods
+
+• `Const` **coreMethods**: `string`[]
+
+#### Defined in
+
+[src/base-factory-ability.js:7](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/base-factory-ability.js#L7)
 
 ## Functions
 
+### addBaseFactoryAbility
+
+▸ **addBaseFactoryAbility**(`targetClass`, `options?`): `Function`
+
+A function that adds(injects) the ability of a specified ability class to a target class.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `targetClass` | `Function` | The target class to which the ability will be added. |
+| `options?` | `AbilityOptions` | An optional ability configuration object. |
+
+#### Returns
+
+`Function`
+
+- An injected target class that takes a class and adds the ability to it using the specified
+                      options.
+
+#### Defined in
+
+node_modules/custom-ability/lib/custom-ability.d.ts:30
+
+___
+
+### addFactoryAbility
+
+▸ **addFactoryAbility**(`targetClass`, `options?`): `Function`
+
+A function that adds(injects) the ability of a specified ability class to a target class.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `targetClass` | `Function` | The target class to which the ability will be added. |
+| `options?` | `AbilityOptions` | An optional ability configuration object. |
+
+#### Returns
+
+`Function`
+
+- An injected target class that takes a class and adds the ability to it using the specified
+                      options.
+
+#### Defined in
+
+node_modules/custom-ability/lib/custom-ability.d.ts:30
+
+___
+
 ### getParentClass
 
-▸ **getParentClass**(`ctor`): `any`
+▸ **getParentClass**(`ctor`): `Function`
 
 get the parent class(ctor) of the ctor
 
@@ -51,13 +119,13 @@ get the parent class(ctor) of the ctor
 
 #### Returns
 
-`any`
+`Function`
 
 the parent ctor
 
 #### Defined in
 
-[base-factory.js:30](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L30)
+node_modules/inherits-ex/lib/getSuperCtor.d.ts:6
 
 ___
 
@@ -79,7 +147,7 @@ Detect the value whether is a function
 
 #### Defined in
 
-[base-factory.js:39](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L39)
+[src/base-factory.js:35](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/base-factory.js#L35)
 
 ___
 
@@ -101,7 +169,7 @@ Detect the value whether is an object
 
 #### Defined in
 
-[base-factory.js:55](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L55)
+[src/base-factory.js:51](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/base-factory.js#L51)
 
 ___
 
@@ -123,7 +191,7 @@ Detect the object whether is a pure object(the ctor is Object)
 
 #### Defined in
 
-[base-factory.js:63](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L63)
+[src/base-factory.js:59](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/base-factory.js#L59)
 
 ___
 
@@ -145,4 +213,4 @@ Detect the value whether is a string
 
 #### Defined in
 
-[base-factory.js:47](https://github.com/snowyu/custom-factory.js/blob/b940e0d/src/base-factory.js#L47)
+[src/base-factory.js:43](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/base-factory.js#L43)

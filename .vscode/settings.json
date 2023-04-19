@@ -16,7 +16,7 @@
   "typescript.validate.enable": false,
   "jest.pathToJest": "node_modules/.bin/jest",
   "jest.showCoverageOnLoad": true,
-  "jest.pathToConfig": ".jest.config.js",
+  "jest.pathToConfig": ".jest.config.cjs",
   "jest.debugCodeLens.showWhenTestStateIn": [
     "fail",
     "unknown",

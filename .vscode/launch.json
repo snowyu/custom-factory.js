@@ -16,7 +16,7 @@
       "args": [
         "--runInBand",
         "--config",
-        ".jest.config.js"
+        ".jest.config.cjs"
       ],
       "runtimeArgs": [
         "--nolazy"

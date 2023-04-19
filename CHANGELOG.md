@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.3.0-alpha.2](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.1...v2.3.0-alpha.2) (2023-04-19)
+
+
+### Features
+
+* **ability:** add factory ability ([37f5dd3](https://github.com/snowyu/custom-factory.js/commit/37f5dd3ac97a381fe6e81772ed1cdeb1e75ec4d9))
+
+
+### Bug Fixes
+
+* **base-factory:** should get root Factory on itself(BaseFactory) ([afabcb2](https://github.com/snowyu/custom-factory.js/commit/afabcb2372df3d52e40a871ff567768cfa879f17))
+* **BaseFactory:** _findRootFactory should check ctor whether is Object ([aa87022](https://github.com/snowyu/custom-factory.js/commit/aa870225b93afccb8e308e1d2f9f3a81cb241eff))
+* **ts:** The types of the property "formatNameFromClass" are incompatible ([61808dd](https://github.com/snowyu/custom-factory.js/commit/61808dd93512ad3d73849d944c69e3c9b5ab1326))
+
+
+### Refactor
+
+* **BaseFactory:** use getSuperCtor instead of getParentClass function ([8a98401](https://github.com/snowyu/custom-factory.js/commit/8a9840181e7e6c8fd31ad4c8e903010e9c4625a9))
+
 ## [2.3.0-alpha.1](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.0...v2.3.0-alpha.1) (2023-04-18)
 
 

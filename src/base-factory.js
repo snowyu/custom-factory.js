@@ -126,7 +126,7 @@ export class BaseFactory {
       /* istanbul ignore else */
       if (!vFactory._children) {vFactory._children = {}}
       /* istanbul ignore else */
-      if (this.hasOwnProperty('aliases') && !vFactory._aliases) {vFactory._aliases = {}}
+      if (('aliases' in vFactory) && !vFactory._aliases) {vFactory._aliases = {}}
     }
     return vFactory
   }

@@ -31,7 +31,8 @@
     "node": ">=8"
   },
   "dependencies": {
-    "inherits-ex": "^2.1.0-alpha.7"
+    "custom-ability": "^2.0.0-alpha.3",
+    "inherits-ex": "^2.1.0-alpha.10"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.38.4",

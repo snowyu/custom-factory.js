@@ -25,6 +25,7 @@
 
 - [addBaseFactoryAbility](modules.md#addbasefactoryability)
 - [addFactoryAbility](modules.md#addfactoryability)
+- [addObjectInstanceForFactoryAbility](modules.md#addobjectinstanceforfactoryability)
 - [getParentClass](modules.md#getparentclass)
 - [isFunction](modules.md#isfunction)
 - [isObject](modules.md#isobject)
@@ -39,7 +40,7 @@
 
 #### Defined in
 
-[src/custom-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/custom-factory.js#L6)
+[src/custom-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/def4c03/src/custom-factory.js#L6)
 
 ## Variables
 
@@ -49,7 +50,7 @@
 
 #### Defined in
 
-[src/base-factory-ability.js:7](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/base-factory-ability.js#L7)
+[src/base-factory-ability.js:7](https://github.com/snowyu/custom-factory.js/blob/def4c03/src/base-factory-ability.js#L7)
 
 ## Functions
 
@@ -105,6 +106,29 @@ node_modules/custom-ability/lib/custom-ability.d.ts:30
 
 ___
 
+### addObjectInstanceForFactoryAbility
+
+▸ **addObjectInstanceForFactoryAbility**(`targetClass`, `options?`): `Function`
+
+Helper ability for factory, You must add a factory ability first.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `targetClass` | `Function` |
+| `options?` | `AbilityOptions` |
+
+#### Returns
+
+`Function`
+
+#### Defined in
+
+node_modules/custom-ability/lib/custom-ability.d.ts:30
+
+___
+
 ### getParentClass
 
 ▸ **getParentClass**(`ctor`): `Function`
@@ -147,7 +171,7 @@ Detect the value whether is a function
 
 #### Defined in
 
-[src/base-factory.js:35](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/base-factory.js#L35)
+[src/base-factory.js:35](https://github.com/snowyu/custom-factory.js/blob/def4c03/src/base-factory.js#L35)
 
 ___
 
@@ -169,7 +193,7 @@ Detect the value whether is an object
 
 #### Defined in
 
-[src/base-factory.js:51](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/base-factory.js#L51)
+[src/base-factory.js:51](https://github.com/snowyu/custom-factory.js/blob/def4c03/src/base-factory.js#L51)
 
 ___
 
@@ -191,7 +215,7 @@ Detect the object whether is a pure object(the ctor is Object)
 
 #### Defined in
 
-[src/base-factory.js:59](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/base-factory.js#L59)
+[src/base-factory.js:59](https://github.com/snowyu/custom-factory.js/blob/def4c03/src/base-factory.js#L59)
 
 ___
 
@@ -213,4 +237,4 @@ Detect the value whether is a string
 
 #### Defined in
 
-[src/base-factory.js:43](https://github.com/snowyu/custom-factory.js/blob/bb4b1fd/src/base-factory.js#L43)
+[src/base-factory.js:43](https://github.com/snowyu/custom-factory.js/blob/def4c03/src/base-factory.js#L43)

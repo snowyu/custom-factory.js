@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.3.0-alpha.4](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.3...v2.3.0-alpha.4) (2023-12-21)
+
+
+### Bug Fixes
+
+* Multiple exports of the same coreMethods constant error: Cannot redefine property coreMethods ([51b9a01](https://github.com/snowyu/custom-factory.js/commit/51b9a01e34f9b6e9c380a03b5c1b4eb987b6def3))
+
 ## [2.3.0-alpha.3](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.2...v2.3.0-alpha.3) (2023-04-19)
 
 

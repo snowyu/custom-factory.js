@@ -45,11 +45,11 @@ class ObjectFactory {
   }
 }
 
-export const coreMethods = ['@getInstance', '@_getInstance', '@registeredObjects']
+export const ObjectFactoryCoreMethods = ['@getInstance', '@_getInstance', '@registeredObjects']
 
 /**
  * Helper ability for factory, You must add a factory ability first.
  */
-export const addObjectInstanceForFactoryAbility = createAbilityInjector(ObjectFactory, coreMethods)
+export const addObjectInstanceForFactoryAbility = createAbilityInjector(ObjectFactory, ObjectFactoryCoreMethods)
 
 export default addObjectInstanceForFactoryAbility

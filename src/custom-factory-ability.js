@@ -3,10 +3,10 @@ import {cloneCtor, clonePrototype, defineProperty} from 'inherits-ex'
 
 import {BaseFactory} from './base-factory.js'
 import {CustomFactory} from './custom-factory.js'
-import {coreMethods as baseCoreMethods} from './base-factory-ability.js'
+import {BaseFactoryCoreMethods} from './base-factory-ability.js'
 
 
-const coreMethods = [...baseCoreMethods, '@getClassNameList', '@_registerWithParent']
+export const CustomFactoryCoreMethods = [...BaseFactoryCoreMethods, '@getClassNameList', '@_registerWithParent']
 
 
 function getFactoryClass(targetClass, options) {
@@ -29,6 +29,6 @@ function getFactoryClass(targetClass, options) {
   return Factory
 }
 
-export const addFactoryAbility = createAbilityInjector(getFactoryClass, coreMethods, true)
+export const addFactoryAbility = createAbilityInjector(getFactoryClass, CustomFactoryCoreMethods, true)
 
 export default addFactoryAbility

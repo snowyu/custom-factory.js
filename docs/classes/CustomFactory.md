@@ -64,7 +64,7 @@ Abstract hierarchical factory class
 
 ### constructor
 
-• **new CustomFactory**(`...args`)
+• **new CustomFactory**(`...args`): [`CustomFactory`](CustomFactory.md)
 
 #### Parameters
 
@@ -72,13 +72,17 @@ Abstract hierarchical factory class
 | :------ | :------ |
 | `...args` | `any` |
 
+#### Returns
+
+[`CustomFactory`](CustomFactory.md)
+
 #### Inherited from
 
 [BaseFactory](BaseFactory.md).[constructor](BaseFactory.md#constructor)
 
 #### Defined in
 
-[src/base-factory.js:620](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L620)
+[src/base-factory.js:620](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L620)
 
 ## Properties
 
@@ -94,7 +98,7 @@ The Root Factory name
 
 #### Defined in
 
-[src/custom-factory.js:39](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/custom-factory.js#L39)
+[src/custom-factory.js:39](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/custom-factory.js#L39)
 
 ___
 
@@ -116,7 +120,7 @@ _Factory
 
 #### Defined in
 
-[src/base-factory.js:96](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L96)
+[src/base-factory.js:96](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L96)
 
 ___
 
@@ -135,7 +139,7 @@ the key is alias name, the value is the registered name
 
 #### Defined in
 
-[src/base-factory.js:114](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L114)
+[src/base-factory.js:114](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L114)
 
 ___
 
@@ -176,7 +180,7 @@ _baseNameOnly
 
 #### Defined in
 
-[src/base-factory.js:152](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L152)
+[src/base-factory.js:152](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L152)
 
 ___
 
@@ -202,13 +206,13 @@ _children
 
 #### Defined in
 
-[src/base-factory.js:105](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L105)
+[src/base-factory.js:105](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L105)
 
 ## Accessors
 
 ### Factory
 
-• `Static` `get` **Factory**(): typeof [`BaseFactory`](BaseFactory.md)
+• `get` **Factory**(): typeof [`BaseFactory`](BaseFactory.md)
 
 The Root Factory class
 
@@ -222,13 +226,13 @@ BaseFactory.Factory
 
 #### Defined in
 
-[src/base-factory.js:119](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L119)
+[src/base-factory.js:119](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L119)
 
 ___
 
 ### aliases
 
-• `Static` `get` **aliases**(): `string`[]
+• `get` **aliases**(): `string`[]
 
 the aliases of itself
 
@@ -242,9 +246,9 @@ BaseFactory.aliases
 
 #### Defined in
 
-[src/base-factory.js:491](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L491)
+[src/base-factory.js:491](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L491)
 
-• `Static` `set` **aliases**(`value`): `void`
+• `set` **aliases**(`value`): `void`
 
 #### Parameters
 
@@ -262,7 +266,7 @@ BaseFactory.aliases
 
 #### Defined in
 
-[src/base-factory.js:495](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L495)
+[src/base-factory.js:495](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L495)
 
 ## Methods
 
@@ -271,8 +275,6 @@ BaseFactory.aliases
 ▸ **initialize**(`...args?`): `void`
 
 initialize instance method
-
-**`Abstract`**
 
 #### Parameters
 
@@ -284,19 +286,21 @@ initialize instance method
 
 `void`
 
+**`Abstract`**
+
 #### Inherited from
 
 [BaseFactory](BaseFactory.md).[initialize](BaseFactory.md#initialize)
 
 #### Defined in
 
-[src/base-factory.js:631](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L631)
+[src/base-factory.js:631](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L631)
 
 ___
 
 ### \_findRootFactory
 
-▸ `Static` **_findRootFactory**(`aClass`): typeof [`BaseFactory`](BaseFactory.md)
+▸ **_findRootFactory**(`aClass`): typeof [`BaseFactory`](BaseFactory.md)
 
 find the real root factory
 
@@ -316,13 +320,13 @@ typeof [`BaseFactory`](BaseFactory.md)
 
 #### Defined in
 
-[src/base-factory.js:174](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L174)
+[src/base-factory.js:174](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L174)
 
 ___
 
 ### \_get
 
-▸ `Static` **_get**(`name`): `any`
+▸ **_get**(`name`): `any`
 
 #### Parameters
 
@@ -340,13 +344,13 @@ ___
 
 #### Defined in
 
-[src/base-factory.js:581](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L581)
+[src/base-factory.js:581](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L581)
 
 ___
 
 ### \_register
 
-▸ `Static` **_register**(`aClass`, `aOptions?`): `boolean`
+▸ **_register**(`aClass`, `aOptions?`): `boolean`
 
 register the aClass to the factory
 
@@ -369,13 +373,13 @@ return true if successful.
 
 #### Defined in
 
-[src/base-factory.js:273](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L273)
+[src/base-factory.js:273](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L273)
 
 ___
 
 ### \_registerWithParent
 
-▸ `Static` **_registerWithParent**(`aClass`, `aParentClass`, `aOptions`): `any`
+▸ **_registerWithParent**(`aClass`, `aParentClass`, `aOptions`): `any`
 
 #### Parameters
 
@@ -391,13 +395,13 @@ ___
 
 #### Defined in
 
-[src/custom-factory.js:162](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/custom-factory.js#L162)
+[src/custom-factory.js:162](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/custom-factory.js#L162)
 
 ___
 
 ### cleanAliases
 
-▸ `Static` **cleanAliases**(`aName`): `void`
+▸ **cleanAliases**(`aName`): `void`
 
 remove all aliases of the registered item or itself
 
@@ -417,13 +421,13 @@ remove all aliases of the registered item or itself
 
 #### Defined in
 
-[src/base-factory.js:398](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L398)
+[src/base-factory.js:398](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L398)
 
 ___
 
 ### createObject
 
-▸ `Static` **createObject**(`aName`, `aOptions`): [`BaseFactory`](BaseFactory.md)
+▸ **createObject**(`aName`, `aOptions`): [`BaseFactory`](BaseFactory.md)
 
 Create a new object instance of Factory
 
@@ -444,20 +448,18 @@ Create a new object instance of Factory
 
 #### Defined in
 
-[src/base-factory.js:595](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L595)
+[src/base-factory.js:595](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L595)
 
 ___
 
 ### findRootFactory
 
-▸ `Static` **findRootFactory**(): typeof [`BaseFactory`](BaseFactory.md)
+▸ **findRootFactory**(): typeof [`BaseFactory`](BaseFactory.md)
 
 find the real root factory
 
 You can overwrite it to specify your root factory class
 or set _Factory directly.
-
-**`Abstract`**
 
 #### Returns
 
@@ -465,19 +467,21 @@ typeof [`BaseFactory`](BaseFactory.md)
 
 the root factory class
 
+**`Abstract`**
+
 #### Overrides
 
 [BaseFactory](BaseFactory.md).[findRootFactory](BaseFactory.md#findrootfactory)
 
 #### Defined in
 
-[src/custom-factory.js:42](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/custom-factory.js#L42)
+[src/custom-factory.js:42](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/custom-factory.js#L42)
 
 ___
 
 ### forEach
 
-▸ `Static` **forEach**(`cb`): `any`
+▸ **forEach**(`cb`): `any`
 
 executes a provided callback function once for each registered element.
 
@@ -497,19 +501,17 @@ executes a provided callback function once for each registered element.
 
 #### Defined in
 
-[src/base-factory.js:553](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L553)
+[src/base-factory.js:553](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L553)
 
 ___
 
 ### formatName
 
-▸ `Static` **formatName**(`aName`): `string`
+▸ **formatName**(`aName`): `string`
 
 format(transform) the name to be registered.
 
 defaults to returning the name unchanged. By overloading this method, case-insensitive names can be achieved.
-
-**`Abstract`**
 
 #### Parameters
 
@@ -521,19 +523,21 @@ defaults to returning the name unchanged. By overloading this method, case-insen
 
 `string`
 
+**`Abstract`**
+
 #### Inherited from
 
 [BaseFactory](BaseFactory.md).[formatName](BaseFactory.md#formatname)
 
 #### Defined in
 
-[src/base-factory.js:210](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L210)
+[src/base-factory.js:210](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L210)
 
 ___
 
 ### formatNameFromClass
 
-▸ `Static` **formatNameFromClass**(`aClass`, `aParentClass?`, `aBaseNameOnly?`): `string`
+▸ **formatNameFromClass**(`aClass`, `aParentClass?`, `aBaseNameOnly?`): `string`
 
 #### Parameters
 
@@ -553,13 +557,13 @@ ___
 
 #### Defined in
 
-[src/custom-factory.js:75](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/custom-factory.js#L75)
+[src/custom-factory.js:75](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/custom-factory.js#L75)
 
 ___
 
 ### get
 
-▸ `Static` **get**(`name`): typeof [`BaseFactory`](BaseFactory.md)
+▸ **get**(`name`): typeof [`BaseFactory`](BaseFactory.md)
 
 Get the registered class via name
 
@@ -581,13 +585,13 @@ return the registered class if found the name
 
 #### Defined in
 
-[src/base-factory.js:577](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L577)
+[src/base-factory.js:577](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L577)
 
 ___
 
 ### getAliases
 
-▸ `Static` **getAliases**(`aClass`): `string`[]
+▸ **getAliases**(`aClass`): `string`[]
 
 get the aliases of the aClass
 
@@ -609,13 +613,13 @@ aliases
 
 #### Defined in
 
-[src/base-factory.js:475](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L475)
+[src/base-factory.js:475](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L475)
 
 ___
 
 ### getClassList
 
-▸ `Static` **getClassList**(`ctor`): `any`[]
+▸ **getClassList**(`ctor`): `any`[]
 
 #### Parameters
 
@@ -629,13 +633,13 @@ ___
 
 #### Defined in
 
-[src/custom-factory.js:46](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/custom-factory.js#L46)
+[src/custom-factory.js:46](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/custom-factory.js#L46)
 
 ___
 
 ### getClassNameList
 
-▸ `Static` **getClassNameList**(`ctor`): `any`[]
+▸ **getClassNameList**(`ctor`): `any`[]
 
 #### Parameters
 
@@ -649,13 +653,13 @@ ___
 
 #### Defined in
 
-[src/custom-factory.js:57](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/custom-factory.js#L57)
+[src/custom-factory.js:57](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/custom-factory.js#L57)
 
 ___
 
 ### getDisplayName
 
-▸ `Static` **getDisplayName**(`aClass`): `string`
+▸ **getDisplayName**(`aClass`): `string`
 
 Get the display name from aClass
 
@@ -675,13 +679,13 @@ Get the display name from aClass
 
 #### Defined in
 
-[src/base-factory.js:506](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L506)
+[src/base-factory.js:506](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L506)
 
 ___
 
 ### getNameFrom
 
-▸ `Static` **getNameFrom**(`aClass`): `string`
+▸ **getNameFrom**(`aClass`): `string`
 
 Get the unique(registered) name in the factory
 
@@ -703,13 +707,13 @@ the unique name in the factory
 
 #### Defined in
 
-[src/base-factory.js:219](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L219)
+[src/base-factory.js:219](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L219)
 
 ___
 
 ### getRealName
 
-▸ `Static` **getRealName**(`name`): `any`
+▸ **getRealName**(`name`): `any`
 
 #### Parameters
 
@@ -727,13 +731,13 @@ ___
 
 #### Defined in
 
-[src/base-factory.js:184](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L184)
+[src/base-factory.js:184](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L184)
 
 ___
 
 ### getRealNameFromAlias
 
-▸ `Static` **getRealNameFromAlias**(`alias`): `string`
+▸ **getRealNameFromAlias**(`alias`): `string`
 
 get the unique name in the factory from an alias name
 
@@ -755,13 +759,13 @@ the unique name in the factory
 
 #### Defined in
 
-[src/base-factory.js:197](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L197)
+[src/base-factory.js:197](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L197)
 
 ___
 
 ### path
 
-▸ `Static` **path**(`aClass`, `aRootName`): `string`[]
+▸ **path**(`aClass`, `aRootName`): `string`[]
 
 get path of a class or itself
 
@@ -778,13 +782,13 @@ get path of a class or itself
 
 #### Defined in
 
-[src/custom-factory.js:124](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/custom-factory.js#L124)
+[src/custom-factory.js:124](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/custom-factory.js#L124)
 
 ___
 
 ### pathArray
 
-▸ `Static` **pathArray**(`aClass`, `aRootName`): `string`[]
+▸ **pathArray**(`aClass`, `aRootName`): `string`[]
 
 get path array of a class or itself
 
@@ -801,13 +805,13 @@ get path array of a class or itself
 
 #### Defined in
 
-[src/custom-factory.js:134](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/custom-factory.js#L134)
+[src/custom-factory.js:134](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/custom-factory.js#L134)
 
 ___
 
 ### register
 
-▸ `Static` **register**(`aClass`, `aParentClass`, `aOptions`): `boolean`
+▸ **register**(`aClass`, `aParentClass`, `aOptions`): `boolean`
 
 register the aClass to the factory
 
@@ -831,13 +835,13 @@ return true if successful.
 
 #### Defined in
 
-[src/custom-factory.js:177](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/custom-factory.js#L177)
+[src/custom-factory.js:177](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/custom-factory.js#L177)
 
 ___
 
 ### registeredClass
 
-▸ `Static` **registeredClass**(`aName`): ``false`` \| typeof [`BaseFactory`](BaseFactory.md)
+▸ **registeredClass**(`aName`): ``false`` \| typeof [`BaseFactory`](BaseFactory.md)
 
 Check the name, alias or itself whether registered.
 
@@ -859,13 +863,13 @@ the registered class if registered, otherwise returns false
 
 #### Defined in
 
-[src/base-factory.js:339](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L339)
+[src/base-factory.js:339](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L339)
 
 ___
 
 ### removeAlias
 
-▸ `Static` **removeAlias**(`...aliases`): `void`
+▸ **removeAlias**(`...aliases`): `void`
 
 remove specified aliases
 
@@ -885,13 +889,13 @@ remove specified aliases
 
 #### Defined in
 
-[src/base-factory.js:415](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L415)
+[src/base-factory.js:415](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L415)
 
 ___
 
 ### setAlias
 
-▸ `Static` **setAlias**(`aClass`, `alias`): `void`
+▸ **setAlias**(`aClass`, `alias`): `void`
 
 set alias to a class
 
@@ -912,15 +916,26 @@ set alias to a class
 
 #### Defined in
 
-[src/base-factory.js:459](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L459)
+[src/base-factory.js:459](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L459)
 
 ___
 
 ### setAliases
 
-▸ `Static` **setAliases**(`aClass`, `...aAliases`): `void`
+▸ **setAliases**(`aClass`, `...aAliases`): `void`
 
 set aliases to a class
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `aClass` | `string` \| typeof [`BaseFactory`](BaseFactory.md) | the class to set aliases |
+| `...aAliases` | `any`[] | - |
+
+#### Returns
+
+`void`
 
 **`Example`**
 
@@ -934,30 +949,19 @@ import { BaseFactory } from 'custom-factory'
   aliases(MyFactory, 'my', 'MY')
 ```
 
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `aClass` | `string` \| typeof [`BaseFactory`](BaseFactory.md) | the class to set aliases |
-| `...aAliases` | `any`[] | - |
-
-#### Returns
-
-`void`
-
 #### Inherited from
 
 [BaseFactory](BaseFactory.md).[setAliases](BaseFactory.md#setaliases)
 
 #### Defined in
 
-[src/base-factory.js:436](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L436)
+[src/base-factory.js:436](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L436)
 
 ___
 
 ### setDisplayName
 
-▸ `Static` **setDisplayName**(`aClass`, `aDisplayName`): `void`
+▸ **setDisplayName**(`aClass`, `aDisplayName`): `void`
 
 Set the display name to the aClass
 
@@ -966,7 +970,7 @@ Set the display name to the aClass
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `aClass` | `string` \| `Function` | the class, name or itself, means itself if no aClass |
-| `aDisplayName` | `string` \| { `displayName`: `string`  } | the display name to set |
+| `aDisplayName` | `string` \| \{ `displayName`: `string`  } | the display name to set |
 
 #### Returns
 
@@ -978,13 +982,13 @@ Set the display name to the aClass
 
 #### Defined in
 
-[src/base-factory.js:521](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L521)
+[src/base-factory.js:521](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L521)
 
 ___
 
 ### unregister
 
-▸ `Static` **unregister**(`aName`): `boolean`
+▸ **unregister**(`aName`): `boolean`
 
 unregister this class in the factory
 
@@ -1006,4 +1010,4 @@ true means successful
 
 #### Defined in
 
-[src/base-factory.js:366](https://github.com/snowyu/custom-factory.js/blob/51b9a01/src/base-factory.js#L366)
+[src/base-factory.js:366](https://github.com/snowyu/custom-factory.js/blob/7469d19/src/base-factory.js#L366)

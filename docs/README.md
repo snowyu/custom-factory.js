@@ -82,6 +82,8 @@ expect(result).toHaveProperty('bufferSize', 32)
 
 ```
 
+Note: If the root factory class name is `CustomFactory`, the descendant is `MyNameFactory`, and you want the automatically registered name to be `MyName`, then you need to set: `CustomFactory.prototype.name = 'Factory'`.
+
 ### The Hierarchical Factory
 
 HierarchicalFactory is a subclass of BaseFactory and provides hierarchical registration functionality. Its core method is `register`, which allows registering a class to its parent class. The parent-child relationship creates a hierarchical structure that resembles a directory tree. The `register` method can also take an optional `aOptions` parameter that specifies additional options for the registered class and factory, such as a unique name, a display name, and a level of name extraction from the class name.

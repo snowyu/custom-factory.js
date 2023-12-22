@@ -43,6 +43,8 @@ BaseFactory 的核心是静态方法 `register`，我们可以通过它将一个
 
 此外，`BaseFactory` 还可以通过重载 `createObject` 方法来创建对象实例，以实现单件模式。`BaseFactory` 实例还可以通过 `initialize` 方法进行初始化。
 
+注: 如果根类名为`CustomFactory`,后代为`MyNameFactory`,希望自动注册的名称为`MyName`,那么需要设置:`CustomFactory.prototype.name = 'Factory'`.
+
 ### HierarchicalFactory
 
 HierarchicalFactory 继承自 BaseFactory，它添加了层级结构的功能。与 BaseFactory 不同的是，我们可以将一个类注册到另一个类中，从而形成层级结构。

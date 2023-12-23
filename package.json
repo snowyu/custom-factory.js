@@ -1,6 +1,6 @@
 {
   "name": "custom-factory",
-  "version": "2.3.0-alpha.4",
+  "version": "2.3.0-alpha.5",
   "description": "more easily add the factory ability to your class for node and javascript",
   "homepage": "https://github.com/snowyu/custom-factory.js",
   "main": "./lib/index.js",

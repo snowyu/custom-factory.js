@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.3.0-alpha.5](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.4...v2.3.0-alpha.5) (2023-12-23)
+
+
+### Refactor
+
+* remove static register method from BaseFactoryCoreMethods ([14d40d6](https://github.com/snowyu/custom-factory.js/commit/14d40d6b8ab0e0d7ed8c3eee8364449c2165c4de))
+
 ## [2.3.0-alpha.4](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.3...v2.3.0-alpha.4) (2023-12-21)
 
 

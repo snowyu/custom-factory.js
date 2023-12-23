@@ -4,7 +4,7 @@ import {createAbilityInjector} from 'custom-ability'
 import {BaseFactory} from './base-factory.js'
 
 
-export const BaseFactoryCoreMethods = ['@register', '@_register', '@Factory', '@formatName', '@formatNameFromClass', '@getRealName']
+export const BaseFactoryCoreMethods = ['@_register', '@Factory', '@formatName', '@formatNameFromClass', '@getRealName']
 
 function getFactoryClass(targetClass, options) {
   class Factory {

@@ -42,7 +42,7 @@
 
 #### Defined in
 
-[src/custom-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/14d40d6/src/custom-factory.js#L6)
+[src/custom-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/1dd0708/src/custom-factory.js#L6)
 
 ## Variables
 
@@ -52,7 +52,7 @@
 
 #### Defined in
 
-[src/base-factory-ability.js:7](https://github.com/snowyu/custom-factory.js/blob/14d40d6/src/base-factory-ability.js#L7)
+[src/base-factory-ability.js:7](https://github.com/snowyu/custom-factory.js/blob/1dd0708/src/base-factory-ability.js#L7)
 
 ___
 
@@ -62,7 +62,7 @@ ___
 
 #### Defined in
 
-[src/custom-factory-ability.js:9](https://github.com/snowyu/custom-factory.js/blob/14d40d6/src/custom-factory-ability.js#L9)
+[src/custom-factory-ability.js:9](https://github.com/snowyu/custom-factory.js/blob/1dd0708/src/custom-factory-ability.js#L9)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[src/object-factory-ability.js:48](https://github.com/snowyu/custom-factory.js/blob/14d40d6/src/object-factory-ability.js#L48)
+[src/object-factory-ability.js:48](https://github.com/snowyu/custom-factory.js/blob/1dd0708/src/object-factory-ability.js#L48)
 
 ## Functions
 
@@ -80,25 +80,20 @@ ___
 
 ▸ **addBaseFactoryAbility**(`targetClass`, `options?`): `Function`
 
-A function that adds(injects) the ability of a specified ability class to a target class.
-
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `targetClass` | `Function` | The target class to which the ability will be added. |
-| `options?` | `AbilityOptions` | An optional ability configuration object. |
+| Name | Type |
+| :------ | :------ |
+| `targetClass` | `Function` |
+| `options?` | `AbilityOptions` |
 
 #### Returns
 
 `Function`
 
-- An injected target class that takes a class and adds the ability to it using the specified
-                      options.
-
 #### Defined in
 
-node_modules/custom-ability/lib/custom-ability.d.ts:30
+node_modules/custom-ability/lib/custom-ability.d.ts:27
 
 ___
 
@@ -106,25 +101,20 @@ ___
 
 ▸ **addFactoryAbility**(`targetClass`, `options?`): `Function`
 
-A function that adds(injects) the ability of a specified ability class to a target class.
-
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `targetClass` | `Function` | The target class to which the ability will be added. |
-| `options?` | `AbilityOptions` | An optional ability configuration object. |
+| Name | Type |
+| :------ | :------ |
+| `targetClass` | `Function` |
+| `options?` | `AbilityOptions` |
 
 #### Returns
 
 `Function`
 
-- An injected target class that takes a class and adds the ability to it using the specified
-                      options.
-
 #### Defined in
 
-node_modules/custom-ability/lib/custom-ability.d.ts:30
+node_modules/custom-ability/lib/custom-ability.d.ts:27
 
 ___
 
@@ -147,7 +137,7 @@ Helper ability for factory, You must add a factory ability first.
 
 #### Defined in
 
-node_modules/custom-ability/lib/custom-ability.d.ts:30
+node_modules/custom-ability/lib/custom-ability.d.ts:27
 
 ___
 
@@ -193,7 +183,7 @@ Detect the value whether is a function
 
 #### Defined in
 
-[src/base-factory.js:35](https://github.com/snowyu/custom-factory.js/blob/14d40d6/src/base-factory.js#L35)
+[src/base-factory.js:35](https://github.com/snowyu/custom-factory.js/blob/1dd0708/src/base-factory.js#L35)
 
 ___
 
@@ -215,7 +205,7 @@ Detect the value whether is an object
 
 #### Defined in
 
-[src/base-factory.js:51](https://github.com/snowyu/custom-factory.js/blob/14d40d6/src/base-factory.js#L51)
+[src/base-factory.js:51](https://github.com/snowyu/custom-factory.js/blob/1dd0708/src/base-factory.js#L51)
 
 ___
 
@@ -237,7 +227,7 @@ Detect the object whether is a pure object(the ctor is Object)
 
 #### Defined in
 
-[src/base-factory.js:59](https://github.com/snowyu/custom-factory.js/blob/14d40d6/src/base-factory.js#L59)
+[src/base-factory.js:59](https://github.com/snowyu/custom-factory.js/blob/1dd0708/src/base-factory.js#L59)
 
 ___
 
@@ -259,4 +249,4 @@ Detect the value whether is a string
 
 #### Defined in
 
-[src/base-factory.js:43](https://github.com/snowyu/custom-factory.js/blob/14d40d6/src/base-factory.js#L43)
+[src/base-factory.js:43](https://github.com/snowyu/custom-factory.js/blob/1dd0708/src/base-factory.js#L43)

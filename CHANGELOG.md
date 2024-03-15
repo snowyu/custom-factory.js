@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.3.0-alpha.6](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.5...v2.3.0-alpha.6) (2024-03-15)
+
+
+### Bug Fixes
+
+* webpack5 Module parse failed: 'import' and 'export' may appear only with 'sourceType: module' ([1dd0708](https://github.com/snowyu/custom-factory.js/commit/1dd07081c53e328ecc9d6eddf9cd922f00dc0400))
+
 ## [2.3.0-alpha.5](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.4...v2.3.0-alpha.5) (2023-12-23)
 
 

@@ -1,4 +1,6 @@
-custom-factory / [Exports](modules.md)
+**custom-factory**
+
+***
 
 # CustomFactory [![Build Status](https://github.com/snowyu/custom-factory.js/actions/workflows/nodejs.yml/badge.svg)](https://github.com/snowyu/custom-factory.js/actions/workflows/nodejs.yml) [![npm](https://img.shields.io/npm/v/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![downloads](https://img.shields.io/npm/dm/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![license](https://img.shields.io/npm/l/custom-factory.svg)](https://npmjs.org/package/custom-factory)
 

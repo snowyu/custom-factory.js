@@ -1,97 +1,77 @@
-[custom-factory](../README.md) / [Exports](../modules.md) / IBaseFactoryOptions
+[**custom-factory**](../README.md)
 
-# Interface: IBaseFactoryOptions\<\>
+***
 
-## Table of contents
+[custom-factory](../globals.md) / IBaseFactoryOptions
 
-### Properties
+# Interface: IBaseFactoryOptions
 
-- [alias](IBaseFactoryOptions.md#alias)
-- [aliases](IBaseFactoryOptions.md#aliases)
-- [autoInherits](IBaseFactoryOptions.md#autoinherits)
-- [baseNameOnly](IBaseFactoryOptions.md#basenameonly)
-- [displayName](IBaseFactoryOptions.md#displayname)
-- [isFactory](IBaseFactoryOptions.md#isfactory)
-- [name](IBaseFactoryOptions.md#name)
+Defined in: [src/base-factory.js:2](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L2)
 
 ## Properties
 
-### alias
+### alias?
 
-• **alias**: `string` \| `string`[]
+> `optional` **alias**: `string` \| `string`[]
+
+Defined in: [src/base-factory.js:7](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L7)
 
 the registered item alias
 
-#### Defined in
+***
 
-[src/base-factory.js:7](https://github.com/snowyu/custom-factory.js/blob/94527bd/src/base-factory.js#L7)
+### aliases?
 
-___
+> `optional` **aliases**: `string` \| `string`[]
 
-### aliases
-
-• **aliases**: `string` \| `string`[]
+Defined in: [src/base-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L6)
 
 the registered item aliases
 
-#### Defined in
+***
 
-[src/base-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/94527bd/src/base-factory.js#L6)
+### autoInherits?
 
-___
+> `optional` **autoInherits**: `boolean`
 
-### autoInherits
-
-• **autoInherits**: `boolean`
+Defined in: [src/base-factory.js:9](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L9)
 
 defaults to true
 
-#### Defined in
+***
 
-[src/base-factory.js:9](https://github.com/snowyu/custom-factory.js/blob/94527bd/src/base-factory.js#L9)
+### baseNameOnly?
 
-___
+> `optional` **baseNameOnly**: `boolean`
 
-### baseNameOnly
+Defined in: [src/base-factory.js:5](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L5)
 
-• **baseNameOnly**: `boolean`
+***
 
-#### Defined in
+### displayName?
 
-[src/base-factory.js:5](https://github.com/snowyu/custom-factory.js/blob/94527bd/src/base-factory.js#L5)
+> `optional` **displayName**: `string`
 
-___
-
-### displayName
-
-• **displayName**: `string`
+Defined in: [src/base-factory.js:4](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L4)
 
 the registered item display name
 
-#### Defined in
+***
 
-[src/base-factory.js:4](https://github.com/snowyu/custom-factory.js/blob/94527bd/src/base-factory.js#L4)
+### isFactory?
 
-___
+> `optional` **isFactory**: `boolean` \| `Function`
 
-### isFactory
-
-• **isFactory**: `boolean` \| `Function`
+Defined in: [src/base-factory.js:8](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L8)
 
 defaults to true
 
-#### Defined in
+***
 
-[src/base-factory.js:8](https://github.com/snowyu/custom-factory.js/blob/94527bd/src/base-factory.js#L8)
+### name?
 
-___
+> `optional` **name**: `string`
 
-### name
-
-• **name**: `string`
+Defined in: [src/base-factory.js:3](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L3)
 
 the registered item name
-
-#### Defined in
-
-[src/base-factory.js:3](https://github.com/snowyu/custom-factory.js/blob/94527bd/src/base-factory.js#L3)

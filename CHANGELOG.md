@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.4.0](https://github.com/snowyu/custom-factory.js/compare/v2.3.1...v2.4.0) (2026-01-08)
+
+
+### Features
+
+* support _isFactory config and priority ([f360e43](https://github.com/snowyu/custom-factory.js/commit/f360e43b95f67c8f168721acf1e1609aa731a898))
+* support formatName override in abilities ([ddfb161](https://github.com/snowyu/custom-factory.js/commit/ddfb161eb0259d56a02ba5b8eae8ce449398cecc))
+
+
+### Bug Fixes
+
+* ensure fallback to Factory._isFactory and add hierarchical tests ([2839334](https://github.com/snowyu/custom-factory.js/commit/2839334bccd28272feb367f64598f6e6969f5ddd))
+
 ## [2.3.1](https://github.com/snowyu/custom-factory.js/compare/v2.3.0...v2.3.1) (2026-01-08)
 
 ## [2.3.0](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.6...v2.3.0) (2024-08-29)

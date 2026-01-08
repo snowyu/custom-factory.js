@@ -369,6 +369,25 @@ describe('BaseFactory', () => {
           expect(Codec.unregister(F)).toBe(true)
         }
       })
+      test('should respect Factory._isFactory as fallback', () => {
+        class Root {
+          static _isFactory = false
+          static formatName(name) { return name }
+          static formatNameFromClass(aClass) { return aClass.name }
+        }
+        class MyFact {
+          static _children = {}
+          static _aliases = {}
+          static _Factory = Root
+        }
+        MyFact.register = BaseFactory.register
+        MyFact._register = BaseFactory._register
+        Object.defineProperty(MyFact, 'Factory', Object.getOwnPropertyDescriptor(BaseFactory, 'Factory'))
+
+        class K {}
+        MyFact.register(K, 'K')
+        expect(K.prototype).not.toBeInstanceOf(MyFact)
+      })
       test('should not register a new factory item Class if no autoInherits', () => {
         class MyPCodec {}
         expect( () =>

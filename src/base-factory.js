@@ -283,6 +283,7 @@ export class BaseFactory {
     const vChildren = this._children
     let isFactoryItem = aClass._isFactory
     if (isFactoryItem == null) isFactoryItem = this._isFactory
+    if (isFactoryItem == null) isFactoryItem = Factory._isFactory
     let autoInherits = true
     let vDisplayName, vName, baseNameOnly
     if (isString(aOptions)) {

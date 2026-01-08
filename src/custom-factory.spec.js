@@ -4,6 +4,7 @@ import { createCtor } from 'inherits-ex/lib/createCtor'
 
 import { CustomFactory } from './custom-factory'
 import { getParentClass } from './base-factory'
+import { isInheritedFrom } from 'inherits-ex'
 
 class Codec extends CustomFactory {
   static _aliases = {}
@@ -262,6 +263,58 @@ describe('CustomFactory', () => {
       expect(
         register.bind(Codec, MyCodec, MyIllegalParentCodec, { name: 'my1' })
       ).toThrow('he parent class is illegal')
+    })
+
+    test('should respect _isFactory in hierarchical registration', () => {
+      class SubFactory {}
+      expect(register(SubFactory, { isFactory: true })).toBeTruthy()
+
+      class Product {}
+      // SubFactory inherits _isFactory: true from Codec/CustomFactory
+      expect(SubFactory.register(Product)).toBeTruthy()
+      expect(Product.prototype).toBeInstanceOf(SubFactory)
+
+      class LeafSubFactory {
+        static _isFactory = false
+      }
+      expect(register(LeafSubFactory, { isFactory: true })).toBeTruthy()
+      class Product2 {}
+      expect(LeafSubFactory.register(Product2)).toBeTruthy()
+      expect(Product2.prototype).not.toBeInstanceOf(LeafSubFactory)
+
+      expect(unregister(SubFactory)).toBeTruthy()
+      expect(unregister(LeafSubFactory)).toBeTruthy()
+    })
+
+    test('should prioritize registered item _isFactory in hierarchical registration', () => {
+      class SubFactory {}
+      expect(register(SubFactory, { isFactory: true })).toBeTruthy()
+
+      class Product {
+        static _isFactory = false
+      }
+      expect(SubFactory.register(Product)).toBeTruthy()
+      expect(Product.prototype).not.toBeInstanceOf(SubFactory)
+
+      expect(unregister(SubFactory)).toBeTruthy()
+    })
+
+    test('should fallback to root Factory._isFactory in hierarchical registration', () => {
+      class MyRoot extends CustomFactory {
+        static _children = {}
+        static _aliases = {}
+        static _isFactory = false
+      }
+      class MySub extends MyRoot {
+        static _children = {}
+        static _aliases = {}
+      }
+      // Delete inherited _isFactory to test fallback to MyRoot._isFactory
+      delete MySub._isFactory
+
+      class K {}
+      MySub.register(K, 'K')
+      expect(isInheritedFrom(K, MySub)).toBe(false)
     })
   })
 

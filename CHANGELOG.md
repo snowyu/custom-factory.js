@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.0.0](https://github.com/snowyu/custom-factory.js/compare/v2.5.0...v3.0.0) (2026-01-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* change declarative alias convention to 'static alias'
+
+### Refactor
+
+* change declarative alias convention to 'static alias' ([882eaed](https://github.com/snowyu/custom-factory.js/commit/882eaedb61e4f240605a89f35432e64f3c30ece5))
+
 ## [2.5.0](https://github.com/snowyu/custom-factory.js/compare/v2.4.0...v2.5.0) (2026-01-08)
 
 

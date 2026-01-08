@@ -328,7 +328,10 @@ export class BaseFactory {
       if (Factory !== this) {
         vChildren[vName] = aClass
       }
-      const alias = aOptions && (aOptions.alias || aOptions.aliases)
+      let alias = aOptions && (aOptions.alias || aOptions.aliases)
+      if (!alias && aClass.hasOwnProperty('aliases')) {
+        alias = aClass.aliases
+      }
       if (alias) {
         /* istanbul ignore else */
         if (isString(alias)) {

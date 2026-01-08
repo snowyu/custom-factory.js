@@ -369,6 +369,18 @@ describe('BaseFactory', () => {
           expect(Codec.unregister(F)).toBe(true)
         }
       })
+      test('should respect static aliases in class', () => {
+        class MyAliasItem {
+          static aliases = ['ma1', 'ma2']
+        }
+        Codec.register(MyAliasItem, 'MyAliasItem')
+        try {
+          expect(Codec.get('ma1')).toBe(MyAliasItem)
+          expect(Codec.get('ma2')).toBe(MyAliasItem)
+        } finally {
+          Codec.unregister(MyAliasItem)
+        }
+      })
       test('should respect Factory._isFactory as fallback', () => {
         class Root {
           static _isFactory = false

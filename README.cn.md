@@ -126,9 +126,22 @@ const instance = MyBaseClass.createObject('MyPlugin', 'instanceName')
 
 ### 3. 自动名称生成
 
-当您注册一个类且未指定明确的 `name` 时，工厂会尝试通过剥离多余的后缀来生成一个干净的名称。这由 `baseNameOnly` 选项控制。
+当您在注册类而没有提供明确的 `name` 时，工厂会尝试通过剥离冗余后缀来生成一个干净的名称。
 
-* **`baseNameOnly` (默认: 1):** 工厂会检查类名是否以工厂名称（或层级中的祖先名称）结尾，并将其剥离。
+* **明确指定名称**：您可以在注册时提供名称，或者在类中定义 `static name` 和 `static aliases`：
+  ```javascript
+  // 通过注册选项
+  Factory.register(MyClass, { name: "custom-name", aliases: ["c", "alias"] });
+  // 或者通过类中的静态属性 (声明式风格)
+  class MyClass {
+    static name = "custom-name";
+    static aliases = ["c", "alias"];
+  }
+  Factory.register(MyClass);
+  ```
+
+* **`baseNameOnly` (默认值: 1)**：工厂检查类名是否以工厂名称（或层级结构中的祖先名称）结尾并将其剥离。
+
   * **扁平示例:** 将 `TextCodec` 注册到 `CodecFactory` -> 名称变为 `Text`。
   * **层级示例:**
     * 根: `Codec`
@@ -179,6 +192,31 @@ addFactoryAbility(MyCodec, { formatName: (name) => name.toLowerCase() })
 * **`autoInherits`** (`boolean`, 默认值: `true`):
   * `true`: 如果注册项（作为工厂）尚未继承自父工厂，CustomFactory 将 **自动修改其原型链** 以实现继承。这对于“混合搭配 (Mix-and-Match)”的组合方式非常有用。
   * `false`: 禁用自动继承。如果类没有正确继承，将抛出 `TypeError`。
+
+### 6. 别名 (Aliases)
+
+别名允许您使用不同的名称来引用同一个已注册的类。这对于提供缩写或保持向后兼容性非常有用。
+
+* **在注册时指定**：
+  ```javascript
+  Factory.register(MyClass, { aliases: ['m', 'my'] });
+  ```
+* **注册后设置**：
+  ```javascript
+  Factory.setAliases(MyClass, 'shortcut', 'another');
+  // 或者设置单个别名
+  Factory.setAlias(MyClass, 'short');
+  ```
+* **使用属性操作**：如果类已经注册，您可以使用 `aliases` 属性：
+  ```javascript
+  MyClass.aliases = ['a', 'b']; // 替换当前的别名
+  console.log(MyClass.aliases); // ['a', 'b']
+  ```
+* **检索**：在 `get()` 或 `createObject()` 中使用任何别名：
+  ```javascript
+  const instance = Factory.createObject('shortcut');
+  ```
+* **注意**：别名同样会受到工厂 `formatName` 方法的处理（例如，如果工厂设置为不区分大小写，别名也会遵循此规则）。
 
 ## API 参考
 

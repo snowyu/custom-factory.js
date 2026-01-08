@@ -126,7 +126,19 @@ The `CustomFactory` extends `BaseFactory` to support nesting. Registered items c
 
 ### 3. Automatic Name Generation
 
-When you register a class without providing an explicit `name`, the factory attempts to generate a clean name by stripping redundant suffixes. This is controlled by the `baseNameOnly` option.
+When you register a class without providing an explicit `name`, the factory attempts to generate a clean name by stripping redundant suffixes.
+
+* **Explicit Name**: You can provide a name during registration, or define a `static name` and `static aliases` in the class:
+  ```javascript
+  // Via registration
+  Factory.register(MyClass, { name: "custom-name", aliases: ["c", "alias"] });
+  // OR via static properties in class (Declarative Style)
+  class MyClass {
+    static name = "custom-name";
+    static aliases = ["c", "alias"];
+  }
+  Factory.register(MyClass);
+  ```
 
 * **`baseNameOnly` (default: 1):** The factory checks if the class name ends with the factory's name (or ancestor names in a hierarchy) and strips it.
   * **Flat Example:** Registering `TextCodec` to `CodecFactory` -> Name becomes `Text`.
@@ -179,6 +191,31 @@ The `register` method accepts advanced options to control inheritance and factor
 * **`autoInherits`** (`boolean`, default: `true`):
   * `true`: If the registered item (which is a Factory) does not already inherit from the parent Factory, CustomFactory will **automatically modify its prototype chain** to inherit from it. This is useful for "Mix-and-Match" composition.
   * `false`: Disables automatic inheritance. If the class does not inherit correctly, a `TypeError` will be thrown.
+
+### 6. Aliases
+
+Aliases allow you to refer to the same registered class by different names. This is useful for providing shortcuts or maintaining backward compatibility.
+
+* **During Registration**:
+  ```javascript
+  Factory.register(MyClass, { aliases: ['m', 'my'] });
+  ```
+* **After Registration**:
+  ```javascript
+  Factory.setAliases(MyClass, 'shortcut', 'another');
+  // Or for single alias
+  Factory.setAlias(MyClass, 'short');
+  ```
+* **Using Properties**: If the class is already registered, you can use the `aliases` property:
+  ```javascript
+  MyClass.aliases = ['a', 'b']; // Replaces current aliases
+  console.log(MyClass.aliases); // ['a', 'b']
+  ```
+* **Retrieval**: Use any alias with `get()` or `createObject()`:
+  ```javascript
+  const instance = Factory.createObject('shortcut');
+  ```
+* **Note**: Aliases are also processed by the factory's `formatName` method (e.g., if the factory is case-insensitive, aliases will be too).
 
 ## API Reference
 

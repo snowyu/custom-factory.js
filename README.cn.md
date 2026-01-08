@@ -1,134 +1,187 @@
-类工厂模式是一种面向对象的设计模式，它允许我们动态地注册和创建对象。这种模式主要有两个实现方式：BaseFactory 和 HierarchicalFactory。
+# CustomFactory [![Build Status](https://github.com/snowyu/custom-factory.js/actions/workflows/nodejs.yml/badge.svg)](https://github.com/snowyu/custom-factory.js/actions/workflows/nodejs.yml) [![npm](https://img.shields.io/npm/v/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![downloads](https://img.shields.io/npm/dm/custom-factory.svg)](https://npmjs.org/package/custom-factory) [![license](https://img.shields.io/npm/l/custom-factory.svg)](https://npmjs.org/package/custom-factory)
 
-工厂模式是一种面向对象的设计模式，它的目的是将对象的创建过程与使用过程分离开来。工厂模式通过一个工厂类来创建产品类的实例，而不是在使用时直接通过 new 关键字来创建对象实例。
+**CustomFactory** 是一个强大的工具，用于为您的类或对象添加工厂能力。它允许您通过注册、别名和层级结构来管理类和实例。
 
-类工厂模式是工厂模式的一种实现方式，它可以注册、注销指定的类，并能通过名字或别名得到已经注册的类。在类工厂模式中，注册类时还可以指定多个别名，这使得我们可以通过不同的名称来获取同一个类的实例。此外，类工厂模式还支持单例模式，它可以保证同一个类的实例只被创建一次。
+无论您是需要一个简单的扁平注册表，还是一个复杂的层级系统（类似文件系统），CustomFactory 都能满足您的需求。它同时支持 **继承 (Inheritance)**（扩展基类）和 **能力 (Ability/Mixin)** 模式，使其能够轻松集成到现有的代码库中。
 
-在类工厂模式中，我们通常需要实现两个核心的类：BaseFactory 和 HierarchicalFactory。其中，BaseFactory 用于最简单的工厂模式，它没有层级注册功能，或者说只有底层（单层级）有注册/注销功能。而 HierarchicalFactory 是带层级的工厂模式，可以在每一个注册的类上再次进行注册/注销，从而形成类似目录的层级。
+## 特性
 
-注册到`工厂`的类,又称为`产品`,而`产品`又可以是`工厂`.这可以通过注册时候的选项`isFactory`控制:
+* **工厂模式：**
+  * **扁平工厂 (`BaseFactory`)：** 一个简单的单层级注册表。
+  * **层级工厂 (`CustomFactory`)：** 一个多层级注册表，工厂可以包含其他工厂（类似文件夹结构）。
+* **灵活注册：** 支持使用唯一名称、显示名称和多个别名来注册类。
+* **智能命名：** 自动推导注册名称，智能剥离后缀（例如 `TextCodec` 在 `Codec` 工厂中自动注册为 `Text`）。
+* **单例支持：** 获取或创建单例实例。
+* **集成方式：**
+  * **继承：** 继承 `BaseFactory` 或 `CustomFactory`。
+  * **能力 (Ability/Mixin)：** 为*任何*现有类添加工厂特性，而不破坏原有的继承链。
+* **自动继承：** 注册时自动继承工厂类（可配置）。
+* **大小写敏感：** 可配置名称格式化（默认区分大小写）。
 
-* 如果`isFactory`为`true`,那么注册时就会检测该注册类是否继承自`Factory`,如果不是则自动继承自`Factory`类(当`autoInherits`选项启用时)
-* 如果`isFactory`为`Function`函数构造者,那么注册时就会检测该注册类是否继承自该函数构造者,如果不是则自动继承自该函数构造者(当`autoInherits`选项启用时)
+## 安装
 
-默认注册的项都是即是产品又是工厂. 换句话说,`isFactory`选项默认为真,`autoInherits`选项默认为真.
+```bash
+npm install custom-factory
+```
 
-1. BaseFactory：这是最简单的工厂模式，它只有一层注册/注销功能，没有层级结构。通过静态方法 register，我们可以将一个类注册到工厂中，并通过名称或别名获取已注册的类。还可以通过重载 createObject 方法，实现单件模式。BaseFactory 还提供了一些静态方法和实例方法，用于管理和操作注册类和对象实例。
+## 快速开始
 
-2. HierarchicalFactory：这是带有层级结构的工厂模式，通过继承自 BaseFactory 实现。与 BaseFactory 不同的是，HierarchicalFactory 允许我们在每个注册类上再次进行注册/注销，从而形成类似目录的层级结构。除此之外，HierarchicalFactory 还提供了一些额外的静态方法，用于获取工厂结构的路径。
+### 方法 1: 继承模式 (推荐用于新项目)
 
+#### 扁平工厂 (`BaseFactory`)
 
-下面我们来更详细地介绍这两个类工厂模式的实现。
+使用 `BaseFactory` 来创建一个简单、非嵌套的注册表。
 
-### BaseFactory
+```javascript
+import { BaseFactory } from 'custom-factory'
 
-BaseFactory 的核心是静态方法 `register`，我们可以通过它将一个类注册到工厂中。`register` 方法接受两个参数：`ctor` 和 `options`。`ctor` 表示要注册的类的构造函数，`options` 是一个对象或字符串，它包含了注册选项，也可以直接传入字符串作为注册名。
+class ShapeFactory extends BaseFactory {}
 
-以下是 `options` 可以包含的选项：
+// 1. 注册类
+class Circle extends ShapeFactory {} // 自动注册为 'Circle'
+ShapeFactory.register(Circle)
 
-* `name`：表示注册名，如果没有指定，将使用类名作为注册名。
-* `displayName`：表示显示名，可选。
-* `alias` 或 `aliases`：表示别名，可以是一个字符串或字符串数组，可选。
-* `baseNameOnly`：表示从类名中提取基本名称以进行注册，默认为 `1`，即只提取一级名称。例如，如果我们将 `TextCodec` 类注册到 `Codec` 工厂中，使用 `baseNameOnly` 为 1，`TextCodec` 将被注册为 `Text`；如果 `baseNameOnly` 为 2，`TextCodec` 将被注册为 `Json`。
-* `isFactory` `{Function|boolean}`：表示注册项是否是工厂类型，默认为 `true`, isFactory如果是`Function`那么就以它代替自动继承的工厂类
-* `autoInherits` `{boolean}`: 当注册项是工厂类型时,是否自动检查并继承自工厂类，默认为 `true`
+// 2. 使用别名和选项注册
+class Square {}
+ShapeFactory.register(Square, {
+  name: 'Square',
+  aliases: ['sq', 'box']
+})
 
-除了 `register` 方法，`BaseFactory` 还提供了以下静态方法：
+// 3. 使用
+const shape = ShapeFactory.createObject('Circle') // 返回一个 Circle 实例
+const sq = ShapeFactory.get('sq') // 返回 Square 类
+```
 
-* `unregister`：用于注销类或注册名。
-* `setAliases`：用于添加或更新类的别名。
-* `forEach`：用于遍历所有注册类。
-* `get`：用于根据名称获取已注册类。
-* `formatName`：用于格式化(改变)注册名,默认不做任何改变(即名称会区分大小写),重载该方法可实现自己的格式化注册名(比如,不区分大小写)。
+#### 层级工厂 (`CustomFactory`)
 
-此外，`BaseFactory` 还可以通过重载 `createObject` 方法来创建对象实例，以实现单件模式。`BaseFactory` 实例还可以通过 `initialize` 方法进行初始化。
+当您需要嵌套结构（例如 `Codec` -> `Image` -> `Png`）时，使用 `CustomFactory`。
 
-注: 如果根类名为`CustomFactory`,后代为`MyNameFactory`,希望自动注册的名称为`MyName`,那么需要设置:`CustomFactory.prototype.name = 'Factory'`.
+```javascript
+import { CustomFactory } from 'custom-factory'
 
-### HierarchicalFactory
+class RootFactory extends CustomFactory {}
 
-HierarchicalFactory 继承自 BaseFactory，它添加了层级结构的功能。与 BaseFactory 不同的是，我们可以将一个类注册到另一个类中，从而形成层级结构。
+// 第一层
+class Codec extends RootFactory {}
+RootFactory.register(Codec)
 
-HierarchicalFactory 的核心方法是`register`，它可以将一个类注册到另一个类中，形成类似于目录的层级结构。具体来说，`register(aClass, aParentClass, aOptions)` 方法将 `aClass` 注册到 `aParentClass` 的工厂中，而 `register(aClass, aOptions)` 方法将 `aClass` 注册到自身或者 `aOptions.parent` 的工厂中。
+// 第二层
+class ImageCodec extends Codec {}
+Codec.register(ImageCodec, { name: 'Image' }) // 在 'Codec' 下注册为 'Image'
 
-与 `BaseFactory` 类似，`HierarchicalFactory` 也提供了 `unregister` 方法来注销类或者工厂本身，以及 `get` 方法来获取已经注册的类。此外，`HierarchicalFactory` 还提供了 `path` 和 `pathArray` 方法来获取类在层级结构中的路径，可以用于调试或者查找。
+// 第三层
+class PngCodec extends ImageCodec {}
+ImageCodec.register(PngCodec, { name: 'Png' })
 
-需要注意的是，`HierarchicalFactory` 中的类的名称并不一定和它们注册时指定的名称相同，因为注册时可以通过 `baseNameOnly` 参数指定从类名中提取的基本名称。例如，在 `Codec` 工厂中注册 `TextCodec` 类时，如果 `baseNameOnly` 设置为 1，则注册的名称为 `Text`；如果设置为 2，则注册的名称为 `Json`。
+// 使用
+console.log(RootFactory.path(PngCodec)) // 输出: '/Codec/Image/Png'
+const PngClass = RootFactory.get('Codec').get('Image').get('Png')
+```
 
-`baseNameOnly`: 在 JavaScript 中，类名通常使用 `PascalCase` 命名规则，这意味着每个单词的首字母都大写，例如 "JsonTextCodec"。参数 baseNameOnly 是一个数字，它决定了要从类名中提取哪些单词作为基本名称。例如，如果 baseNameOnly 是 1，我们就会从 "JsonTextCodec" 中提取第一个单词 "Json" 作为基本名称。如果 baseNameOnly 是 2，我们就会从 "JsonTextCodec" 中提取前两个单词 "JsonText" 作为基本名称。如果 baseNameOnly 是 0，则使用整个类名作为基本名称。这个基本名称用于注册类或工厂。
+### 方法 2: 能力 / Mixin 模式 (推荐用于现有类)
 
-BaseFactory 类有以下几个核心方法：
+如果您已经有了一个类继承体系，并且希望在不更改父类的情况下添加工厂能力，请使用 `Ability` 函数。
 
-* register(ctor, options)：将一个类注册到工厂中。
-  * ctor：表示要注册的类的构造函数。
-  * options：表示要注册的类的配置信息，包括 name、displayName、alias 等。
-* unregister(aName|aClass|undefined)：从工厂中注销一个类，支持传入类名、类或者不传参数三种方式。
-* setAliases(aClass, ...aliases: string[])：为一个类添加或更新别名。
-* forEach(cb: (class: typeof BaseFactory, name: string)=>'brk'|string|undefined)：遍历工厂中的所有类，并执行回调函数。
-* get(name: string): typeof BaseFactory：根据类名或别名获取工厂中的类。
-* formatName(aName: string): string：格式化注册名称，默认与传入名称相同，可以重写此方法实现大小写不敏感等功能。
+```javascript
+import { addBaseFactoryAbility, addFactoryAbility } from 'custom-factory'
 
-HierarchicalFactory 类继承自 BaseFactory，它额外提供了以下几个核心方法：
+class MyBaseClass {
+  constructor(name) { this.name = name }
+}
 
-* `register(aClass, aParentClass, [aOptions])`：将一个类注册到指定的父类下。
-  * aClass：表示要注册的类的构造函数。
-  * aParentClass：表示父类的构造函数。
-  * aOptions：表示要注册的类的配置信息，包括 name、displayName、alias 等。
-* `path(aClass?: typeof CustomFactory, aRootName?: string)`：获取指定类的工厂路径字符串。
-  * aClass：表示要获取路径的类的构造函数。
-  * aRootName：表示根目录的名称，默认为 RootFactory.ROOT_NAME 或 RootFactory.prototype.name 或 RootFactory.name。
-* `pathArray(aClass?: typeof CustomFactory, aRootName?: string)` 方法用于获取指定类的层级路径数组。
-  * 参数 `aClass` 是一个可选的类，用于指定需要获取层级路径数组的类。如果不指定，该方法将返回当前工厂实例的层级路径数组。
-  * 参数 `aRootName` 也是可选的，用于指定根工厂的名称。如果没有指定，则默认使用 `RootFactory.ROOT_NAME`、`RootFactory.prototype.name` 或者 `RootFactory.name`。
-  * 该方法返回一个字符串数组，表示类从根工厂开始的层级路径。例如，如果 `MyFactory` 工厂在 `RootFactory` 的 `A` 工厂下，那么该工厂的层级路径数组为 `['A', 'MyFactory']`。
+// 添加扁平工厂能力
+addBaseFactoryAbility(MyBaseClass)
 
-----------------------------
+class Plugin extends MyBaseClass {}
+MyBaseClass.register(Plugin, { name: 'MyPlugin' })
 
-类工厂模式是管理类的工厂模式,而所谓工厂模式是指能够注册(`register`)/注销(`unregister`)指定的类并能通过名字或别名得到已经注册的类(`get(name_or_alias)`),注册时候还可以指定多个别名(`aliases(IntegerType, 'int', 'INT')`).
-通过类工厂类(`createObject(name_or_alias)`),还可以创建对象实例, 通过重载`createObject`方法能够可以实现对象实例的单件模式.
+const instance = MyBaseClass.createObject('MyPlugin', 'instanceName')
+```
 
-有两种类工厂模式:
+对于层级能力，请使用 `addFactoryAbility(MyBaseClass)`。
 
-1. BaseFactory 用于最简单的工厂模式, 没有层级注册功能,或者说只有底层(单层级)有注册/注销功能.
-   * BaseFactory: 扁平化的工厂
-     * static members:
-       * `register(ctor, options)`: register a class to the factory,
-         * ctor: it will be automatically inherited to the Factory after registered if ctor isn't derived from BaseFactory
-         * options*(object|string)*: the options for the class and the factory
-           * it is the registered name if options is string.
-           * name*(String)*: optional unique id name to register, defaults to class name
-           * displayName: optional display name
-           * alias,aliases*(String|string[])*: optional alias
-           * baseNameOnly*(number)*: extract basename from class name to register it if no specified name.
-             defaults to 1. the baseNameOnly number can be used on hierarchical factory, means max level to extract basename.
-             0 means use the whole class name to register it, no extract.
-             * eg, the `Codec` is a Root Factory, we add the `TextCodec` to "Codec", add the `JsonTextCodec` to "TextCodec"
-               * baseNameOnly = 1: `TextCodec` name is 'Text', `JsonTextCodec` name is 'JsonText'
-               * baseNameOnly = 2: `TextCodec` name is 'Text', `JsonTextCodec` name is 'Json'
-       * `unregister(aName|aClass|undefined)`: unregister the class, class name or itself from the Factory
-       * `setAliases(aClass, ...aliases: string[])`: add/update aliases to the aClass.
-       * `forEach(cb: (class: typeof BaseFactory, name: string)=>'brk'|string|undefined)`: executes a provided callback function once for each registered element.
-       * `get(name: string): typeof BaseFactory`: get the registered class via name
-       * `formatName(aName: string): string`: format the registered name, defaults to same as aName. you can override this method to implement case insensitive.
-     * instance members
-       * `initialize()`: initialize instance method which called by `constructor()`
-         * pass through all arguments coming from constructor
-2. HierarchicalFactory(继承自BaseFactory) 是带层级的工厂模式,可以在每一个注册的类上(任意层级)再次进行注册/注销,从而形成类似目录的层级.
-   * static members
-      * `register(aClass, aParentClass, aOptions)`: register the aClass to aParentClass Class.
-      * `register(aClass, aOptions)`: register the aClass to itself or `aOptions.parent`
-        * `options`*(object|string)*: the options for the class and the factory
-          * it is the registered name if aOptions is string.
-          * `name`*(String)*: optional unique id name to register, defaults to class name
-          * `displayName`: optional display name
-          * `baseNameOnly`*(number)*: extract basename from class name to register it if no specified name.
-            defaults to 1. the baseNameOnly number can be used on hierarchical factory, means max level to extract basename.
-            0 means use the whole class name to register it, no extract.
-            * eg, the `Codec` is a Root Factory, we add the `TextCodec` to "Codec", add the `JsonTextCodec` to "TextCodec"
-              * baseNameOnly = 1: `TextCodec` name is 'Text', `JsonTextCodec` name is 'JsonText'
-              * baseNameOnly = 2: `TextCodec` name is 'Text', `JsonTextCodec` name is 'Json'
-      * `path(aClass?: typeof CustomFactory, aRootName?: string)`: get the path string of this aClass factory item or itself.
-        * `aRootName`: defaults to `RootFactory.ROOT_NAME || RootFactory.prototype.name || RootFactory.name`
-      * `pathArray(aClass?: typeof CustomFactory, aRootName?: string)`: get the path array of this aClass factory item or itself.
-        * `aRootName`: defaults to `RootFactory.ROOT_NAME || RootFactory.prototype.name || RootFactory.name`
+## 核心概念
 
+### 1. 扁平工厂 (`BaseFactory`)
+
+`BaseFactory` 为所有注册项提供一个单一的命名空间。非常适合简单的插件系统或类型注册表。
+
+**关键方法：**
+
+* `register(Class, [options])`: 注册一个类。
+* `get(name)`: 通过名称或别名获取类。
+* `createObject(name, ...args)`: 创建注册类的实例。
+* `forEach(callback)`: 遍历注册的类。
+
+### 2. 层级工厂 (`CustomFactory`)
+
+`CustomFactory` 继承自 `BaseFactory` 以支持嵌套。注册的项本身也可以是其他项的工厂。
+
+**关键方法 (继承自 BaseFactory)：**
+
+* `register(Class, [parent], [options])`: 注册一个类，可选指定父工厂。
+* `path(Class)`: 返回完整的路径字符串 (例如 `/Root/Parent/Child`)。
+* `pathArray(Class)`: 返回路径数组。
+
+### 3. 自动名称生成
+
+当您注册一个类且未指定明确的 `name` 时，工厂会尝试通过剥离多余的后缀来生成一个干净的名称。这由 `baseNameOnly` 选项控制。
+
+* **`baseNameOnly` (默认: 1):** 工厂会检查类名是否以工厂名称（或层级中的祖先名称）结尾，并将其剥离。
+  * **扁平示例:** 将 `TextCodec` 注册到 `CodecFactory` -> 名称变为 `Text`。
+  * **层级示例:**
+    * 根: `Codec`
+    * 子: `ImageCodec` (注册为 `Image`)
+    * 孙: `PngImageCodec` (注册为 `Png`) -> 剥离 `ImageCodec` (父) 和 `Codec` (根)。
+* **`baseNameOnly: 0`:** 禁用后缀剥离。使用完整的类名。
+
+### 4. 自定义名称格式化
+
+默认情况下，名称是 **区分大小写** 的。您可以通过重写工厂中的静态 `formatName` 方法来更改此行为。
+
+```javascript
+class MyFactory extends BaseFactory {
+  static formatName(name) {
+    return name.toLowerCase(); // 使所有名称不区分大小写
+  }
+}
+```
+
+### 5. 高级注册：`isFactory` 和 `autoInherits`
+
+`register` 方法接受高级选项来控制继承和工厂行为。
+
+* **`isFactory`** (`boolean` | `Class`, 默认: `true`):
+  * `true`: 注册的类被视为一个 **工厂节点**。它可以拥有自己的子项。
+  * `false`: 注册的类是一个 **产品/叶子节点**。它不能有子项。
+  * `Class` (构造函数): 注册的类是一个工厂，且 **必须** 继承自这个特定的类。
+* **`autoInherits`** (`boolean`, 默认: `true`):
+  * `true`: 如果注册项（作为工厂）尚未继承自父工厂，CustomFactory 将 **自动修改其原型链** 以实现继承。这对于“混合搭配 (Mix-and-Match)”的组合方式非常有用。
+  * `false`: 禁用自动继承。如果类没有正确继承，将抛出 `TypeError`。
+
+## API 参考
+
+### 静态方法
+
+* `register(class, [options])`: 注册一个类。
+* `unregister(name|class)`: 从工厂中移除一个类。
+* `get(name)`: 获取已注册的类。
+* `createObject(name, ...args)`: 创建实例。
+* `setAliases(class, ...aliases)`: 设置别名。
+* `getAliases(class)`: 获取别名。
+* `forEach(callback)`: 遍历注册项。
+* `formatName(name)`: 重写此方法以更改名称匹配规则（例如，实现不区分大小写）。
+
+### 实例方法
+
+* `initialize(...args)`: 由构造函数调用。重写此方法以添加初始化逻辑。
+
+*(仅限 `CustomFactory`)*
+
+* `path(class)`: 获取层级路径。
+* `pathArray(class)`: 获取层级路径数组。
+
+## 许可证
+
+MIT

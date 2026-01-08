@@ -133,6 +133,54 @@ describe('CustomFactory Ability', () => {
           Theta.register(Iota, 'Iota')
           expect(Theta.get('iota')).toBe(Iota)
         })
+
+        it('should respect _isFactory when using ability', () => {
+          class AbilityFactory {
+            static _aliases = {}
+            static _isFactory = false
+          }
+          addFactoryAbility(AbilityFactory)
+          class G {}
+          AbilityFactory.register(G, 'G')
+          expect(G.prototype).not.toBeInstanceOf(AbilityFactory)
+        })
+
+        it('should respect _isFactory = false on registered item class', () => {
+          class H {
+            static _isFactory = false
+          }
+          Codec.register(H, 'H')
+          try {
+            expect(H.prototype).not.toBeInstanceOf(Codec)
+          } finally {
+            Codec.unregister(H)
+          }
+        })
+
+        it('should prioritize registered item class _isFactory over ability factory _isFactory', () => {
+          class LeafFactory {
+            static _aliases = {}
+            static _isFactory = false
+          }
+          addFactoryAbility(LeafFactory)
+          class E {
+            static _isFactory = true
+          }
+          LeafFactory.register(E, 'E')
+          expect(E.prototype).toBeInstanceOf(LeafFactory)
+        })
+
+        it('should prioritize options.isFactory over registered item class _isFactory', () => {
+          class F {
+            static _isFactory = true
+          }
+          Codec.register(F, { name: 'F', isFactory: false })
+          try {
+            expect(F.prototype).not.toBeInstanceOf(Codec)
+          } finally {
+            Codec.unregister(F)
+          }
+        })
       })
 
       describe('.forEach registered classes', () => {

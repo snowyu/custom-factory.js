@@ -114,6 +114,14 @@ export class BaseFactory {
   static _aliases = undefined
 
   /**
+   * The default isFactory value
+   * @type {boolean}
+   * @default true
+   * @internal
+   */
+  static _isFactory = true
+
+  /**
    * The Root Factory class
    */
   static get Factory() {
@@ -273,7 +281,8 @@ export class BaseFactory {
   static _register(aClass, aOptions) {
     const Factory = this.Factory
     const vChildren = this._children
-    let isFactoryItem = true
+    let isFactoryItem = aClass._isFactory
+    if (isFactoryItem == null) isFactoryItem = this._isFactory
     let autoInherits = true
     let vDisplayName, vName, baseNameOnly
     if (isString(aOptions)) {

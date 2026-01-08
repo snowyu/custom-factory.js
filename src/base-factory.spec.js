@@ -311,6 +311,64 @@ describe('BaseFactory', () => {
           expect(unregister(MyPCodec)).toBeTruthy()
         }
       })
+      test('should respect this._isFactory = false', () => {
+        class LeafFactory extends BaseFactory {
+          static _children = {}
+          static _aliases = {}
+          static _isFactory = false
+        }
+        class B {}
+        LeafFactory.register(B, 'B')
+        expect(B.prototype).not.toBeInstanceOf(LeafFactory)
+      })
+
+      test('should respect aClass._isFactory = false', () => {
+        class C {
+          static _isFactory = false
+        }
+        Codec.register(C, 'C')
+        try {
+          expect(C.prototype).not.toBeInstanceOf(Codec)
+        } finally {
+          expect(Codec.unregister(C)).toBe(true)
+        }
+      })
+
+      test('should prioritize aClass._isFactory over this._isFactory', () => {
+        class LeafFactory extends BaseFactory {
+          static _children = {}
+          static _aliases = {}
+          static _isFactory = false
+        }
+        class E {
+          static _isFactory = true
+        }
+        LeafFactory.register(E, 'E')
+        expect(E.prototype).toBeInstanceOf(LeafFactory)
+      })
+
+      test('should prioritize aOptions.isFactory over this._isFactory', () => {
+        class LeafFactory extends BaseFactory {
+          static _children = {}
+          static _aliases = {}
+          static _isFactory = false
+        }
+        class G {}
+        LeafFactory.register(G, { name: 'G', isFactory: true })
+        expect(G.prototype).toBeInstanceOf(LeafFactory)
+      })
+
+      test('should prioritize aOptions.isFactory over aClass._isFactory', () => {
+        class F {
+          static _isFactory = true
+        }
+        Codec.register(F, { name: 'F', isFactory: false })
+        try {
+          expect(F.prototype).not.toBeInstanceOf(Codec)
+        } finally {
+          expect(Codec.unregister(F)).toBe(true)
+        }
+      })
       test('should not register a new factory item Class if no autoInherits', () => {
         class MyPCodec {}
         expect( () =>

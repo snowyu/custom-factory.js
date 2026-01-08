@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.3.1](https://github.com/snowyu/custom-factory.js/compare/v2.3.0...v2.3.1) (2026-01-08)
+
 ## [2.3.0](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.6...v2.3.0) (2024-08-29)
 
 ## [2.3.0-alpha.6](https://github.com/snowyu/custom-factory.js/compare/v2.3.0-alpha.5...v2.3.0-alpha.6) (2024-03-15)

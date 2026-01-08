@@ -6,7 +6,7 @@
 
 # Interface: IBaseFactoryOptions
 
-Defined in: [src/base-factory.js:2](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L2)
+Defined in: [src/base-factory.js:2](https://github.com/snowyu/custom-factory.js/blob/6b5a3728456f53e48f918603a8a5fc3a0515d928/src/base-factory.js#L2)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [src/base-factory.js:2](https://github.com/snowyu/custom-factory.js/
 
 > `optional` **alias**: `string` \| `string`[]
 
-Defined in: [src/base-factory.js:7](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L7)
+Defined in: [src/base-factory.js:7](https://github.com/snowyu/custom-factory.js/blob/6b5a3728456f53e48f918603a8a5fc3a0515d928/src/base-factory.js#L7)
 
 the registered item alias
 
@@ -24,7 +24,7 @@ the registered item alias
 
 > `optional` **aliases**: `string` \| `string`[]
 
-Defined in: [src/base-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L6)
+Defined in: [src/base-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/6b5a3728456f53e48f918603a8a5fc3a0515d928/src/base-factory.js#L6)
 
 the registered item aliases
 
@@ -34,7 +34,7 @@ the registered item aliases
 
 > `optional` **autoInherits**: `boolean`
 
-Defined in: [src/base-factory.js:9](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L9)
+Defined in: [src/base-factory.js:9](https://github.com/snowyu/custom-factory.js/blob/6b5a3728456f53e48f918603a8a5fc3a0515d928/src/base-factory.js#L9)
 
 defaults to true
 
@@ -44,7 +44,7 @@ defaults to true
 
 > `optional` **baseNameOnly**: `boolean`
 
-Defined in: [src/base-factory.js:5](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L5)
+Defined in: [src/base-factory.js:5](https://github.com/snowyu/custom-factory.js/blob/6b5a3728456f53e48f918603a8a5fc3a0515d928/src/base-factory.js#L5)
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: [src/base-factory.js:5](https://github.com/snowyu/custom-factory.js/
 
 > `optional` **displayName**: `string`
 
-Defined in: [src/base-factory.js:4](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L4)
+Defined in: [src/base-factory.js:4](https://github.com/snowyu/custom-factory.js/blob/6b5a3728456f53e48f918603a8a5fc3a0515d928/src/base-factory.js#L4)
 
 the registered item display name
 
@@ -62,7 +62,7 @@ the registered item display name
 
 > `optional` **isFactory**: `boolean` \| `Function`
 
-Defined in: [src/base-factory.js:8](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L8)
+Defined in: [src/base-factory.js:8](https://github.com/snowyu/custom-factory.js/blob/6b5a3728456f53e48f918603a8a5fc3a0515d928/src/base-factory.js#L8)
 
 defaults to true
 
@@ -72,6 +72,6 @@ defaults to true
 
 > `optional` **name**: `string`
 
-Defined in: [src/base-factory.js:3](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/base-factory.js#L3)
+Defined in: [src/base-factory.js:3](https://github.com/snowyu/custom-factory.js/blob/6b5a3728456f53e48f918603a8a5fc3a0515d928/src/base-factory.js#L3)
 
 the registered item name

@@ -8,4 +8,4 @@
 
 > `const` **ObjectFactoryCoreMethods**: `string`[]
 
-Defined in: [src/object-factory-ability.js:48](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/object-factory-ability.js#L48)
+Defined in: [src/object-factory-ability.js:48](https://github.com/snowyu/custom-factory.js/blob/6b5a3728456f53e48f918603a8a5fc3a0515d928/src/object-factory-ability.js#L48)

@@ -8,7 +8,7 @@
 
 > **ICustomFactoryOptions**\<\> = [`IBaseFactoryOptions`](../interfaces/IBaseFactoryOptions.md) & `object`
 
-Defined in: [src/custom-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/15593f29ac15322b3998d605546074093a726252/src/custom-factory.js#L6)
+Defined in: [src/custom-factory.js:6](https://github.com/snowyu/custom-factory.js/blob/6b5a3728456f53e48f918603a8a5fc3a0515d928/src/custom-factory.js#L6)
 
 ## Type Declaration
 

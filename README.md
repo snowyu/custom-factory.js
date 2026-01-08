@@ -181,6 +181,11 @@ The `register` method accepts advanced options to control inheritance and factor
 
 ## API Reference
 
+### Static Properties
+
+* `_isFactory`: The default `isFactory` value for the factory (default: `true`).
+* `_baseNameOnly`: The default `baseNameOnly` value for the factory (default: `1`).
+
 ### Static Methods
 
 * `register(class, [options])`: Register a class.

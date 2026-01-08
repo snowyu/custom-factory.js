@@ -181,6 +181,11 @@ addFactoryAbility(MyCodec, { formatName: (name) => name.toLowerCase() })
 
 ## API 参考
 
+### 静态属性
+
+* `_isFactory`: 工厂的默认 `isFactory` 值 (默认值: `true`)。
+* `_baseNameOnly`: 工厂的默认 `baseNameOnly` 值 (默认值: `1`)。
+
 ### 静态方法
 
 * `register(class, [options])`: 注册一个类。

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.5.0](https://github.com/snowyu/custom-factory.js/compare/v2.4.0...v2.5.0) (2026-01-08)
+
+
+### Features
+
+* support declarative name and aliases in class ([d0991e8](https://github.com/snowyu/custom-factory.js/commit/d0991e8f49648802708b3cbeca216e75c40d9cd7))
+
 ## [2.4.0](https://github.com/snowyu/custom-factory.js/compare/v2.3.1...v2.4.0) (2026-01-08)
 
 

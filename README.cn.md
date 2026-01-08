@@ -143,9 +143,20 @@ const instance = MyBaseClass.createObject('MyPlugin', 'instanceName')
 ```javascript
 class MyFactory extends BaseFactory {
   static formatName(name) {
-    return name.toLowerCase(); // 使所有名称不区分大小写
+    return name.toLowerCase(); // 转换为小写以实现不区分大小写
   }
 }
+```
+
+在使用 **能力 (Ability)** 时，您也可以通过在添加能力之前在类上定义 `formatName`，或者在选项中传递它来重写 `formatName`：
+
+```javascript
+class MyCodec {
+  static formatName(name) { return name.toLowerCase() }
+}
+addFactoryAbility(MyCodec)
+// 或者
+addFactoryAbility(MyCodec, { formatName: (name) => name.toLowerCase() })
 ```
 
 ### 5. 高级注册：`isFactory` 和 `autoInherits`

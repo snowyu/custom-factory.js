@@ -110,6 +110,29 @@ describe('CustomFactory Ability', () => {
             MyNewCodec,
           ])
         })
+
+        it('should support formatName in options when calling addFactoryAbility', () => {
+          class Epsilon {
+            static _aliases = {}
+          }
+          addFactoryAbility(Epsilon, { formatName: (name) => name.toLowerCase() })
+          class Zeta {}
+          Epsilon.register(Zeta, 'Zeta')
+          expect(Epsilon.get('zeta')).toBe(Zeta)
+        })
+
+        it('should preserve formatName defined before addFactoryAbility', () => {
+          class Theta {
+            static _aliases = {}
+            static formatName(name) {
+              return name.toLowerCase()
+            }
+          }
+          addFactoryAbility(Theta)
+          class Iota {}
+          Theta.register(Iota, 'Iota')
+          expect(Theta.get('iota')).toBe(Iota)
+        })
       })
 
       describe('.forEach registered classes', () => {

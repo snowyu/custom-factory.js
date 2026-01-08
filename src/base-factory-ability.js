@@ -16,6 +16,12 @@ function getFactoryClass(targetClass, options) {
 
   cloneCtor(Factory, BaseFactory)
 
+  if (targetClass.hasOwnProperty('formatName')) {
+    Factory.formatName = targetClass.formatName
+  } else if (options && typeof options.formatName === 'function') {
+    Factory.formatName = options.formatName
+  }
+
   delete Factory['_findRootFactory']
   delete Factory['findRootFactory']
   Factory['_children'] = undefined

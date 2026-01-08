@@ -148,6 +148,17 @@ class MyFactory extends BaseFactory {
 }
 ```
 
+When using **abilities**, you can also override `formatName` by either defining it on the class before adding the ability, or by passing it in the options:
+
+```javascript
+class MyCodec {
+  static formatName(name) { return name.toLowerCase() }
+}
+addFactoryAbility(MyCodec)
+// OR
+addFactoryAbility(MyCodec, { formatName: (name) => name.toLowerCase() })
+```
+
 ### 5. Advanced Registration: `isFactory` and `autoInherits`
 
 The `register` method accepts advanced options to control inheritance and factory behavior.

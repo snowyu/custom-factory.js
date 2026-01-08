@@ -163,11 +163,19 @@ addFactoryAbility(MyCodec, { formatName: (name) => name.toLowerCase() })
 
 `register` 方法接受高级选项来控制继承和工厂行为。
 
-* **`isFactory`** (`boolean` | `Class`, 默认: `true`):
-  * `true`: 注册的类被视为一个 **工厂节点**。它可以拥有自己的子项。
-  * `false`: 注册的类是一个 **产品/叶子节点**。它不能有子项。
-  * `Class` (构造函数): 注册的类是一个工厂，且 **必须** 继承自这个特定的类。
-* **`autoInherits`** (`boolean`, 默认: `true`):
+* **`isFactory`** (`boolean` | `Class`, 默认值: `true`):
+  * `true`: 注册的类被视为 **工厂节点 (Factory Node)**。它可以拥有自己的子类。
+  * `false`: 注册的类被视为 **产品/叶子节点 (Product/Leaf)**。它不能拥有子类。
+  * `Class` (构造函数): 注册的类是一个工厂，且 **必须** 继承自该特定类。
+
+  **关于 `isFactory` 优先级的说明:**
+  该值按以下顺序确定：
+  1. 传递给 `register()` 的 `options.isFactory`。
+  2. 定义在 **被注册类** 上的 `static _isFactory`。
+  3. 定义在 **工厂类** 本身上的 `static _isFactory`。
+  4. 默认值为 `true`。
+
+* **`autoInherits`** (`boolean`, 默认值: `true`):
   * `true`: 如果注册项（作为工厂）尚未继承自父工厂，CustomFactory 将 **自动修改其原型链** 以实现继承。这对于“混合搭配 (Mix-and-Match)”的组合方式非常有用。
   * `false`: 禁用自动继承。如果类没有正确继承，将抛出 `TypeError`。
 

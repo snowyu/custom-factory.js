@@ -167,6 +167,14 @@ The `register` method accepts advanced options to control inheritance and factor
   * `true`: The registered class is treated as a **Factory Node**. It can have its own children.
   * `false`: The registered class is a **Product/Leaf**. It cannot have children.
   * `Class` (Constructor): The registered class is a factory and **must** inherit from this specific class.
+
+  **Note on `isFactory` Priority:**
+  The value is determined in the following order:
+  1. `options.isFactory` passed to `register()`.
+  2. `static _isFactory` defined on the **registered class**.
+  3. `static _isFactory` defined on the **Factory class** itself.
+  4. Defaults to `true`.
+
 * **`autoInherits`** (`boolean`, default: `true`):
   * `true`: If the registered item (which is a Factory) does not already inherit from the parent Factory, CustomFactory will **automatically modify its prototype chain** to inherit from it. This is useful for "Mix-and-Match" composition.
   * `false`: Disables automatic inheritance. If the class does not inherit correctly, a `TypeError` will be thrown.

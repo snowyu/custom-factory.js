@@ -371,12 +371,28 @@ describe('BaseFactory', () => {
       })
       test('should respect static aliases in class', () => {
         class MyAliasItem {
-          static aliases = ['ma1', 'ma2']
+          static alias = ['ma1', 'ma2']
         }
         Codec.register(MyAliasItem, 'MyAliasItem')
         try {
           expect(Codec.get('ma1')).toBe(MyAliasItem)
           expect(Codec.get('ma2')).toBe(MyAliasItem)
+        } finally {
+          Codec.unregister(MyAliasItem)
+        }
+      })
+      test('should respect static aliases in class via static block', () => {
+        class MyAliasItem extends Codec {
+          static {
+            this.alias = ['mab1', 'mab2']
+          }
+        }
+        expect(MyAliasItem.hasOwnProperty('alias')).toBe(true)
+        Codec.register(MyAliasItem, 'MyAliasItem')
+        try {
+          expect(Codec.get('mab1')).toBe(MyAliasItem)
+          expect(Codec.get('mab2')).toBe(MyAliasItem)
+          expect(MyAliasItem.aliases).toEqual(['mab1', 'mab2'])
         } finally {
           Codec.unregister(MyAliasItem)
         }

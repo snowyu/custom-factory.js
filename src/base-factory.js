@@ -329,8 +329,8 @@ export class BaseFactory {
         vChildren[vName] = aClass
       }
       let alias = aOptions && (aOptions.alias || aOptions.aliases)
-      if (!alias && aClass.hasOwnProperty('aliases')) {
-        alias = aClass.aliases
+      if (!alias && aClass.hasOwnProperty('alias')) {
+        alias = aClass.alias
       }
       if (alias) {
         /* istanbul ignore else */

@@ -128,7 +128,7 @@ const instance = MyBaseClass.createObject('MyPlugin', 'instanceName')
 
 当您在注册类而没有提供明确的 `name` 时，工厂会尝试通过剥离冗余后缀来生成一个干净的名称。
 
-* **明确指定名称**：您可以在注册时提供名称，或者在类中定义 `static name` 和 `static aliases`：
+* **明确指定名称**：您可以在注册时提供名称，或者在类中定义 `static name` 和 `static alias`：
 
   ```javascript
   // 通过注册选项
@@ -136,7 +136,7 @@ const instance = MyBaseClass.createObject('MyPlugin', 'instanceName')
   // 或者通过类中的静态属性 (声明式风格)
   class MyClass {
     static name = "custom-name";
-    static aliases = ["c", "alias"];
+    static alias = ["c", "alias"];
   }
   Factory.register(MyClass);
   ```
@@ -218,6 +218,18 @@ addFactoryAbility(MyCodec, { formatName: (name) => name.toLowerCase() })
   MyClass.aliases = ['a', 'b']; // 替换当前的别名
   console.log(MyClass.aliases); // ['a', 'b']
   ```
+
+* **TypeScript/静态块的重要提示**：
+  在类中进行声明式别名定义时，请务必使用 `static alias`（单数）。
+  避免使用 `static aliases`（复数），因为 `BaseFactory` 已经定义了 `aliases` 的静态 setter。某些编译器（如 TypeScript 或 Vitest）可能会将 `static aliases = [...]` 转换为静态块：
+  ```javascript
+  class MyClass extends Factory {
+    static { this.aliases = [...]; }
+  }
+  ```
+  这将触发父类 `Factory` 上的 setter，而不是在 `MyClass` 上定义属性，从而导致别名注册错误。使用 `static alias` 可以避免此冲突。
+
+  **层级工厂的最佳实践**：如果您正在设计自己的层级工厂，建议统一使用简单的静态属性（直接赋值）进行配置。如果您必须在父类中使用静态 setter，请记住，子类也必须定义 setter（或 getter/setter）才能正确覆盖它；否则，在子类中赋值该属性时，将会调用父类的 setter。
 
 * **检索**：在 `get()` 或 `createObject()` 中使用任何别名：
 

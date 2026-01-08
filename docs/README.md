@@ -132,14 +132,15 @@ The `CustomFactory` extends `BaseFactory` to support nesting. Registered items c
 
 When you register a class without providing an explicit `name`, the factory attempts to generate a clean name by stripping redundant suffixes.
 
-* **Explicit Name**: You can provide a name during registration, or define a `static name` and `static aliases` in the class:
+* **Explicit Name**: You can provide a name during registration, or define a `static name` and `static alias` in the class:
+
   ```javascript
   // Via registration
   Factory.register(MyClass, { name: "custom-name", aliases: ["c", "alias"] });
   // OR via static properties in class (Declarative Style)
   class MyClass {
     static name = "custom-name";
-    static aliases = ["c", "alias"];
+    static alias = ["c", "alias"];
   }
   Factory.register(MyClass);
   ```
@@ -201,24 +202,44 @@ The `register` method accepts advanced options to control inheritance and factor
 Aliases allow you to refer to the same registered class by different names. This is useful for providing shortcuts or maintaining backward compatibility.
 
 * **During Registration**:
+
   ```javascript
   Factory.register(MyClass, { aliases: ['m', 'my'] });
   ```
+
 * **After Registration**:
+
   ```javascript
   Factory.setAliases(MyClass, 'shortcut', 'another');
   // Or for single alias
   Factory.setAlias(MyClass, 'short');
   ```
+
 * **Using Properties**: If the class is already registered, you can use the `aliases` property:
+
   ```javascript
   MyClass.aliases = ['a', 'b']; // Replaces current aliases
   console.log(MyClass.aliases); // ['a', 'b']
   ```
+
+* **Important Note for TypeScript/Static Blocks**: 
+  Always use `static alias` (singular) for declarative alias definitions in your classes. 
+  Avoid using `static aliases` (plural) because `BaseFactory` defines a static setter for `aliases`. Some compilers (like TypeScript or Vitest) may transform `static aliases = [...]` into a static block:
+  ```javascript
+  class MyClass extends Factory {
+    static { this.aliases = [...]; }
+  }
+  ```
+  This will trigger the setter on the `Factory` base class instead of defining a property on `MyClass`, leading to incorrect alias registration. Using `static alias` avoids this conflict.
+
+  **Best Practice for Hierarchies**: If you are designing your own factory hierarchies, prefer using simple static properties (direct assignment) for configuration. If you must use a static setter in a parent class, remember that descendant classes must also define a setter (or getter/setter) to properly override it; otherwise, the parent's setter will be invoked when assigning the property in the child.
+
 * **Retrieval**: Use any alias with `get()` or `createObject()`:
+
   ```javascript
   const instance = Factory.createObject('shortcut');
   ```
+
 * **Note**: Aliases are also processed by the factory's `formatName` method (e.g., if the factory is case-insensitive, aliases will be too).
 
 ## API Reference

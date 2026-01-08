@@ -8,4 +8,4 @@
 
 > `const` **CustomFactoryCoreMethods**: `string`[]
 
-Defined in: [src/custom-factory-ability.js:9](https://github.com/snowyu/custom-factory.js/blob/d0991e8f49648802708b3cbeca216e75c40d9cd7/src/custom-factory-ability.js#L9)
+Defined in: [src/custom-factory-ability.js:9](https://github.com/snowyu/custom-factory.js/blob/882eaedb61e4f240605a89f35432e64f3c30ece5/src/custom-factory-ability.js#L9)

@@ -129,6 +129,7 @@ const instance = MyBaseClass.createObject('MyPlugin', 'instanceName')
 当您在注册类而没有提供明确的 `name` 时，工厂会尝试通过剥离冗余后缀来生成一个干净的名称。
 
 * **明确指定名称**：您可以在注册时提供名称，或者在类中定义 `static name` 和 `static aliases`：
+
   ```javascript
   // 通过注册选项
   Factory.register(MyClass, { name: "custom-name", aliases: ["c", "alias"] });
@@ -198,24 +199,32 @@ addFactoryAbility(MyCodec, { formatName: (name) => name.toLowerCase() })
 别名允许您使用不同的名称来引用同一个已注册的类。这对于提供缩写或保持向后兼容性非常有用。
 
 * **在注册时指定**：
+
   ```javascript
   Factory.register(MyClass, { aliases: ['m', 'my'] });
   ```
+
 * **注册后设置**：
+
   ```javascript
   Factory.setAliases(MyClass, 'shortcut', 'another');
   // 或者设置单个别名
   Factory.setAlias(MyClass, 'short');
   ```
+
 * **使用属性操作**：如果类已经注册，您可以使用 `aliases` 属性：
+
   ```javascript
   MyClass.aliases = ['a', 'b']; // 替换当前的别名
   console.log(MyClass.aliases); // ['a', 'b']
   ```
+
 * **检索**：在 `get()` 或 `createObject()` 中使用任何别名：
+
   ```javascript
   const instance = Factory.createObject('shortcut');
   ```
+
 * **注意**：别名同样会受到工厂 `formatName` 方法的处理（例如，如果工厂设置为不区分大小写，别名也会遵循此规则）。
 
 ## API 参考

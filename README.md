@@ -172,8 +172,9 @@ The `register` method accepts advanced options to control inheritance and factor
   The value is determined in the following order:
   1. `options.isFactory` passed to `register()`.
   2. `static _isFactory` defined on the **registered class**.
-  3. `static _isFactory` defined on the **Factory class** itself.
-  4. Defaults to `true`.
+  3. `static _isFactory` defined on the **current Factory class**.
+  4. `static _isFactory` defined on the **root Factory class** (`this.Factory`).
+  5. Defaults to `true`.
 
 * **`autoInherits`** (`boolean`, default: `true`):
   * `true`: If the registered item (which is a Factory) does not already inherit from the parent Factory, CustomFactory will **automatically modify its prototype chain** to inherit from it. This is useful for "Mix-and-Match" composition.

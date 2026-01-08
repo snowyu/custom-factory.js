@@ -172,8 +172,9 @@ addFactoryAbility(MyCodec, { formatName: (name) => name.toLowerCase() })
   该值按以下顺序确定：
   1. 传递给 `register()` 的 `options.isFactory`。
   2. 定义在 **被注册类** 上的 `static _isFactory`。
-  3. 定义在 **工厂类** 本身上的 `static _isFactory`。
-  4. 默认值为 `true`。
+  3. 定义在 **当前工厂类** 上的 `static _isFactory`。
+  4. 定义在 **根工厂类** (`this.Factory`) 上的 `static _isFactory`。
+  5. 默认值为 `true`。
 
 * **`autoInherits`** (`boolean`, 默认值: `true`):
   * `true`: 如果注册项（作为工厂）尚未继承自父工厂，CustomFactory 将 **自动修改其原型链** 以实现继承。这对于“混合搭配 (Mix-and-Match)”的组合方式非常有用。

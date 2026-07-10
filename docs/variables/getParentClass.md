@@ -8,7 +8,7 @@
 
 > `const` **getParentClass**: (`ctor`) => `Function` = `getSuperCtor`
 
-Defined in: [src/base-factory.js:29](https://github.com/snowyu/custom-factory.js/blob/882eaedb61e4f240605a89f35432e64f3c30ece5/src/base-factory.js#L29)
+Defined in: [src/base-factory.js:25](https://github.com/snowyu/custom-factory.js/blob/cb30c932a128ac1476c033585a9382295c7e3f01/src/base-factory.js#L25)
 
 get the parent class(ctor) of the ctor
 

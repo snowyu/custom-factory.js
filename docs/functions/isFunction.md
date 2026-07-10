@@ -8,7 +8,7 @@
 
 > **isFunction**(`v`): `boolean`
 
-Defined in: [src/base-factory.js:35](https://github.com/snowyu/custom-factory.js/blob/882eaedb61e4f240605a89f35432e64f3c30ece5/src/base-factory.js#L35)
+Defined in: [src/base-factory.js:31](https://github.com/snowyu/custom-factory.js/blob/cb30c932a128ac1476c033585a9382295c7e3f01/src/base-factory.js#L31)
 
 Detect the value whether is a function
 

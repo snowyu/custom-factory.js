@@ -8,7 +8,7 @@
 
 > **isString**(`v`): `v is string`
 
-Defined in: [src/base-factory.js:43](https://github.com/snowyu/custom-factory.js/blob/882eaedb61e4f240605a89f35432e64f3c30ece5/src/base-factory.js#L43)
+Defined in: [src/base-factory.js:39](https://github.com/snowyu/custom-factory.js/blob/cb30c932a128ac1476c033585a9382295c7e3f01/src/base-factory.js#L39)
 
 Detect the value whether is a string
 

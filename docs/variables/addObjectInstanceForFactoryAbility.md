@@ -8,6 +8,6 @@
 
 > `const` **addObjectInstanceForFactoryAbility**: `ClassAbilityFn`\<*typeof* `ObjectFactory`\>
 
-Defined in: [src/object-factory-ability.js:53](https://github.com/snowyu/custom-factory.js/blob/882eaedb61e4f240605a89f35432e64f3c30ece5/src/object-factory-ability.js#L53)
+Defined in: [src/object-factory-ability.js:53](https://github.com/snowyu/custom-factory.js/blob/cb30c932a128ac1476c033585a9382295c7e3f01/src/object-factory-ability.js#L53)
 
 Helper ability for factory, You must add a factory ability first.

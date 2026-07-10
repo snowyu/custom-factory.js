@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.0.1](https://github.com/snowyu/custom-factory.js/compare/v3.0.0...v3.0.1) (2026-07-10)
+
+
+### Bug Fixes
+
+* **build:** esm should use .mjs now ([cb30c93](https://github.com/snowyu/custom-factory.js/commit/cb30c932a128ac1476c033585a9382295c7e3f01))
+
 ## [3.0.0](https://github.com/snowyu/custom-factory.js/compare/v2.5.0...v3.0.0) (2026-01-08)
 
 

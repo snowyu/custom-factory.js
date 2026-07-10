@@ -4,21 +4,29 @@
   "description": "more easily add the factory ability to your class for node and javascript",
   "homepage": "https://github.com/snowyu/custom-factory.js",
   "main": "./lib/index.js",
-  "module": "./src/index.js",
+  "module": "./lib/index.mjs",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js"
+    }
+  },
   "files": [
     "README.md",
     "LICENSE-MIT",
     "index.js",
     "test",
-    "src",
     "lib",
     "types"
   ],
   "scripts": {
-    "build": "rimraf lib && npm run build.cjs && npm run build.ts && npm run doc.md",
-    "build.cjs": "babel src --out-dir lib --config-file ./.babelrc --ignore '**/*.spec.js' --ignore '**/*.test.js'",
-    "build.ts": "tsc --declaration --emitDeclarationOnly --outDir lib",
-    "clean": "rm -fr web docs types lib",
+    "build": "npm run build.ts && npm run doc.md",
+    "build.ts": "tsup",
+    "clean": "rm -fr web docs lib",
+    "clean.doc": "rm -fr web docs",
+    "clean.lib": "rm -fr lib",
     "doc": "typedoc --plugin none --out web ./src",
     "doc.md": "typedoc --plugin typedoc-plugin-markdown --out docs ./src",
     "lint": "npx eslint --config .eslintrc.yml src",
@@ -31,8 +39,8 @@
     "node": ">=8"
   },
   "dependencies": {
-    "custom-ability": "^2.0.1",
-    "inherits-ex": "^2.1.0"
+    "custom-ability": "^2.3.1",
+    "inherits-ex": "^2.2.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.7.3",
@@ -52,6 +60,7 @@
     "jest-extended": "^7.0.0",
     "prettier": "^3.7.4",
     "rimraf": "^6.1.2",
+    "tsup": "^8.5.1",
     "typedoc": "^0.28.15",
     "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.9.3"

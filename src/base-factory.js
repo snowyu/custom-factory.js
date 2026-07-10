@@ -9,10 +9,6 @@
  * @property {boolean} [autoInherits] defaults to true
  */
 
-// const inherits = require('inherits-ex/lib/inherits')
-// const isInheritedFrom = require('inherits-ex/lib/isInheritedFrom')
-// const getPrototypeOf = require('inherits-ex/lib/getPrototypeOf')
-// const createObject = require('inherits-ex/lib/createObject')
 import {createObject, getPrototypeOf, getSuperCtor, inherits, isInheritedFrom} from 'inherits-ex'
 
 
